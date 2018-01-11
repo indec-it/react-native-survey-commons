@@ -1,0 +1,52 @@
+{
+  "name": "@indec/react-native-survey-commons",
+  "version": "0.1.0",
+  "description": "Common react-native components for survey apps",
+  "private": false,
+  "main": "src/index.js",
+  "scripts": {
+    "test": "eslint ./",
+    "precommit": "npm test",
+    "commitmsg": "commitlint -e"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^6.0.1",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-preset-react-native": "^4.0.0",
+    "eslint": "4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "husky": "^0.14.3",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-native": "^0.52.0"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.0",
+    "prop-types": "^15.5.10",
+    "react": ">=16.2.0",
+    "react-native": ">=0.49.5"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "components",
+    "survey",
+    "census"
+  ],
+  "author": "INDEC (https://github.com/indec-it)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/indec-it/react-native-survey-commons.git"
+  },
+  "bugs": {
+    "url": "https://github.com/indec-it/react-native-survey-commons/issues"
+  },
+  "homepage": "https://github.com/indec-it/react-native-survey-commons"
+}

@@ -1,0 +1,6 @@
+**/.*/
+node_modules/
+coverage/
+.*
+commitlint.config.js
+yarn.lock

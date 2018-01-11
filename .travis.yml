@@ -1,0 +1,18 @@
+sudo: false
+dist: xenial
+language: node_js
+git:
+  depth: 3
+node_js:
+  - "6"
+  - "8"
+before_install:
+  - "export TRAVIS_COMMIT_MSG=\"`git log --format=%B --no-merges -n 1`\""
+install:
+  - yarn install
+script:
+  - yarn test
+cache:
+  yarn: true
+  directories:
+    - node_modules

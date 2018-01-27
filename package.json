@@ -12,7 +12,9 @@
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^6.0.2",
-    "@indec/react-native-commons": "^0.1.5",
+    "@indec/heimdall": "^0.2.3",
+    "@indec/react-native-commons": "^0.1.6",
+    "@indec/react-native-md-textinput": "^3.0.1",
     "@indec/react-native-table": "^0.1.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
@@ -26,10 +28,13 @@
     "husky": "^0.14.3",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-native": "^0.52.2"
+    "react-native": "^0.52.2",
+    "react-native-elements": "^0.19.0",
+    "react-redux": "^5.0.6",
+    "redux-saga": "^0.16.0"
   },
   "peerDependencies": {
-    "@indec/react-native-commons": ">=0.1.5",
+    "@indec/react-native-commons": ">=0.1.6",
     "@indec/react-native-table": ">=0.1.0",
     "lodash": "^4.17.0",
     "prop-types": "^15.5.10",

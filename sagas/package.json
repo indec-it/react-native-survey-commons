@@ -1,0 +1,5 @@
+{
+  "name": "@indec/react-native-survey-commons/sagas",
+  "private": true,
+  "main": "../src/sagas/index.js"
+}

@@ -1,5 +1,5 @@
 # react-native-survey-commons
 
-## Instalation
+## Installation
 
     npm install @indec/react-native-survey-commons

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import {Text} from 'react-native-elements';
-import {Button, Col, getFontAwesome, Grid} from '@indec/react-native-commons';
+import {Button, Col, getFontAwesome} from '@indec/react-native-commons';
 
 import NetworkStatus from './NetworkStatus';
 import SyncStatus from './SyncStatus';
@@ -20,16 +20,16 @@ class Sync extends Component {
         requestSync: PropTypes.func.isRequired,
         isPinging: PropTypes.bool,
         isConnected: PropTypes.bool.isRequired,
-        surveys: PropTypes.arrayOf(PropTypes.shape({})),
+        surveys: PropTypes.number,
         endpoint: PropTypes.string.isRequired,
-        pong: PropTypes.shape({}),
+        pong: PropTypes.bool,
         syncStatus: PropTypes.string.isRequired
     };
 
     static defaultProps = {
         isPinging: false,
         surveys: 0,
-        pong: {}
+        pong: false
     };
 
     constructor(props) {
@@ -61,32 +61,34 @@ class Sync extends Component {
             syncStatus
         } = this.props;
         return (
-            <Grid>
-                <Col>
-                    <View style={styles.syncRow}>
-                        <NetworkStatus isConnected={isConnected} isPinging={isPinging} pong={pong}/>
-                    </View>
-                    <View style={styles.syncRow}>
-                        <Text style={styles.surveyCount}>
-                            {surveys.length} encuesta(s) para enviar.
-                        </Text>
-                    </View>
-                    <View style={styles.syncRow}>
-                        <SyncStatus syncStatus={syncStatus}/>
-                    </View>
-                    <View style={{marginLeft: 15, marginRight: 15}}>
-                        <Button
-                            disabled={this.state.syncPressed}
-                            large
-                            primary
-                            backgroundColor="#4fb3bf"
-                            icon={getFontAwesome('refresh')}
-                            title="Sincronizar"
-                            onPress={() => this.handleSync()}
-                        />
-                    </View>
-                </Col>
-            </Grid>
+            <Col>
+                <View style={styles.syncRow}>
+                    <NetworkStatus isConnected={isConnected} isPinging={isPinging} pong={pong}/>
+                </View>
+                <View style={styles.syncRow}>
+                    <Text style={styles.surveyCount}>
+                        {surveys} encuesta(s) para enviar.
+                    </Text>
+                </View>
+                <View style={styles.syncRow}>
+                    <SyncStatus syncStatus={syncStatus}/>
+                </View>
+                <View style={{
+                    marginLeft: 15,
+                    marginRight: 15
+                }}
+                >
+                    <Button
+                        disabled={this.state.syncPressed}
+                        large
+                        primary
+                        backgroundColor="#4fb3bf"
+                        icon={getFontAwesome('refresh')}
+                        title="Sincronizar"
+                        onPress={() => this.handleSync()}
+                    />
+                </View>
+            </Col>
         );
     }
 }

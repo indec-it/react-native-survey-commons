@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import {Text} from 'react-native-elements';
-import {Button, Col, getFontAwesome, Grid} from '@indec/react-native-commons';
+import {Button, Col, getFontAwesome} from '@indec/react-native-commons';
 
 import NetworkStatus from './NetworkStatus';
 import SyncStatus from './SyncStatus';

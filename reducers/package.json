@@ -1,0 +1,5 @@
+{
+  "name": "@indec/react-native-survey-commons/reducers",
+  "private": true,
+  "main": "../src/reducers/index.js"
+}

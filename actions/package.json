@@ -1,0 +1,5 @@
+{
+  "name": "@indec/react-native-survey-commons/actions",
+  "private": true,
+  "main": "../src/actions/index.js"
+}

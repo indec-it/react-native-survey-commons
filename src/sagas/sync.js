@@ -19,7 +19,7 @@ export function* sync({endpoint}) {
 
         yield call(SurveysService.save, surveyAddresses);
 
-        yield put(completeSync(surveyAddresses));
+        yield put(completeSync());
     } catch (e) {
         yield put(handleErrorSync(e));
     }

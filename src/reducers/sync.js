@@ -15,7 +15,7 @@ export default function ping(state = {status: syncStatusEnum.NOT_STARTED}, actio
         case SYNC_DATA_RECEIVED:
             return {...state, status: syncStatusEnum.SAVING_DATA};
         case SYNC_SUCCEEDED:
-            return {...state, status: syncStatusEnum.COMPLETED, surveys: action.surveys};
+            return {...state, status: syncStatusEnum.COMPLETED};
         case SYNC_FAILED:
             return {...state, status: syncStatusEnum.HAS_ERROR, err: action.err};
         default:

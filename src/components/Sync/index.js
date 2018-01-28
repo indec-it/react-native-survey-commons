@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import {Text} from 'react-native-elements';
-import {Button, Col, getFontAwesome} from '@indec/react-native-commons';
+import {Button, Col, getFontAwesome, Grid} from '@indec/react-native-commons';
 
 import NetworkStatus from './NetworkStatus';
 import SyncStatus from './SyncStatus';
@@ -22,14 +22,14 @@ class Sync extends Component {
         isConnected: PropTypes.bool.isRequired,
         surveys: PropTypes.number,
         endpoint: PropTypes.string.isRequired,
-        pong: PropTypes.shape({}),
+        pong: PropTypes.bool,
         syncStatus: PropTypes.string.isRequired
     };
 
     static defaultProps = {
         isPinging: false,
         surveys: 0,
-        pong: {}
+        pong: false
     };
 
     constructor(props) {
@@ -74,7 +74,7 @@ class Sync extends Component {
                     <View style={styles.syncRow}>
                         <SyncStatus syncStatus={syncStatus}/>
                     </View>
-                    <View style={{marginLeft: 15, marginRight: 15}}>
+                    <View style={styles.buttonContainer}>
                         <Button
                             disabled={this.state.syncPressed}
                             large

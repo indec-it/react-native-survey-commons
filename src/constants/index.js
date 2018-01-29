@@ -12,6 +12,11 @@ const syncStatus = {
     HAS_ERROR: 'hasError'
 };
 
+const surveyList = [
+    {idGroup: surveyState.OPENED, tabName: 'Pendientes'},
+    {idGroup: surveyState.CLOSED, tabName: 'Cerradas'}
+];
 
 export {surveyState};
 export {syncStatus};
+export {surveyList};

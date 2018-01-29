@@ -1,7 +1,7 @@
-import ping from './ping';
-import surveys from './surveys';
-import sync from './sync';
+import PingService from './ping';
+import SurveysService from './surveys';
+import SyncService from './sync';
 
-export {ping};
-export {surveys};
-export {sync};
+export {PingService};
+export {SurveysService};
+export {SyncService};

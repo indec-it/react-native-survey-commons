@@ -96,8 +96,7 @@ export default connect(
         isPinging: state.network.isPinging,
         pong: state.network.pong,
         isConnected: state.network.isConnected,
-        syncStatus: state.sync.status,
-        surveys: state.sync.count
+        syncStatus: state.sync.status
     }),
     dispatch => ({
         cleanSyncStatus: () => dispatch(cleanSyncStatus()),

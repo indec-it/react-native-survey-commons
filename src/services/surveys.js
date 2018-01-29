@@ -1,5 +1,5 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {uniq, map} from 'lodash';
+import {map, uniqBy} from 'lodash';
 
 const storage = new StorageService('survey');
 
@@ -22,6 +22,16 @@ export default class SurveysService {
 
     static async fetchAreas() {
         const surveys = await SurveysService.findAll();
-        return uniq(map(surveys, survey => survey.address.area));
+        return uniqBy(
+            map(
+                surveys,
+                survey => ({
+                    area: survey.address.area,
+                    ups: survey.address.ups,
+                    departmentName: survey.address.departmentName
+                })
+            ),
+            area => area.area
+        );
     }
 }

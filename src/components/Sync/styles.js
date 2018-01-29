@@ -44,5 +44,9 @@ export default StyleSheet.create({
     },
     networkText: {
         padding: 6
+    },
+    buttonContainer: {
+        marginLeft: 15,
+        marginRight: 15
     }
 });

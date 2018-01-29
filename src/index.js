@@ -1,4 +1,5 @@
-/* eslint-disable import/prefer-default-export */
+import Areas from './components/AreasList';
 import Sync from './components/Sync';
 
+export {Areas};
 export {Sync};

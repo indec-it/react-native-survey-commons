@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import {call, put} from 'redux-saga/effects';
-import {handleError} from '@indec/react-native-commons/actions';
+import {handleError} from '@indec/react-native-commons/sagas';
 
-import {surveys as SurveysService} from '../services';
+import {SurveysService} from '../services';
 import {receiveAreas} from '../actions/surveys';
 
 export function* fetchAreas() {

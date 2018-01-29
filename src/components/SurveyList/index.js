@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
 import Table, {TableIcon} from '@indec/react-native-table';
-import {LoadingIndicator} from '@indec/react-native-commons';
-import {filter, isEmpty} from 'lodash';
+import {TabNavigator} from '@indec/react-native-commons';
 
-import {TabNavigator} from '../common';
 import {surveyList, surveyState} from '../../constants';
 import styles from './styles';
 
-import {requestSurveys, requestSurvey} from '../../actions/survey';
+import {requestFilteredSurveys, requestSurvey} from '../../actions/survey';
 
 class SurveyList extends Component {
     static propTypes = {
-        requestSurveys: PropTypes.func.isRequired,
+        requestFilteredSurveys: PropTypes.func.isRequired,
         requestSurvey: PropTypes.func.isRequired,
         surveys: PropTypes.arrayOf(PropTypes.shape())
     };
@@ -27,7 +25,7 @@ class SurveyList extends Component {
         super(props);
         this.columns = [{
             id: 1,
-            label: 'Nombre de calle',
+            label: 'Calle',
             field: 'addresses.street',
             style: {flex: 4}
         }, {
@@ -51,48 +49,33 @@ class SurveyList extends Component {
             icon: 'chevron-circle-right',
             color: '#fff',
             style: {flex: 1},
-            onPress: id => props.requestSurvey(id)
+            onPress: id => this.props.requestSurvey(id)
         }];
         this.state = {
-            stateSelected: surveyState.OPENED
+            surveyAddressState: surveyState.OPENED
         };
     }
 
     componentWillMount() {
-        this.props.requestSurveys();
+        this.props.requestFilteredSurveys(surveyState.OPENED);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!isEmpty(nextProps.surveys)) {
-            this.filterSurveys(this.state.stateSelected);
-        }
-    }
-
-    filterSurveys(state) {
-        this.setState(() => ({
-            filteredSurveys: filter(this.props.surveys, survey => survey.state === state)
-        }));
-    }
-
-    renderContent() {
-        const {stateSelected, filteredSurveys} = this.state;
+    render() {
+        const {surveyAddressState} = this.state;
+        const {surveys} = this.props;
         return (
             <View style={styles.container}>
                 <TabNavigator
                     tabs={surveyList}
-                    selected={stateSelected}
-                    onChange={state => this.filterSurveys(state)}
+                    selected={surveyAddressState}
+                    onChange={filter => this.props.requestFilteredSurveys(filter)}
                 />
                 <Table
                     columns={this.columns}
-                    data={filteredSurveys}
+                    data={surveys}
                 />
             </View>
         );
-    }
-
-    render() {
-        return this.state.filteredSurveys ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
@@ -101,7 +84,7 @@ export default connect(
         surveys: state.survey.surveys
     }),
     dispatch => ({
-        requestSurveys: () => dispatch(requestSurveys()),
+        requestFilteredSurveys: filter => dispatch(requestFilteredSurveys(filter)),
         requestSurvey: id => dispatch(requestSurvey(id))
     })
 )(SurveyList);

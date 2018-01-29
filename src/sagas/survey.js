@@ -1,13 +1,13 @@
 import {call, put} from 'redux-saga/effects';
+import {handleError} from '@indec/react-native-commons/sagas';
 
 import {SurveysService} from '../services';
-import {handleError} from '../actions/common';
-import {receiveSurvey, receiveSurveys} from '../actions/survey';
+import {receiveSurvey, receiveFilteredSurveys} from '../actions/survey';
 
-export function* fetchSurveys() {
+export function* fetchFilteredSurveys({filter}) {
     try {
-        const surveys = yield call(SurveysService.findAll);
-        yield put(receiveSurveys(surveys));
+        const surveys = yield call(SurveysService.filteredSearch, filter);
+        yield put(receiveFilteredSurveys(surveys));
     } catch (err) {
         yield put(handleError(err));
     }

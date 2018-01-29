@@ -1,12 +1,10 @@
-import {fetchSurveys, findSurvey} from './survey';
-import {handleError} from './common';
+import {fetchFilteredSurveys, findSurvey} from './survey';
 import {isConnected, ping} from './network';
 import {fetchAreas} from './surveys';
 import {sync} from './sync';
 
-export {fetchSurveys};
+export {fetchFilteredSurveys};
 export {findSurvey};
-export {handleError};
 export {fetchAreas};
 export {isConnected};
 export {ping};

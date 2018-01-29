@@ -1,12 +1,13 @@
-export const SURVEYS_FETCH_REQUESTED = 'SURVEYS_FETCH_REQUESTED';
-export const SURVEYS_FETCH_RECEIVED = 'SURVEYS_FETCH_RECEIVED';
+export const SURVEYS_FILTERED_FETCH_REQUESTED = 'SURVEYS_FILTERED_FETCH_REQUESTED';
+export const SURVEYS_FILTERED_FETCH_RECEIVED = 'SURVEYS_FILTERED_FETCH_RECEIVED';
 
-export const requestSurveys = () => ({
-    type: SURVEYS_FETCH_REQUESTED
+export const requestFilteredSurveys = filter => ({
+    type: SURVEYS_FILTERED_FETCH_REQUESTED,
+    filter
 });
 
-export const receiveSurveys = surveys => ({
-    type: SURVEYS_FETCH_RECEIVED,
+export const receiveFilteredSurveys = surveys => ({
+    type: SURVEYS_FILTERED_FETCH_RECEIVED,
     surveys
 });
 

@@ -4,12 +4,12 @@ import {View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {getFontAwesome} from '@indec/react-native-commons';
 
-import {syncStatus as syncStatusEnum} from '../../constants';
+import {enums} from '../../constants';
 import styles from './styles';
 
 const getSyncStatus = syncStatus => {
     switch (syncStatus) {
-        case syncStatusEnum.LOADING_DATA:
+        case enums.syncStatus.LOADING_DATA:
             return (
                 <View style={styles.syncStatusRow}>
                     <Icon {...getFontAwesome('gear')} size={32}/>
@@ -17,7 +17,7 @@ const getSyncStatus = syncStatus => {
                     <Icon {...getFontAwesome('gear')} size={32}/>
                 </View>
             );
-        case syncStatusEnum.SENDING_DATA:
+        case enums.syncStatus.SENDING_DATA:
             return (
                 <View style={styles.syncStatusRow}>
                     <Icon {...getFontAwesome('gear')} size={32}/>
@@ -25,7 +25,7 @@ const getSyncStatus = syncStatus => {
                     <Icon {...getFontAwesome('gear')} size={32}/>
                 </View>
             );
-        case syncStatusEnum.SAVING_DATA:
+        case enums.syncStatus.SAVING_DATA:
             return (
                 <View style={styles.syncStatusRow}>
                     <Icon {...getFontAwesome('gear')} size={32}/>
@@ -33,7 +33,7 @@ const getSyncStatus = syncStatus => {
                     <Icon {...getFontAwesome('gear')} size={32}/>
                 </View>
             );
-        case syncStatusEnum.COMPLETED:
+        case enums.syncStatus.COMPLETED:
             return (
                 <View style={styles.syncStatusRow}>
                     <Icon {...getFontAwesome('check')} size={32}/>
@@ -41,7 +41,7 @@ const getSyncStatus = syncStatus => {
                     <Icon {...getFontAwesome('check')} size={32}/>
                 </View>
             );
-        case syncStatusEnum.HAS_ERROR:
+        case enums.syncStatus.HAS_ERROR:
             return (
                 <View style={styles.syncStatusRow}>
                     <Icon {...getFontAwesome('times')} size={32}/>
@@ -49,7 +49,7 @@ const getSyncStatus = syncStatus => {
                     <Icon {...getFontAwesome('times')} size={32}/>
                 </View>
             );
-        case syncStatusEnum.NOT_STARTED:
+        case enums.syncStatus.NOT_STARTED:
         default:
             return null;
     }

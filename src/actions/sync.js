@@ -28,9 +28,8 @@ export const receiveSyncData = () => ({
     type: SYNC_DATA_RECEIVED
 });
 
-export const completeSync = surveys => ({
-    type: SYNC_SUCCEEDED,
-    surveys
+export const completeSync = () => ({
+    type: SYNC_SUCCEEDED
 });
 
 export const handleErrorSync = err => ({

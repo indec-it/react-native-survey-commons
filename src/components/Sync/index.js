@@ -20,7 +20,7 @@ class Sync extends Component {
         requestSync: PropTypes.func.isRequired,
         isPinging: PropTypes.bool,
         isConnected: PropTypes.bool.isRequired,
-        surveys: PropTypes.arrayOf(PropTypes.shape({})),
+        surveys: PropTypes.number,
         endpoint: PropTypes.string.isRequired,
         pong: PropTypes.shape({}),
         syncStatus: PropTypes.string.isRequired
@@ -68,7 +68,7 @@ class Sync extends Component {
                     </View>
                     <View style={styles.syncRow}>
                         <Text style={styles.surveyCount}>
-                            {surveys.length} encuesta(s) para enviar.
+                            {surveys} encuesta(s) para enviar.
                         </Text>
                     </View>
                     <View style={styles.syncRow}>
@@ -97,7 +97,7 @@ export default connect(
         pong: state.network.pong,
         isConnected: state.network.isConnected,
         syncStatus: state.sync.status,
-        surveys: state.sync.surveys
+        surveys: state.sync.count
     }),
     dispatch => ({
         cleanSyncStatus: () => dispatch(cleanSyncStatus()),

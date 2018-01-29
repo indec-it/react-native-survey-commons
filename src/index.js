@@ -1,5 +1,7 @@
-import Areas from './components/AreasList';
+import AreasList from './components/AreasList';
+import AddressCard from './components/AddressCard';
 import Sync from './components/Sync';
 
-export {Areas};
+export {AreasList};
+export {AddressCard};
 export {Sync};

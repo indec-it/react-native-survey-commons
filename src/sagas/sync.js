@@ -9,7 +9,7 @@ export function* sync({endpoint}) {
     try {
         const surveys = yield call(SurveysService.findAll);
 
-        yield put(sendSyncData(surveys.length));
+        yield put(sendSyncData(surveys));
 
         const {surveyAddresses} = yield call(SyncService.sync, surveys, endpoint);
 

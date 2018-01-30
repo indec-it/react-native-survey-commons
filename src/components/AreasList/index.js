@@ -44,7 +44,7 @@ class AreasList extends Component {
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: area => this.props.onSelect(area)
+            onPress: address => this.props.onSelect(address._id)
         }];
     }
 

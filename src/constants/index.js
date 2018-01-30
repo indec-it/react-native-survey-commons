@@ -19,6 +19,12 @@ const addressesListTabs = [
     {id: surveyAddressState.CLOSED, label: 'Cerradas'}
 ];
 
+const answers = {
+    YES: 1,
+    NO: 2
+};
+
+export {addressesListTabs};
+export {answers};
 export {surveyAddressState};
 export {syncStatus};
-export {addressesListTabs};

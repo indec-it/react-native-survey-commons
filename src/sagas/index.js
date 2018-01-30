@@ -1,5 +1,5 @@
 import {isConnected, ping} from './network';
-import {fetchAreas} from './surveys';
+import {fetchAreas} from './survey';
 import {sync} from './sync';
 
 export {fetchAreas};

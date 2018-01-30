@@ -3,7 +3,7 @@ import {call, put} from 'redux-saga/effects';
 import {handleError} from '@indec/react-native-commons/actions';
 
 import {surveys as SurveysService} from '../services';
-import {receiveAreas} from '../actions/surveys';
+import {receiveAreas} from '../actions/survey';
 
 export function* fetchAreas() {
     try {

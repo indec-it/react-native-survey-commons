@@ -3,7 +3,7 @@ import {call, put} from 'redux-saga/effects';
 
 import {handleErrorSync, receiveSyncData, sendSyncData, completeSync} from '../actions/sync';
 import SyncService from '../services/sync';
-import SurveysService from '../services/surveys';
+import SurveysService from '../services/survey';
 
 export function* sync({endpoint}) {
     try {

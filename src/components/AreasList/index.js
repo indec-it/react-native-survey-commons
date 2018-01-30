@@ -5,7 +5,7 @@ import {View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Title} from '@indec/react-native-commons';
 
-import {requestAreas} from '../../actions/surveys';
+import {requestAreas} from '../../actions/survey';
 import styles from './styles';
 
 class AreasList extends Component {

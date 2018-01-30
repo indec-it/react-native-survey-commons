@@ -1,6 +1,6 @@
 import {
     FETCH_AREAS_SUCCEEDED
-} from '../actions/surveys';
+} from '../actions/survey';
 
 export default function (state = {surveys: {}}, action) {
     switch (action.type) {

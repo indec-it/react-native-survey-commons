@@ -1,5 +1,5 @@
 import {PING_REQUESTED, NETWORK_STATUS_REQUESTED} from './network';
-import {FETCH_AREAS_REQUESTED} from './surveys';
+import {FETCH_AREAS_REQUESTED} from './survey';
 import {SYNC_REQUESTED} from './sync';
 
 export {FETCH_AREAS_REQUESTED};

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
@@ -12,7 +12,13 @@ class AreasList extends Component {
     static propTypes = {
         requestFetchSurvey: PropTypes.func.isRequired,
         requestAreas: PropTypes.func.isRequired,
-        areas: PropTypes.arrayOf(PropTypes.shape({}))
+        areas: PropTypes.arrayOf(
+            PropTypes.shape({
+                ups: PropTypes.number,
+                area: PropTypes.number,
+                departmentName: PropTypes.string
+            })
+        )
     };
 
     static defaultProps = {
@@ -49,10 +55,12 @@ class AreasList extends Component {
     render() {
         const {areas} = this.props;
         return (
-            <View style={styles.tableContainer}>
+            <Fragment>
                 <Title>Listado de áreas</Title>
-                <Table columns={this.columns} data={areas}/>
-            </View>
+                <View style={styles.tableContainer}>
+                    <Table columns={this.columns} data={areas}/>
+                </View>
+            </Fragment>
         );
     }
 }

@@ -49,7 +49,7 @@ class SurveyList extends Component {
             icon: 'chevron-circle-right',
             color: '#fff',
             style: {flex: 1},
-            onPress: id => this.props.requestSurvey(id)
+            onPress: (area, ups) => this.props.requestSurvey(area, ups)
         }];
         this.state = {
             surveyAddressState: surveyState.OPENED
@@ -85,6 +85,6 @@ export default connect(
     }),
     dispatch => ({
         requestFilteredSurveys: filter => dispatch(requestFilteredSurveys(filter)),
-        requestSurvey: id => dispatch(requestSurvey(id))
+        requestSurvey: (area, ups) => dispatch(requestSurvey(area, ups))
     })
 )(SurveyList);

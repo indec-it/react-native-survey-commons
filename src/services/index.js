@@ -1,5 +1,5 @@
 import PingService from './ping';
-import SurveysService from './surveys';
+import SurveysService from './survey';
 import SyncService from './sync';
 
 export {PingService};

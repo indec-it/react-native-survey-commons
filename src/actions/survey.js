@@ -14,12 +14,38 @@ export const receiveFilteredSurveys = surveys => ({
 export const SURVEY_FETCH_REQUESTED = 'SURVEY_FETCH_REQUESTED';
 export const SURVEY_FETCH_RECEIVED = 'SURVEY_FETCH_RECEIVED';
 
-export const requestSurvey = id => ({
+export const requestSurvey = (area, ups) => ({
     type: SURVEY_FETCH_REQUESTED,
-    id
+    area,
+    ups
 });
 
 export const receiveSurvey = survey => ({
     type: SURVEY_FETCH_RECEIVED,
+    survey
+});
+
+export const FETCH_AREAS_REQUESTED = 'FETCH_AREAS_REQUESTED';
+export const FETCH_AREAS_SUCCEEDED = 'FETCH_AREAS_SUCCEEDED';
+
+export const requestAreas = () => ({
+    type: FETCH_AREAS_REQUESTED
+});
+
+export const receiveAreas = areas => ({
+    type: FETCH_AREAS_SUCCEEDED,
+    areas
+});
+
+export const SAVE_SURVEY_REQUESTED = 'SAVE_SURVEY_REQUESTED';
+export const SAVE_SURVEY_RECEIVED = 'SAVE_SURVEY_RECEIVED';
+
+export const requestSaveSurveyAndFinalize = survey => ({
+    type: SAVE_SURVEY_REQUESTED,
+    survey
+});
+
+export const receiveSaveSurveyAndFinalize = survey => ({
+    type: SAVE_SURVEY_RECEIVED,
     survey
 });

@@ -1,7 +1,7 @@
 import {call, put} from 'redux-saga/effects';
 
 import {receivePing, handleErrorPing, receiveNetworkStatus} from '../actions/network';
-import PingService from '../services/ping';
+import {PingService} from '../services';
 
 export function* isConnected() {
     const connected = yield call(PingService.isConnected);

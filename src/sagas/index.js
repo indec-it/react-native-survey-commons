@@ -1,6 +1,5 @@
-import {fetchFilteredSurveys, findSurvey} from './survey';
+import {fetchFilteredSurveys, findSurvey, fetchAreas} from './survey';
 import {isConnected, ping} from './network';
-import {fetchAreas} from './surveys';
 import {sync} from './sync';
 
 export {fetchFilteredSurveys};

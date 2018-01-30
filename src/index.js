@@ -1,6 +1,6 @@
 import AreasList from './components/AreasList';
 import AddressCard from './components/AddressCard';
-import SurveyList from './components/SurveyList';
+import SurveyList from './components/SurveysList';
 import Sync from './components/Sync';
 
 export {AreasList};

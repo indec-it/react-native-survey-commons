@@ -1,13 +1,13 @@
-export const SURVEYS_FILTERED_FETCH_REQUESTED = 'SURVEYS_FILTERED_FETCH_REQUESTED';
-export const SURVEYS_FILTERED_FETCH_RECEIVED = 'SURVEYS_FILTERED_FETCH_RECEIVED';
+export const SURVEYS_FETCH_BY_STATE_REQUESTED = 'SURVEYS_FETCH_BY_STATE_REQUESTED';
+export const SURVEYS_FETCH_RECEIVED = 'SURVEYS_FETCH_RECEIVED';
 
-export const requestFilteredSurveys = filter => ({
-    type: SURVEYS_FILTERED_FETCH_REQUESTED,
-    filter
+export const requestSurveysByState = state => ({
+    type: SURVEYS_FETCH_BY_STATE_REQUESTED,
+    state
 });
 
-export const receiveFilteredSurveys = surveys => ({
-    type: SURVEYS_FILTERED_FETCH_RECEIVED,
+export const receiveSurveys = surveys => ({
+    type: SURVEYS_FETCH_RECEIVED,
     surveys
 });
 
@@ -25,27 +25,27 @@ export const receiveSurvey = survey => ({
     survey
 });
 
-export const FETCH_AREAS_REQUESTED = 'FETCH_AREAS_REQUESTED';
-export const FETCH_AREAS_SUCCEEDED = 'FETCH_AREAS_SUCCEEDED';
+export const AREAS_FETCH_REQUESTED = 'AREAS_FETCH_REQUESTED';
+export const AREAS_FETCH_RECEIVED = 'AREAS_FETCH_RECEIVED';
 
 export const requestAreas = () => ({
-    type: FETCH_AREAS_REQUESTED
+    type: AREAS_FETCH_REQUESTED
 });
 
 export const receiveAreas = areas => ({
-    type: FETCH_AREAS_SUCCEEDED,
+    type: AREAS_FETCH_RECEIVED,
     areas
 });
 
-export const SAVE_SURVEY_REQUESTED = 'SAVE_SURVEY_REQUESTED';
-export const SAVE_SURVEY_RECEIVED = 'SAVE_SURVEY_RECEIVED';
+export const SURVEY_SAVE_REQUESTED = 'SURVEY_SAVE_REQUESTED';
+export const SURVEY_SAVE_RECEIVED = 'SURVEY_SAVE_RECEIVED';
 
 export const requestSaveSurveyAndFinalize = survey => ({
-    type: SAVE_SURVEY_REQUESTED,
+    type: SURVEY_SAVE_REQUESTED,
     survey
 });
 
 export const receiveSaveSurveyAndFinalize = survey => ({
-    type: SAVE_SURVEY_RECEIVED,
+    type: SURVEY_SAVE_RECEIVED,
     survey
 });

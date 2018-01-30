@@ -8,9 +8,9 @@ export default class SurveysService {
         return storage.findAll();
     }
 
-    static async filteredSearch(filterState) {
+    static async fetchByState(state) {
         const surveys = await SurveysService.findAll();
-        return filter(surveys, survey => survey.surveyAddressState === filterState);
+        return filter(surveys, survey => survey.surveyAddressState === state);
     }
 
     static async findById(id) {

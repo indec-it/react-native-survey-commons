@@ -5,16 +5,16 @@ import {connect} from 'react-redux';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {TabNavigator} from '@indec/react-native-commons';
 
-import {surveyList, surveyState} from '../../constants';
+import {surveysListTabs, surveyAddressState as surveyAddressStateEnum} from '../../constants';
 import styles from './styles';
 
-import {requestFilteredSurveys, requestSurvey} from '../../actions/survey';
+import {requestSurveysByState, requestSurvey} from '../../actions/survey';
 
-class SurveyList extends Component {
+class SurveysList extends Component {
     static propTypes = {
-        requestFilteredSurveys: PropTypes.func.isRequired,
+        requestSurveysByState: PropTypes.func.isRequired,
         requestSurvey: PropTypes.func.isRequired,
-        surveys: PropTypes.arrayOf(PropTypes.shape())
+        surveys: PropTypes.arrayOf(PropTypes.shape({}))
     };
 
     static defaultProps = {
@@ -52,12 +52,12 @@ class SurveyList extends Component {
             onPress: (area, ups) => this.props.requestSurvey(area, ups)
         }];
         this.state = {
-            surveyAddressState: surveyState.OPENED
+            surveyAddressState: surveyAddressStateEnum.OPENED
         };
     }
 
     componentWillMount() {
-        this.props.requestFilteredSurveys(surveyState.OPENED);
+        this.props.requestSurveysByState(surveyAddressStateEnum.OPENED);
     }
 
     render() {
@@ -66,9 +66,9 @@ class SurveyList extends Component {
         return (
             <View style={styles.container}>
                 <TabNavigator
-                    tabs={surveyList}
+                    tabs={surveysListTabs}
                     selected={surveyAddressState}
-                    onChange={filter => this.props.requestFilteredSurveys(filter)}
+                    onChange={state => this.props.requestSurveysByState(state)}
                 />
                 <Table
                     columns={this.columns}
@@ -84,7 +84,7 @@ export default connect(
         surveys: state.survey.surveys
     }),
     dispatch => ({
-        requestFilteredSurveys: filter => dispatch(requestFilteredSurveys(filter)),
+        requestSurveysByState: state => dispatch(requestSurveysByState(state)),
         requestSurvey: (area, ups) => dispatch(requestSurvey(area, ups))
     })
-)(SurveyList);
+)(SurveysList);

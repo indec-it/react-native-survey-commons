@@ -1,6 +1,8 @@
-const surveyState = {
-    OPENED: 1,
-    CLOSED: 2
+const surveyAddressState = {
+    OPEN: 1,
+    IN_PROGRESS: 2,
+    RESOLVED: 3,
+    CLOSED: 4
 };
 
 const syncStatus = {
@@ -12,11 +14,11 @@ const syncStatus = {
     HAS_ERROR: 'hasError'
 };
 
-const surveyList = [
-    {idGroup: surveyState.OPENED, tabName: 'Pendientes'},
-    {idGroup: surveyState.CLOSED, tabName: 'Cerradas'}
+const surveysListTabs = [
+    {id: surveyAddressState.OPENED, label: 'Pendientes'},
+    {id: surveyAddressState.CLOSED, label: 'Cerradas'}
 ];
 
-export {surveyState};
+export {surveyAddressState};
 export {syncStatus};
-export {surveyList};
+export {surveysListTabs};

@@ -166,6 +166,18 @@
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@indec/react-native-commons/-/react-native-commons-0.1.6.tgz#5815d8bba03add784fa1f053695c17e97e7d2d0e"
 
+"@indec/react-native-commons@indec-it/react-native-commons":
+  version "0.1.6"
+  resolved "https://codeload.github.com/indec-it/react-native-commons/tar.gz/20f7d10cc7d179ba05fe205866482d155135c058"
+
+"@indec/react-native-form-builder@https://github.com/indec-it/react-native-form-builder#refactor-project":
+  version "0.2.3"
+  resolved "https://github.com/indec-it/react-native-form-builder#444838a84bb416cc720a7657bb7c4684b0958f95"
+  dependencies:
+    "@indec/react-native-commons" indec-it/react-native-commons
+    "@indec/react-native-md-textinput" "^3.0.1"
+    react-native-datepicker "^1.6.0"
+
 "@indec/react-native-md-textinput@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@indec/react-native-md-textinput/-/react-native-md-textinput-3.0.1.tgz#340fdd7add051758321755e68b7bbf2ba43f8f74"
@@ -3313,6 +3325,10 @@ minimist@~0.0.1:
   dependencies:
     minimist "0.0.8"
 
+moment@2.x.x:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
 morgan@~1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.6.1.tgz#5fd818398c6819cba28a7cd6664f292fe1c0bbf2"
@@ -3839,6 +3855,12 @@ react-devtools-core@3.0.0:
   dependencies:
     shell-quote "^1.6.1"
     ws "^2.0.3"
+
+react-native-datepicker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.6.0.tgz#3a40dc9b112023c49d60ba2a0789d440b7e3d97c"
+  dependencies:
+    moment "2.x.x"
 
 react-native-elements@^0.19.0:
   version "0.19.0"

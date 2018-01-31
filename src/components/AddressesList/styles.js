@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     container: {
@@ -6,5 +6,11 @@ export default StyleSheet.create({
         flexDirection: 'column',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
+    },
+    streetColumn: {
+        flex: 4
+    },
+    column: {
+        flex: 1
     }
 });

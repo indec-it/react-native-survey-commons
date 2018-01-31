@@ -14,11 +14,11 @@ const syncStatus = {
     HAS_ERROR: 'hasError'
 };
 
-const surveysListTabs = [
+const addressesListTabs = [
     {id: surveyAddressState.OPENED, label: 'Pendientes'},
     {id: surveyAddressState.CLOSED, label: 'Cerradas'}
 ];
 
 export {surveyAddressState};
 export {syncStatus};
-export {surveysListTabs};
+export {addressesListTabs};

@@ -1,23 +1,18 @@
-export const SURVEYS_FETCH_BY_STATE_REQUESTED = 'SURVEYS_FETCH_BY_STATE_REQUESTED';
-export const SURVEYS_FETCH_RECEIVED = 'SURVEYS_FETCH_RECEIVED';
+export const ADDRESSES_FETCH_BY_STATE_REQUESTED = 'ADDRESSES_FETCH_BY_STATE_REQUESTED';
 
-export const requestSurveysByState = state => ({
-    type: SURVEYS_FETCH_BY_STATE_REQUESTED,
+export const requestAddressesBySurveyState = (ups, area, state) => ({
+    type: ADDRESSES_FETCH_BY_STATE_REQUESTED,
+    ups,
+    area,
     state
-});
-
-export const receiveSurveys = surveys => ({
-    type: SURVEYS_FETCH_RECEIVED,
-    surveys
 });
 
 export const SURVEY_FETCH_REQUESTED = 'SURVEY_FETCH_REQUESTED';
 export const SURVEY_FETCH_RECEIVED = 'SURVEY_FETCH_RECEIVED';
 
-export const requestSurvey = (area, ups) => ({
+export const requestSurvey = id => ({
     type: SURVEY_FETCH_REQUESTED,
-    area,
-    ups
+    id
 });
 
 export const receiveSurvey = survey => ({
@@ -35,6 +30,20 @@ export const requestAreas = () => ({
 export const receiveAreas = areas => ({
     type: AREAS_FETCH_RECEIVED,
     areas
+});
+
+export const ADDRESSES_FETCH_REQUESTED = 'ADDRESSES_FETCH_REQUESTED';
+export const ADDRESSES_FETCH_RECEIVED = 'ADDRESSES_FETCH_RECEIVED';
+
+export const requestAddresses = (ups, area) => ({
+    type: ADDRESSES_FETCH_REQUESTED,
+    ups,
+    area
+});
+
+export const receiveAddresses = addresses => ({
+    type: ADDRESSES_FETCH_RECEIVED,
+    addresses
 });
 
 export const SURVEY_SAVE_REQUESTED = 'SURVEY_SAVE_REQUESTED';

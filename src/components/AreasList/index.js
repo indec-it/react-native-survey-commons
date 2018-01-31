@@ -10,6 +10,7 @@ import styles from './styles';
 
 class AreasList extends Component {
     static propTypes = {
+        requestFetchSurvey: PropTypes.func.isRequired,
         requestAreas: PropTypes.func.isRequired,
         areas: PropTypes.arrayOf(
             PropTypes.shape({
@@ -17,8 +18,7 @@ class AreasList extends Component {
                 area: PropTypes.number,
                 departmentName: PropTypes.string
             })
-        ),
-        onSelect: PropTypes.func.isRequired
+        )
     };
 
     static defaultProps = {
@@ -42,9 +42,9 @@ class AreasList extends Component {
         }, {
             id: 4,
             componentClass: TableIcon,
-            icon: 'arrow-right',
-            color: '#0295cf',
-            onPress: area => this.props.onSelect(area)
+            icon: 'chevron-right',
+            color: '#004e82',
+            onPress: address => this.props.requestFetchSurvey(address.area, address.ups)
         }];
     }
 
@@ -56,7 +56,7 @@ class AreasList extends Component {
         const {areas} = this.props;
         return (
             <Fragment>
-                <Title>Listado de áreas</Title>
+                <Title> &nbsp; Listado de áreas</Title>
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={areas}/>
                 </View>
@@ -66,7 +66,7 @@ class AreasList extends Component {
 }
 
 export default connect(
-    state => ({areas: state.survey.areas}),
+    state => ({areas: state.surveys.areas}),
     dispatch => ({
         requestAreas: () => dispatch(requestAreas())
     })

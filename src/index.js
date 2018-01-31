@@ -1,9 +1,9 @@
-import AreasList from './components/AreasList';
 import AddressCard from './components/AddressCard';
-import SurveyList from './components/SurveysList';
+import AddressesList from './components/AddressesList';
+import AreasList from './components/AreasList';
 import Sync from './components/Sync';
 
-export {AreasList};
 export {AddressCard};
-export {SurveyList};
+export {AddressesList};
+export {AreasList};
 export {Sync};

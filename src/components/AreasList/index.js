@@ -10,7 +10,6 @@ import styles from './styles';
 
 class AreasList extends Component {
     static propTypes = {
-        requestFetchSurvey: PropTypes.func.isRequired,
         requestAreas: PropTypes.func.isRequired,
         areas: PropTypes.arrayOf(
             PropTypes.shape({
@@ -18,7 +17,8 @@ class AreasList extends Component {
                 area: PropTypes.number,
                 departmentName: PropTypes.string
             })
-        )
+        ),
+        onSelect: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -44,7 +44,7 @@ class AreasList extends Component {
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: address => this.props.requestFetchSurvey(address.area, address.ups)
+            onPress: area => this.props.onSelect(area)
         }];
     }
 
@@ -66,7 +66,7 @@ class AreasList extends Component {
 }
 
 export default connect(
-    state => ({areas: state.surveys.areas}),
+    state => ({areas: state.survey.areas}),
     dispatch => ({
         requestAreas: () => dispatch(requestAreas())
     })

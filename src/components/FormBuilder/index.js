@@ -13,8 +13,9 @@ const FormBuilder = ({chapter, onChange, rows}) => {
         <ScrollView>
             {rows.map(row => (
                 <Row key={row.id}>
-                    {filter(row.questions, question =>
-                        canDrawQuestion(question, chapter)
+                    {filter(
+                        row.questions,
+                        question => canDrawQuestion(question, chapter)
                     ).map(question => {
                         const QuestionComponent = mapper.getComponent(question.type);
                         return (

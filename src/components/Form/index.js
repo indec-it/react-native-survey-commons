@@ -1,9 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator} from '@indec/react-native-commons';
 
-import AddressCard from '../AddressCard';
 import FormBuilder from '../FormBuilder';
 import {cleanChildrenQuestions, questionPropTypes} from '../../util';
 
@@ -14,12 +13,7 @@ class Form extends Component {
         requestSurvey: PropTypes.func.isRequired,
         rows: questionPropTypes.isRequired,
         survey: PropTypes.shape({}).isRequired,
-        id: PropTypes.string.isRequired,
-        showAddressCard: PropTypes.bool
-    };
-
-    static defaultProps = {
-        showAddressCard: false
+        id: PropTypes.string.isRequired
     };
 
     constructor(props) {
@@ -32,8 +26,9 @@ class Form extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {survey} = nextProps;
-        this.setState(() => ({survey}));
+        if (nextProps.survey) {
+            this.state.survey = nextProps.survey;
+        }
     }
 
     handleChangeAnswer(answer) {
@@ -46,17 +41,14 @@ class Form extends Component {
     }
 
     renderContent() {
-        const {rows, showAddressCard} = this.props;
+        const {rows} = this.props;
         const {survey} = this.state;
         return (
-            <Fragment>
-                {showAddressCard && <AddressCard address={survey.address}/>}
-                <FormBuilder
-                    rows={rows}
-                    chapter={survey}
-                    onChange={answer => this.handleChangeAnswer(answer)}
-                />
-            </Fragment>
+            <FormBuilder
+                rows={rows}
+                chapter={survey}
+                onChange={answer => this.handleChangeAnswer(answer)}
+            />
         );
     }
 

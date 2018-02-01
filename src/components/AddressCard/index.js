@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Col, Grid, Row} from '@indec/react-native-commons';
 import {Text} from 'react-native';
+
 import styles from './styles';
 
 const AddressCard = ({address}) => (

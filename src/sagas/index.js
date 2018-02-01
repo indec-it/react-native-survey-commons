@@ -1,4 +1,4 @@
-import {fetchAddressesByState, findSurvey, fetchAreas, fetchAddresses} from './survey';
+import {fetchAddressesByState, findSurvey, fetchAreas, fetchAddresses, saveSurvey} from './survey';
 import {isConnected, ping} from './network';
 import {sync} from './sync';
 
@@ -8,4 +8,5 @@ export {fetchAreas};
 export {fetchAddresses};
 export {isConnected};
 export {ping};
+export {saveSurvey};
 export {sync};

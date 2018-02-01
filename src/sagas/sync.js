@@ -10,13 +10,13 @@ export function* sync({endpoint}) {
 
         yield put(sendSyncData(surveys));
 
-        const {surveyAddresses} = yield call(SyncService.sync, surveys, endpoint);
+        const {surveyAddress} = yield call(SyncService.sync, surveys, endpoint);
 
-        yield put(receiveSyncData(surveyAddresses));
+        yield put(receiveSyncData(surveyAddress));
 
         yield call(SurveysService.removeAll);
 
-        yield call(SurveysService.save, surveyAddresses);
+        yield call(SurveysService.save, surveyAddress);
 
         yield put(completeSync());
     } catch (e) {

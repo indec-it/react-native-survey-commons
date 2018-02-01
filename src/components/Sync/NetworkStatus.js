@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import {getFontAwesome} from '@indec/react-native-commons';
+import {getFontAwesome} from '@indec/react-native-commons/util';
 
 import styles from './styles';
 

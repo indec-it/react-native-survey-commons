@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import {getFontAwesome} from '@indec/react-native-commons';
+import {getFontAwesome} from '@indec/react-native-commons/util';
 
 import {syncStatus as syncStatusEnum} from '../../constants';
 import styles from './styles';

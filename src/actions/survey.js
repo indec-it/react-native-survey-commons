@@ -47,14 +47,14 @@ export const receiveAddresses = addresses => ({
 });
 
 export const SURVEY_SAVE_REQUESTED = 'SURVEY_SAVE_REQUESTED';
-export const SURVEY_SAVE_RECEIVED = 'SURVEY_SAVE_RECEIVED';
+export const SURVEY_SAVE_SUCCEEDED = 'SURVEY_SAVE_SUCCEEDED';
 
-export const requestSaveSurveyAndFinalize = survey => ({
+export const requestSaveSurvey = survey => ({
     type: SURVEY_SAVE_REQUESTED,
     survey
 });
 
-export const receiveSaveSurveyAndFinalize = survey => ({
-    type: SURVEY_SAVE_RECEIVED,
+export const notifySaveSucceeded = survey => ({
+    type: SURVEY_SAVE_SUCCEEDED,
     survey
 });

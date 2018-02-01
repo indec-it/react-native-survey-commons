@@ -8,7 +8,7 @@ import {Row} from '@indec/react-native-commons';
 
 import {answers} from '../../constants';
 import {requestSurvey} from '../../actions/survey';
-import questionPropTypes from '../questionPropTypes';
+import {questionPropTypes} from '../../util';
 
 import AddressCard from '../AddressCard';
 

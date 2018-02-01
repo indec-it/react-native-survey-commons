@@ -170,9 +170,9 @@
   version "0.1.6"
   resolved "https://codeload.github.com/indec-it/react-native-commons/tar.gz/20f7d10cc7d179ba05fe205866482d155135c058"
 
-"@indec/react-native-form-builder@https://github.com/indec-it/react-native-form-builder#refactor-project":
+"@indec/react-native-form-builder@indec-it/react-native-form-builder#refactor-project":
   version "0.2.3"
-  resolved "https://github.com/indec-it/react-native-form-builder#444838a84bb416cc720a7657bb7c4684b0958f95"
+  resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/444838a84bb416cc720a7657bb7c4684b0958f95"
   dependencies:
     "@indec/react-native-commons" indec-it/react-native-commons
     "@indec/react-native-md-textinput" "^3.0.1"
@@ -1489,8 +1489,8 @@ crc@3.3.0:
   resolved "https://registry.yarnpkg.com/crc/-/crc-3.3.0.tgz#fa622e1bc388bf257309082d6b65200ce67090ba"
 
 create-react-class@^15.5.2:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.2.tgz#cf1ed15f12aad7f14ef5f2dfe05e6c42f91ef02a"
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
@@ -3833,8 +3833,8 @@ raw-body@~2.1.2:
     unpipe "1.0.0"
 
 rc@^1.1.7:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.4.tgz#a0f606caae2a3b862bbd0ef85482c0125b315fa3"
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.5.tgz#275cd687f6e3b36cc756baa26dfee80a790301fd"
   dependencies:
     deep-extend "~0.4.0"
     ini "~1.3.0"

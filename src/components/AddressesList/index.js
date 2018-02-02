@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
+import {withRouter} from 'react-router-native';
 import {connect} from 'react-redux';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {TabNavigator} from '@indec/react-native-commons';
 
-import {addressesListTabs, surveyAddressState as surveyAddressStateEnum} from '../../constants';
-import styles from './styles';
-
 import {requestAddressesBySurveyState} from '../../actions/survey';
+import {addressesListTabs, surveyAddressState as surveyAddressStateEnum} from '../../constants';
+import historyPropTypes from '../../util/historyPropTypes';
+import styles from './styles';
 
 class AddressesList extends Component {
     static propTypes = {
@@ -19,15 +20,15 @@ class AddressesList extends Component {
             floor: PropTypes.number,
             departmentName: PropTypes.string,
             surveyAddressState: PropTypes.number,
-            addressId: PropTypes.string
+            surveyId: PropTypes.string.isRequired
         })),
-        onSelect: PropTypes.func.isRequired,
         match: PropTypes.shape({
             params: PropTypes.shape({
                 area: PropTypes.string.isRequired,
                 ups: PropTypes.string.isRequired
             })
-        }).isRequired
+        }).isRequired,
+        history: historyPropTypes.isRequired
     };
 
     static defaultProps = {
@@ -59,10 +60,10 @@ class AddressesList extends Component {
         }, {
             id: 5,
             componentClass: TableIcon,
-            icon: 'chevron-circle-right',
-            color: '#fff',
+            icon: 'arrow-right',
+            color: '#0295cf',
             style: styles.column,
-            onPress: address => this.props.onSelect(address._id)
+            onPress: address => this.props.history.push(`/dwellingResponse/${address.surveyId}`)
         }];
         this.state = {
             surveyAddressState: surveyAddressStateEnum.OPENED
@@ -94,11 +95,11 @@ class AddressesList extends Component {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     state => ({
         addresses: state.survey.addresses
     }),
     dispatch => ({
         requestAddressesBySurveyState: (ups, area, state) => dispatch(requestAddressesBySurveyState(ups, area, state))
     })
-)(AddressesList);
+)(AddressesList));

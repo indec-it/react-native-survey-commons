@@ -1,25 +1,25 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-native';
 import {View} from 'react-native';
 import {Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 
+import NavigationButtons from '../NavigationButtons';
 import {requestSurvey, requestSaveSurvey} from '../../actions/survey';
-import NavigatorButtons from '../NavigationButtons';
+import matchPropTypes from '../../util/matchPropTypes';
+import historyPropTypes from '../../util/historyPropTypes';
 import {surveyAddressState} from '../../constants';
 import styles from '../AreasList/styles';
 
-class Households extends Component {
+class HouseholdsList extends Component {
     static propTypes = {
         requestSaveSurvey: PropTypes.func.isRequired,
         requestSurvey: PropTypes.func.isRequired,
-        id: PropTypes.string.isRequired,
+        match: matchPropTypes.isRequired,
         survey: PropTypes.shape({}),
-        onSelect: PropTypes.func.isRequired,
-        history: PropTypes.shape({
-            push: PropTypes.func.isRequired
-        }).isRequired
+        history: historyPropTypes.isRequired
     };
 
     static defaultProps = {
@@ -45,12 +45,14 @@ class Households extends Component {
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: household => this.props.onSelect(household.order)
+            onPress: () => this.props.history.push('/areas')
         }];
+        this.state = {};
     }
 
     componentDidMount() {
-        this.props.requestSurvey(this.props.id);
+        const {id} = this.props.match.params;
+        this.props.requestSurvey(id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,12 +65,12 @@ class Households extends Component {
         const {survey} = this.state;
         survey.surveyAddressState = surveyAddressState.CLOSED;
         this.props.requestSaveSurvey(survey);
-        this.props.history.push(`/areas/${survey.address.area}/${survey.address.ups}`);
+        this.props.history.push('/area');
     }
 
-    goToAreas() {
+    back() {
         const {survey} = this.state;
-        this.props.history.push(`/areas/${survey.address.area}/${survey.address.ups}`);
+        this.props.history.push(`/form/${survey._id}/dwelling`);
     }
 
     render() {
@@ -82,8 +84,8 @@ class Households extends Component {
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={survey.dwellings[0].households}/>
                 </View>
-                <NavigatorButtons
-                    onBack={() => this.goToAreas}
+                <NavigationButtons
+                    onBack={() => this.back()}
                     onSubmit={() => this.closeDwelling()}
                     submitButtonText="Cerrar vivienda"
                 />
@@ -92,10 +94,10 @@ class Households extends Component {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     state => ({survey: state.survey.survey}),
     dispatch => ({
-        requestSurvey: () => dispatch(requestSurvey()),
+        requestSurvey: id => dispatch(requestSurvey(id)),
         requestSaveSurvey: survey => dispatch(requestSaveSurvey(survey))
     })
-)(Households);
+)(HouseholdsList));

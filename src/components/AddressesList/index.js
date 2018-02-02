@@ -5,10 +5,9 @@ import {connect} from 'react-redux';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {TabNavigator} from '@indec/react-native-commons';
 
+import {requestAddressesBySurveyState} from '../../actions/survey';
 import {addressesListTabs, surveyAddressState as surveyAddressStateEnum} from '../../constants';
 import styles from './styles';
-
-import {requestAddressesBySurveyState} from '../../actions/survey';
 
 class AddressesList extends Component {
     static propTypes = {
@@ -19,15 +18,15 @@ class AddressesList extends Component {
             floor: PropTypes.number,
             departmentName: PropTypes.string,
             surveyAddressState: PropTypes.number,
-            addressId: PropTypes.string
+            surveyId: PropTypes.string.isRequired
         })),
-        onSelect: PropTypes.func.isRequired,
         match: PropTypes.shape({
             params: PropTypes.shape({
                 area: PropTypes.string.isRequired,
                 ups: PropTypes.string.isRequired
             })
-        }).isRequired
+        }).isRequired,
+        onSelect: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -59,10 +58,10 @@ class AddressesList extends Component {
         }, {
             id: 5,
             componentClass: TableIcon,
-            icon: 'chevron-circle-right',
-            color: '#fff',
+            icon: 'arrow-right',
+            color: '#0295cf',
             style: styles.column,
-            onPress: address => this.props.onSelect(address._id)
+            onPress: address => this.props.onSelect(address.surveyId)
         }];
         this.state = {
             surveyAddressState: surveyAddressStateEnum.OPENED

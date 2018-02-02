@@ -8,6 +8,7 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {requestSurvey, requestSaveSurvey} from '../../actions/survey';
 import NavigatorButtons from '../NavigationButtons';
 import {surveyAddressState} from '../../constants';
+import AddressCard from '../AddressCard';
 import styles from '../AreasList/styles';
 
 class Households extends Component {
@@ -63,12 +64,11 @@ class Households extends Component {
         const {survey} = this.state;
         survey.surveyAddressState = surveyAddressState.CLOSED;
         this.props.requestSaveSurvey(survey);
-        this.props.history.push(`/areas/${survey.address.area}/${survey.address.ups}`);
+        this.props.history.push(`/addressesList/${survey.address.area}/${survey.address.ups}`);
     }
 
     goToAreas() {
-        const {survey} = this.state;
-        this.props.history.push(`/areas/${survey.address.area}/${survey.address.ups}`);
+        this.props.history.push('/areas');
     }
 
     render() {
@@ -78,6 +78,7 @@ class Households extends Component {
         }
         return (
             <Fragment>
+                <AddressCard address={survey.address}/>
                 <Title>Listado de hogares</Title>
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={survey.dwellings[0].households}/>

@@ -50,7 +50,7 @@ export default class SurveysService {
                 floor: survey.address.floor,
                 departmentName: survey.address.departmentName,
                 surveyAddressState: survey.surveyAddressState,
-                addressId: survey.address._id
+                surveyId: survey._id
             })
         );
     }

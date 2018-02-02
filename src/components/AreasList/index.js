@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
+import {withRouter} from 'react-router-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Title} from '@indec/react-native-commons';
 
@@ -18,7 +19,9 @@ class AreasList extends Component {
                 departmentName: PropTypes.string
             })
         ),
-        onSelect: PropTypes.func.isRequired
+        history: PropTypes.shape({
+            push: PropTypes.func.isRequired
+        }).isRequired
     };
 
     static defaultProps = {
@@ -44,7 +47,7 @@ class AreasList extends Component {
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: area => this.props.onSelect(area)
+            onPress: area => this.props.history.push(`/addressesList/${area.area}/${area.ups}`)
         }];
     }
 
@@ -65,9 +68,9 @@ class AreasList extends Component {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     state => ({areas: state.survey.areas}),
     dispatch => ({
         requestAreas: () => dispatch(requestAreas())
     })
-)(AreasList);
+)(AreasList));

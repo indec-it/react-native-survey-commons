@@ -54,7 +54,6 @@ export const requestSaveSurvey = survey => ({
     survey
 });
 
-export const notifySaveSucceeded = survey => ({
-    type: SURVEY_SAVE_SUCCEEDED,
-    survey
+export const notifySaveSucceeded = () => ({
+    type: SURVEY_SAVE_SUCCEEDED
 });

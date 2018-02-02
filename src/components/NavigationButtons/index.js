@@ -28,7 +28,11 @@ const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
 NavigatorButtons.propTypes = {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    submitButtonText: PropTypes.string.isRequired
+    submitButtonText: PropTypes.string
+};
+
+NavigatorButtons.defaultProps = {
+    submitButtonText: 'Siguiente'
 };
 
 export default NavigatorButtons;

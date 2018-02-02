@@ -7,17 +7,21 @@ import Radio from '@indec/react-native-form-builder/src/components/Radio';
 import {Row} from '@indec/react-native-commons';
 
 import {answers} from '../../constants';
-import {requestSurvey} from '../../actions/survey';
-import {questionPropTypes} from '../../util';
-
+import {requestSurvey, requestSaveSurvey} from '../../actions/survey';
+import questionPropTypes from '../../util/questionPropTypes';
+import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import AddressCard from '../AddressCard';
+import NavigationButtons from '../NavigationButtons';
 
 class DwellingResponse extends Component {
     static propTypes = {
+        requestSaveSurvey: PropTypes.func.isRequired,
         requestSurvey: PropTypes.func.isRequired,
         rows: questionPropTypes.isRequired,
         survey: PropTypes.shape({}).isRequired,
-        id: PropTypes.string.isRequired
+        match: matchParamsIdPropTypes.isRequired,
+        onPrevious: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -26,14 +30,18 @@ class DwellingResponse extends Component {
     }
 
     componentDidMount() {
-        this.props.requestSurvey(this.props.id);
+        const {id} = this.props.match.params;
+        this.props.requestSurvey(id);
     }
 
     componentWillReceiveProps(nextProps) {
         const {survey} = nextProps;
-        if (survey && !survey.dwellingResponse) {
-            this.state.survey.dwellingResponse = null;
-            this.state.survey.noResponseCause = null;
+        if (survey) {
+            this.state.survey = survey;
+            if (!survey.dwellingResponse) {
+                this.state.survey.dwellingResponse = null;
+                this.state.survey.noResponseCause = null;
+            }
         }
     }
 
@@ -41,6 +49,17 @@ class DwellingResponse extends Component {
         this.setState(state => ({
             survey: Object.assign(state.survey, answer)
         }));
+    }
+
+    goToAddressList() {
+        const {address} = this.state.survey;
+        this.props.onPrevious(address);
+    }
+
+    save() {
+        const {survey} = this.state;
+        this.props.requestSaveSurvey(survey);
+        this.props.onSubmit(survey._id);
     }
 
     render() {
@@ -72,6 +91,10 @@ class DwellingResponse extends Component {
                         ))}
                     </Row>
                 ))}
+                <NavigationButtons
+                    onBack={() => this.goToAddressList()}
+                    onSubmit={() => this.save()}
+                />
             </Fragment>
         );
     }
@@ -79,9 +102,10 @@ class DwellingResponse extends Component {
 
 export default connect(
     state => ({
-        survey: state.surveys.survey
+        survey: state.survey.survey
     }),
     dispatch => ({
-        requestSurvey: id => dispatch(requestSurvey(id))
+        requestSurvey: id => dispatch(requestSurvey(id)),
+        requestSaveSurvey: survey => dispatch(requestSaveSurvey(survey))
     })
 )(DwellingResponse);

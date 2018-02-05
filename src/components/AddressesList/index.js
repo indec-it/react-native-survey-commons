@@ -74,6 +74,7 @@ class AddressesList extends Component {
 
     handleChangeSurveyAddressState(state) {
         const {area, ups} = this.props.match.params;
+        this.setState(() => ({surveyAddressState: state}));
         this.props.requestAddressesBySurveyState(ups, area, state);
     }
 
@@ -84,7 +85,7 @@ class AddressesList extends Component {
             <View style={styles.container}>
                 <TabNavigator
                     tabs={addressesListTabs}
-                    selected={surveyAddressState}
+                    idSelected={surveyAddressState}
                     onChange={state => this.handleChangeSurveyAddressState(state)}
                 />
                 <Table columns={this.columns} data={addresses}/>

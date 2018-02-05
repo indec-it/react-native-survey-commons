@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {requestSurvey, requestSaveSurvey} from '../../actions/survey';
+import {requestSurvey, requestSaveSurvey, requestCreateHousehold} from '../../actions/survey';
 import FormBuilder from '../FormBuilder';
 import {Survey} from '../../model';
 import {answers} from '../../constants';
@@ -15,6 +15,7 @@ const handleChangeSubmitButtonText = response => (response === answers.NO ? 'Cer
 
 class DwellingResponse extends Component {
     static propTypes = {
+        requestCreateHousehold: PropTypes.func.isRequired,
         requestSaveSurvey: PropTypes.func.isRequired,
         requestSurvey: PropTypes.func.isRequired,
         rows: questionPropTypes.isRequired,
@@ -53,6 +54,13 @@ class DwellingResponse extends Component {
         });
     }
 
+    createHousehold() {
+        const {survey} = this.state;
+        if (survey.dwellings[0].dwellingState.response === answers.YES) {
+            this.props.requestCreateHousehold(survey);
+        }
+    }
+
     goToAddressList() {
         const {address} = this.state.survey;
         this.props.onPrevious(address);
@@ -60,6 +68,7 @@ class DwellingResponse extends Component {
 
     save() {
         const {survey} = this.state;
+        this.createHousehold();
         this.props.requestSaveSurvey(survey);
         this.props.onSubmit(survey._id);
     }
@@ -67,7 +76,7 @@ class DwellingResponse extends Component {
     render() {
         const {rows} = this.props;
         const {submitButtonText, survey} = this.state;
-        if (!survey || !survey.dwellings) {
+        if (!survey || !survey.dwellings || !survey.address) {
             return null;
         }
         return (
@@ -94,6 +103,7 @@ export default connect(
     }),
     dispatch => ({
         requestSurvey: id => dispatch(requestSurvey(id)),
-        requestSaveSurvey: survey => dispatch(requestSaveSurvey(survey))
+        requestSaveSurvey: survey => dispatch(requestSaveSurvey(survey)),
+        requestCreateHousehold: survey => dispatch(requestCreateHousehold(survey))
     })
 )(DwellingResponse);

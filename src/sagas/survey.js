@@ -2,7 +2,13 @@ import {call, put} from 'redux-saga/effects';
 import {handleError} from '@indec/react-native-commons/sagas';
 
 import {SurveysService} from '../services';
-import {receiveAddresses, receiveAreas, receiveSurvey, notifySaveSucceeded} from '../actions/survey';
+import {
+    receiveAddresses,
+    receiveAreas,
+    receiveSurvey,
+    notifySaveSucceeded,
+    notifyCreateHouseholdSucceeded
+} from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
     try {
@@ -44,6 +50,15 @@ export function* saveSurvey({survey}) {
     try {
         yield call(SurveysService.save, survey);
         yield put(notifySaveSucceeded());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* createHousehold({survey}) {
+    try {
+        yield call(SurveysService.createHousehold, survey);
+        yield put(notifyCreateHouseholdSucceeded());
     } catch (err) {
         yield put(handleError(err));
     }

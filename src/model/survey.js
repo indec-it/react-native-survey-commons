@@ -1,17 +1,18 @@
-import {isEmpty, map} from 'lodash';
+import {map, isEmpty} from 'lodash';
 
-import {Address, Dwelling} from '.';
+import {Dwelling, Address} from '.';
 
 export default class Survey {
     constructor(obj) {
         Object.assign(this, obj);
-        if (obj) {
-            if (!isEmpty(obj.dwellings)) {
-                this.dwellings = map(obj.dwellings, dwelling => new Dwelling(dwelling));
-            } else {
-                this.dwellings = [new Dwelling({order: 1})];
-            }
-            this.address = new Address(obj.address);
+        if (!obj) {
+            this.dwellings = [new Dwelling({order: 1})];
+            this.address = new Address();
+            return;
         }
+        if (!isEmpty(obj.dwellings)) {
+            this.dwellings = map(obj.dwellings, dwelling => new Dwelling(dwelling));
+        }
+        this.address = new Address(obj.address);
     }
 }

@@ -1,5 +1,7 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {filter, map, toNumber, uniqBy} from 'lodash';
+import {filter, map, toNumber, uniqBy, max, isEmpty} from 'lodash';
+
+import {Household} from '../model';
 
 const storage = new StorageService('survey');
 
@@ -61,5 +63,15 @@ export default class SurveysService {
             return addresses;
         }
         return filter(addresses, address => address.surveyAddressState === surveyAddressState);
+    }
+
+    static createHousehold(survey) {
+        const newSurvey = survey;
+        if (!isEmpty(newSurvey.dwellings[0].households)) {
+            const maxOrder = max(map(newSurvey.dwellings[0].households, household => household.order));
+            newSurvey.dwellings[0].households.push(new Household({order: maxOrder + 1}));
+        } else {
+            newSurvey.dwellings[0].households.push(new Household());
+        }
     }
 }

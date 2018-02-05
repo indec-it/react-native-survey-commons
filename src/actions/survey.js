@@ -57,3 +57,15 @@ export const requestSaveSurvey = survey => ({
 export const notifySaveSucceeded = () => ({
     type: SURVEY_SAVE_SUCCEEDED
 });
+
+export const HOUSEHOLD_CREATE_REQUESTED = 'HOUSEHOLD_CREATE_REQUESTED';
+export const HOUSEHOLD_CREATE_SUCCEEDED = 'HOUSEHOLD_CREATE_SUCCEEDED';
+
+export const requestCreateHousehold = survey => ({
+    type: HOUSEHOLD_CREATE_REQUESTED,
+    survey
+});
+
+export const notifyCreateHouseholdSucceeded = () => ({
+    type: HOUSEHOLD_CREATE_SUCCEEDED
+});

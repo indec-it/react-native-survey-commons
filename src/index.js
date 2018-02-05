@@ -5,6 +5,8 @@ import DwellingsList from './components/DwellingsList';
 import DwellingResponse from './components/DwellingResponse';
 import Form from './components/Form';
 import HouseholdsList from './components/HouseholdsList';
+import MembersList from './components/MembersList';
+import NavigationButtons from './components/NavigationButtons';
 import Sync from './components/Sync';
 
 export {AddressCard};
@@ -14,4 +16,6 @@ export {DwellingsList};
 export {DwellingResponse};
 export {Form};
 export {HouseholdsList};
+export {MembersList};
+export {NavigationButtons};
 export {Sync};

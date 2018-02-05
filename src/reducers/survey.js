@@ -4,6 +4,8 @@ import {
     AREAS_FETCH_RECEIVED,
     AREAS_FETCH_REQUESTED,
     DWELLING_FETCH_SUCCEEDED,
+    HOUSEHOLDS_FETCH_SUCCEEDED,
+    MEMBERS_FETCH_SUCCEEDED,
     SURVEY_FETCH_RECEIVED,
     SURVEY_FETCH_REQUESTED
 } from '../actions/survey';
@@ -26,6 +28,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, survey: action.survey};
         case DWELLING_FETCH_SUCCEEDED:
             return {...state, survey: action.survey, dwelling: action.dwelling};
+        case MEMBERS_FETCH_SUCCEEDED:
+            return {...state, members: action.members};
+        case HOUSEHOLDS_FETCH_SUCCEEDED:
+            return {...state, households: action.households};
         default:
             return state;
     }

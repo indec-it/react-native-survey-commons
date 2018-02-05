@@ -35,8 +35,8 @@ class DwellingResponse extends Component {
     }
 
     componentDidMount() {
-        const {id, order} = this.props.match.params;
-        this.props.requestDwelling(id, order);
+        const {id, dwelling} = this.props.match.params;
+        this.props.requestDwelling(id, dwelling);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -96,7 +96,7 @@ export default connect(
         requestSurvey: id => dispatch(requestSurvey(id)),
         requestSaveSurvey: survey => dispatch(requestSaveSurvey(survey)),
         requestCreateHousehold: dwelling => dispatch(requestCreateHousehold(dwelling)),
-        requestDwelling: (survey, order) => dispatch(requestDwelling(survey, order)),
+        requestDwelling: (survey, dwelling) => dispatch(requestDwelling(survey, dwelling)),
         requestUpdateSurvey: (survey, dwelling) => dispatch(requestUpdateSurvey(survey, dwelling))
     })
 )(DwellingResponse);

@@ -46,6 +46,18 @@ export const receiveAddresses = addresses => ({
     addresses
 });
 
+export const SURVEY_CLOSE_REQUESTED = 'SURVEY_CLOSE_REQUESTED';
+export const SURVEY_CLOSE_SUCCEEDED = 'SURVEY_CLOSE_SUCCEEDED';
+
+export const requestCloseSurvey = id => ({
+    type: SURVEY_CLOSE_REQUESTED,
+    id
+});
+
+export const notifyCloseSucceeded = () => ({
+    type: SURVEY_CLOSE_SUCCEEDED
+});
+
 export const SURVEY_SAVE_REQUESTED = 'SURVEY_SAVE_REQUESTED';
 export const SURVEY_SAVE_SUCCEEDED = 'SURVEY_SAVE_SUCCEEDED';
 
@@ -91,4 +103,33 @@ export const requestUpdateSurvey = (survey, dwelling) => ({
 
 export const notifyUpdateSurveySucceeded = () => ({
     type: UPDATE_SURVEY_SUCCEEDED
+});
+
+export const HOUSEHOLDS_FETCH_REQUESTED = 'HOUSEHOLDS_FETCH_REQUESTED';
+export const HOUSEHOLDS_FETCH_SUCCEEDED = 'HOUSEHOLDS_FETCH_SUCCEEDED';
+
+export const requestHouseholds = (id, dwelling) => ({
+    type: HOUSEHOLDS_FETCH_REQUESTED,
+    id,
+    dwelling
+});
+
+export const receiveHouseholds = households => ({
+    type: HOUSEHOLDS_FETCH_SUCCEEDED,
+    households
+});
+
+export const MEMBERS_FETCH_REQUESTED = 'MEMBERS_FETCH_REQUESTED';
+export const MEMBERS_FETCH_SUCCEEDED = 'MEMBERS_FETCH_SUCCEEDED';
+
+export const requestMembers = (id, dwelling, household) => ({
+    type: MEMBERS_FETCH_REQUESTED,
+    id,
+    dwelling,
+    household
+});
+
+export const receiveMembers = members => ({
+    type: MEMBERS_FETCH_SUCCEEDED,
+    members
 });

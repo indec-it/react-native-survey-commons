@@ -6,6 +6,7 @@ import {ComponentsMapper} from '@indec/react-native-form-builder';
 import {filter} from 'lodash';
 
 import {canDrawQuestion} from '../../util';
+import fromComponentsStyles from '../../styles/fromComponents';
 
 const FormBuilder = ({chapter, onChange, rows}) => {
     const mapper = new ComponentsMapper();
@@ -18,12 +19,17 @@ const FormBuilder = ({chapter, onChange, rows}) => {
                         question => canDrawQuestion(question, chapter)
                     ).map(question => {
                         const QuestionComponent = mapper.getComponent(question.type);
+                        const componentStyle = fromComponentsStyles[question.type] || fromComponentsStyles.none;
                         return (
                             <QuestionComponent
                                 key={question.number}
                                 question={question}
                                 answer={chapter[question.name]}
                                 onChange={answer => onChange(answer)}
+                                style={componentStyle.style}
+                                badgeStyle={componentStyle.badgeStyle}
+                                textStyle={componentStyle.textStyle}
+                                textBoxStyle={componentStyle.textBoxStyle}
                             />
                         );
                     })}

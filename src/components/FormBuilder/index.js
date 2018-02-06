@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
 import {Row} from '@indec/react-native-commons';
-import {ComponentsMapper} from '@indec/react-native-form-builder';
+import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {filter} from 'lodash';
 
 import {canDrawQuestion} from '../../util';
 
 const FormBuilder = ({chapter, onChange, rows}) => {
-    const mapper = new ComponentsMapper();
+    const registry = new ComponentsRegistry();
     return (
         <ScrollView>
             {rows.map(row => (
@@ -17,11 +17,12 @@ const FormBuilder = ({chapter, onChange, rows}) => {
                         row.questions,
                         question => canDrawQuestion(question, chapter)
                     ).map(question => {
-                        const QuestionComponent = mapper.getComponent(question.type);
+                        const QuestionComponent = registry.get(question.type);
                         return (
                             <QuestionComponent
                                 key={question.number}
                                 question={question}
+                                section={chapter}
                                 answer={chapter[question.name]}
                                 onChange={answer => onChange(answer)}
                             />

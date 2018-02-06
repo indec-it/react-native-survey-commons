@@ -54,11 +54,11 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@commitlint/cli@^6.0.5":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-6.0.5.tgz#c159c41434d24167c2f52c29e81cffc1959a6d0f"
+"@commitlint/cli@^6.0.5", "@commitlint/cli@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-6.1.0.tgz#0a545088b4e0268cca1dca7e8ccd95bd55847b88"
   dependencies:
-    "@commitlint/core" "^6.0.5"
+    "@commitlint/core" "^6.1.0"
     babel-polyfill "6.26.0"
     chalk "2.3.0"
     get-stdin "5.0.1"
@@ -66,16 +66,16 @@
     lodash.pick "4.4.0"
     meow "3.7.0"
 
-"@commitlint/core@^6.0.5":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@commitlint/core/-/core-6.0.5.tgz#a0f174f08a377eb9e5571bf31c2c9f60964a6ed9"
+"@commitlint/core@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/core/-/core-6.1.0.tgz#41b2482044039435cb9673995598717038f2f6d0"
   dependencies:
-    "@commitlint/execute-rule" "^6.0.4"
-    "@commitlint/is-ignored" "^6.0.4"
-    "@commitlint/parse" "^6.0.4"
-    "@commitlint/resolve-extends" "^6.0.4"
-    "@commitlint/rules" "^6.0.4"
-    "@commitlint/top-level" "^6.0.5"
+    "@commitlint/execute-rule" "^6.1.0"
+    "@commitlint/is-ignored" "^6.1.0"
+    "@commitlint/parse" "^6.1.0"
+    "@commitlint/resolve-extends" "^6.1.0"
+    "@commitlint/rules" "^6.1.0"
+    "@commitlint/top-level" "^6.1.0"
     "@marionebl/sander" "^0.6.0"
     babel-runtime "^6.23.0"
     chalk "^2.0.1"
@@ -87,9 +87,9 @@
     lodash.topairs "4.3.0"
     resolve-from "4.0.0"
 
-"@commitlint/ensure@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/ensure/-/ensure-6.0.4.tgz#c5ae6d0a24797e58caceee61608c6ac9ced64691"
+"@commitlint/ensure@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/ensure/-/ensure-6.1.0.tgz#567f029d816b6b5ca16bf62499230324c99a8fa9"
   dependencies:
     lodash.camelcase "4.3.0"
     lodash.kebabcase "4.1.1"
@@ -97,32 +97,32 @@
     lodash.startcase "4.4.0"
     lodash.upperfirst "4.3.1"
 
-"@commitlint/execute-rule@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/execute-rule/-/execute-rule-6.0.4.tgz#5db080be51b2cc057028ce24a1cd9142283774fc"
+"@commitlint/execute-rule@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/execute-rule/-/execute-rule-6.1.0.tgz#4f56e5855a5e25ebcbc985d2209ea29f1bb89774"
   dependencies:
     babel-runtime "6.26.0"
 
-"@commitlint/is-ignored@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/is-ignored/-/is-ignored-6.0.4.tgz#cc4cde7be8d101e848fa70b37381687fa837c417"
+"@commitlint/is-ignored@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/is-ignored/-/is-ignored-6.1.0.tgz#0b86f8b37dfc693d6d66760b36fee1aba50882d8"
   dependencies:
     semver "5.5.0"
 
-"@commitlint/message@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/message/-/message-6.0.4.tgz#80fe320285cab5f0f4ab3847e8d3b98a3fd1e389"
+"@commitlint/message@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/message/-/message-6.1.0.tgz#ee4ca775ad876ba59d23d02ba386c9b9038969e3"
 
-"@commitlint/parse@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/parse/-/parse-6.0.4.tgz#3d7403b024200d32d66e913ee464eaf46bbac075"
+"@commitlint/parse@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/parse/-/parse-6.1.0.tgz#e4ba58ab632371078b9b9609ae7af03c2e7b3a3e"
   dependencies:
     conventional-changelog-angular "^1.3.3"
     conventional-commits-parser "^2.1.0"
 
-"@commitlint/resolve-extends@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/resolve-extends/-/resolve-extends-6.0.4.tgz#8cce624e856df7582d5621c882e83f69b44c18c4"
+"@commitlint/resolve-extends@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/resolve-extends/-/resolve-extends-6.1.0.tgz#b3d92f69e3746e94de0023f8be3b1f605a20839a"
   dependencies:
     babel-runtime "6.26.0"
     lodash.merge "4.6.0"
@@ -131,30 +131,30 @@
     resolve-from "^4.0.0"
     resolve-global "^0.1.0"
 
-"@commitlint/rules@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/rules/-/rules-6.0.4.tgz#6891d7e37908d6438dc3b382f193774ab4a36479"
+"@commitlint/rules@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/rules/-/rules-6.1.0.tgz#564b69503a3a4d09d03a9a077731c9655ee8f4df"
   dependencies:
-    "@commitlint/ensure" "^6.0.4"
-    "@commitlint/message" "^6.0.4"
-    "@commitlint/to-lines" "^6.0.4"
+    "@commitlint/ensure" "^6.1.0"
+    "@commitlint/message" "^6.1.0"
+    "@commitlint/to-lines" "^6.1.0"
     babel-runtime "^6.23.0"
 
-"@commitlint/to-lines@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@commitlint/to-lines/-/to-lines-6.0.4.tgz#c0bb6ca0b5c5f565f18d9747de12067cb2c4cc34"
+"@commitlint/to-lines@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/to-lines/-/to-lines-6.1.0.tgz#9e130254c980dbd456e1693df1082a77ba7114a0"
 
-"@commitlint/top-level@^6.0.5":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@commitlint/top-level/-/top-level-6.0.5.tgz#01cac031f7452c0bebfda75d6ef7fb79d1714f81"
+"@commitlint/top-level@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/top-level/-/top-level-6.1.0.tgz#b420c1e9166df3afa000186a42b7f49cae4014cc"
   dependencies:
     find-up "^2.1.0"
 
 "@commitlint/travis-cli@^6.0.5":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@commitlint/travis-cli/-/travis-cli-6.0.5.tgz#475d2332f48ca1e34b9fb83f15ea6ce7fa68b117"
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/travis-cli/-/travis-cli-6.1.0.tgz#85bc5c251cba58e29cbfb62c7054b3d61a739254"
   dependencies:
-    "@commitlint/cli" "^6.0.5"
+    "@commitlint/cli" "^6.1.0"
     babel-runtime "6.26.0"
     execa "0.9.0"
 
@@ -166,15 +166,11 @@
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@indec/react-native-commons/-/react-native-commons-0.1.7.tgz#97b7ed122e7081047b0bb76c8783f0c55bf1d51d"
 
-"@indec/react-native-commons@indec-it/react-native-commons":
-  version "0.1.7"
-  resolved "https://codeload.github.com/indec-it/react-native-commons/tar.gz/d23e8f413c353aba8419ff2bdde061e30dcaee60"
-
-"@indec/react-native-form-builder@https://github.com/indec-it/react-native-form-builder#refactor-project":
+"@indec/react-native-form-builder@indec-it/react-native-form-builder#refactor-project":
   version "0.2.3"
-  resolved "https://github.com/indec-it/react-native-form-builder#444838a84bb416cc720a7657bb7c4684b0958f95"
+  resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/2cfbd3890f4095ac4e37622fb10aabc3b89ca4c9"
   dependencies:
-    "@indec/react-native-commons" indec-it/react-native-commons
+    "@indec/react-native-commons" "^0.1.7"
     "@indec/react-native-md-textinput" "^3.0.1"
     react-native-datepicker "^1.6.0"
 
@@ -233,9 +229,9 @@ acorn@^3.0.4:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
-acorn@^5.2.1:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.3.0.tgz#7446d39459c54fb49a80e6ee6478149b940ec822"
+acorn@^5.4.0:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.4.1.tgz#fdc58d9d17f4a4e98d102ded826a9b9759125102"
 
 ajv-keywords@^2.1.0:
   version "2.1.1"
@@ -487,8 +483,8 @@ babel-eslint@^8.0.2:
     eslint-visitor-keys "^1.0.0"
 
 babel-generator@^6.26.0:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.26.0.tgz#ac1ae20070b79f6e3ca1d3269613053774f20dc5"
+  version "6.26.1"
+  resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.26.1.tgz#1844408d3b8f0d35a404ea7ac180f087a601bd90"
   dependencies:
     babel-messages "^6.23.0"
     babel-runtime "^6.26.0"
@@ -496,7 +492,7 @@ babel-generator@^6.26.0:
     detect-indent "^4.0.0"
     jsesc "^1.3.0"
     lodash "^4.17.4"
-    source-map "^0.5.6"
+    source-map "^0.5.7"
     trim-right "^1.0.1"
 
 babel-helper-builder-binary-assignment-operator-visitor@^6.24.1:
@@ -1320,7 +1316,11 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.11.0, commander@^2.9.0, commander@~2.13.0:
+commander@^2.11.0, commander@^2.9.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.0.tgz#7b25325963e6aace20d3a9285b09379b0c2208b5"
+
+commander@~2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
@@ -1427,15 +1427,15 @@ content-type@~1.0.1:
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
 
 conventional-changelog-angular@^1.3.3:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/conventional-changelog-angular/-/conventional-changelog-angular-1.6.1.tgz#e1434d017c854032b272f690424a8c0ca16dc318"
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-angular/-/conventional-changelog-angular-1.6.2.tgz#0a811313de46326e5e4e11dac281d61cfe1f00c4"
   dependencies:
     compare-func "^1.3.1"
     q "^1.4.1"
 
 conventional-commits-parser@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/conventional-commits-parser/-/conventional-commits-parser-2.1.0.tgz#9b4b7c91124bf2a1a9a2cc1c72760d382cbbb229"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/conventional-commits-parser/-/conventional-commits-parser-2.1.1.tgz#1525a01bdad3349297b4210396e283d8a8ffd044"
   dependencies:
     JSONStream "^1.0.4"
     is-text-path "^1.0.0"
@@ -1873,10 +1873,10 @@ eslint@4.16.0:
     text-table "~0.2.0"
 
 espree@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.2.tgz#756ada8b979e9dcfcdb30aad8d1a9304a905e1ca"
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.3.tgz#931e0af64e7fbbed26b050a29daad1fc64799fa6"
   dependencies:
-    acorn "^5.2.1"
+    acorn "^5.4.0"
     acorn-jsx "^3.0.0"
 
 esprima@^4.0.0:
@@ -2927,8 +2927,8 @@ locate-path@^2.0.0:
     path-exists "^3.0.0"
 
 lodash-es@^4.2.0:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.5.tgz#9fc6e737b1c4d151d8f9cae2247305d552ce748f"
 
 lodash._basecopy@^3.0.0:
   version "3.0.1"
@@ -3099,8 +3099,8 @@ lodash@^3.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
 lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
   version "1.3.1"
@@ -3297,8 +3297,8 @@ mime@^1.3.4:
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
 
 mimic-fn@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.1.0.tgz#e667783d92e89dbd342818b5230b9d62a672ad18"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
 
 min-document@^2.19.0:
   version "2.19.0"
@@ -4402,7 +4402,7 @@ source-map-support@^0.4.15:
   dependencies:
     source-map "^0.5.6"
 
-source-map@^0.5.6:
+source-map@^0.5.6, source-map@^0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 

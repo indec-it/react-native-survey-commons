@@ -1,6 +1,7 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {filter, map, toNumber, uniqBy, max, isEmpty} from 'lodash';
+import {filter, map, toNumber, uniqBy, max, find, merge} from 'lodash';
 
+import {answers} from '../constants';
 import {Household} from '../model';
 
 const storage = new StorageService('survey');
@@ -65,13 +66,33 @@ export default class SurveysService {
         return filter(addresses, address => address.surveyAddressState === surveyAddressState);
     }
 
-    static createHousehold(survey) {
+    /**
+     * Append a household to the given dwelling
+     * @param {Dwelling} dwelling A dwelling to add a household.
+     * @returns {Dwelling} The given dwelling including the new household.
+     */
+    static addHouseholdToDwelling(dwelling) {
+        const maxOrder = max(map(dwelling.households, household => household.order)) || 0;
+        dwelling.households.push(new Household({order: maxOrder + 1}));
+        return dwelling;
+    }
+
+    static async findDwelling(id, order) {
+        const survey = await SurveysService.findById(id);
+        return {
+            survey,
+            dwelling: find(survey.dwellings, dwelling => dwelling.order === toNumber(order))
+        };
+    }
+
+    static async updateDwelling(survey, dwelling) {
         const newSurvey = survey;
-        if (!isEmpty(newSurvey.dwellings[0].households)) {
-            const maxOrder = max(map(newSurvey.dwellings[0].households, household => household.order));
-            newSurvey.dwellings[0].households.push(new Household({order: maxOrder + 1}));
-        } else {
-            newSurvey.dwellings[0].households.push(new Household());
+        if (dwelling.response === answers.YES) {
+            SurveysService.addHouseholdToDwelling(dwelling);
         }
+        const currentDwelling = find(newSurvey.dwellings, d => d.order === dwelling.order);
+        merge(currentDwelling, dwelling);
+        newSurvey.dwellingResponse = dwelling.response;
+        return SurveysService.save(newSurvey);
     }
 }

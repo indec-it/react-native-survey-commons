@@ -8,35 +8,35 @@ import {filter} from 'lodash';
 import {canDrawQuestion} from '../../util';
 import fromComponentsStyles from '../../styles/fromComponents';
 
-const FormBuilder = ({chapter, onChange, rows}) => {
-    const registry = new ComponentsRegistry();
-    return (
-        <ScrollView>
-            {rows.map(row => (
-                <Row key={row.id}>
-                    {filter(
-                        row.questions,
-                        question => canDrawQuestion(question, chapter)
-                    ).map(question => {
-                        const QuestionComponent = registry.get(question.type);
-                        const componentStyle = fromComponentsStyles[question.type] || fromComponentsStyles.none;
-                        return (
-                            <QuestionComponent
-                                key={question.number}
-                                question={question}
-                                section={chapter}
-                                answer={chapter[question.name]}
-                                onChange={answer => onChange(answer)}
-                                style={componentStyle.style}
-                                textWithBadgeStyle={componentStyle.textWithBadgeStyle}
-                            />
-                        );
-                    })}
-                </Row>
-            ))}
-        </ScrollView>
-    );
-};
+const registry = new ComponentsRegistry();
+
+const FormBuilder = ({chapter, onChange, rows}) => (
+    <ScrollView>
+        {rows.map(row => (
+            <Row key={row.id}>
+                {filter(
+                    row.questions,
+                    question => canDrawQuestion(question, chapter)
+                ).map(question => {
+                    const QuestionComponent = registry.get(question.type);
+                    const componentStyle = fromComponentsStyles[question.type] || fromComponentsStyles.none;
+                    return (
+                        <QuestionComponent
+                            key={question.number}
+                            question={question}
+                            section={chapter}
+                            answer={chapter[question.name]}
+                            onChange={answer => onChange(answer)}
+                            style={componentStyle.style}
+                            textWithBadgeStyle={componentStyle.textWithBadgeStyle}
+                        />
+                    );
+                })
+                }
+            </Row>
+        ))}
+    </ScrollView>
+);
 
 FormBuilder.propTypes = {
     rows: PropTypes.shape({}).isRequired,

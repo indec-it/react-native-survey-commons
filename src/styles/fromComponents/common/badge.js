@@ -1,18 +1,18 @@
 import {StyleSheet} from 'react-native';
 
 const defaultStyle = StyleSheet.create({
-    primaryBadgeContainer: {
+    primaryContainer: {
         backgroundColor: '#333'
     },
-    primaryBadgeText: {
+    primaryText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold'
     },
-    secondaryBadgeContainer: {
+    secondaryContainer: {
         backgroundColor: '#e6e6e6'
     },
-    secondaryBadgeText: {
+    secondaryText: {
         color: '#555',
         fontSize: 16,
         fontWeight: 'bold'

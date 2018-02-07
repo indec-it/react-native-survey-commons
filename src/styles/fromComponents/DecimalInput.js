@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import {textBox} from './common';
+import {badge, textBox} from './common';
 
 const style = StyleSheet.create({
     container: {
@@ -25,6 +25,7 @@ const style = StyleSheet.create({
 });
 
 const textWithBadgeStyle = {
+    badge: badge.defaultStyle,
     textBox: textBox.defaultStyle
 };
 

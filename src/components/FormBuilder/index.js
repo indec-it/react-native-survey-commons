@@ -31,8 +31,7 @@ const FormBuilder = ({chapter, onChange, rows}) => (
                             textWithBadgeStyle={componentStyle.textWithBadgeStyle}
                         />
                     );
-                })
-                }
+                })}
             </Row>
         ))}
     </ScrollView>

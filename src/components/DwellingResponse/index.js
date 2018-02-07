@@ -2,24 +2,28 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {requestSurvey, requestSaveSurvey, requestCreateHousehold} from '../../actions/survey';
+import {
+    requestSurvey,
+    requestSaveSurvey,
+    requestCreateHousehold,
+    requestDwelling,
+    requestUpdateSurvey
+} from '../../actions/survey';
 import FormBuilder from '../FormBuilder';
-import {Survey} from '../../model';
+import {Dwelling, Survey} from '../../model';
 import {answers} from '../../constants';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import AddressCard from '../AddressCard';
 import NavigationButtons from '../NavigationButtons';
 
-const handleChangeSubmitButtonText = response => (response === answers.NO ? 'Cerrar Vivienda' : 'Siguiente');
-
 class DwellingResponse extends Component {
     static propTypes = {
-        requestCreateHousehold: PropTypes.func.isRequired,
-        requestSaveSurvey: PropTypes.func.isRequired,
-        requestSurvey: PropTypes.func.isRequired,
+        requestUpdateSurvey: PropTypes.func.isRequired,
+        requestDwelling: PropTypes.func.isRequired,
         rows: questionPropTypes.isRequired,
         survey: PropTypes.instanceOf(Survey).isRequired,
+        dwelling: PropTypes.instanceOf(Dwelling).isRequired,
         match: matchParamsIdPropTypes.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired
@@ -27,56 +31,42 @@ class DwellingResponse extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            survey: new Survey(),
-            submitButtonText: 'Siguiente'
-        };
+        this.state = {};
     }
 
     componentDidMount() {
-        const {id} = this.props.match.params;
-        this.props.requestSurvey(id);
+        const {id, order} = this.props.match.params;
+        this.props.requestDwelling(id, order);
     }
 
     componentWillReceiveProps(nextProps) {
-        const {survey} = nextProps;
-        if (survey) {
-            this.state.survey = new Survey(survey);
+        if (nextProps.dwelling) {
+            this.state.dwelling = nextProps.dwelling;
         }
     }
 
     handleChangeAnswer(answer) {
-        const {survey} = this.state;
-        Object.assign(survey.dwellings[0].dwellingState, answer);
-        this.setState({
-            survey: new Survey(survey),
-            submitButtonText: handleChangeSubmitButtonText(survey.dwellings[0].dwellingState.response)
-        });
-    }
-
-    createHousehold() {
-        const {survey} = this.state;
-        if (survey.dwellings[0].dwellingState.response === answers.YES) {
-            this.props.requestCreateHousehold(survey);
-        }
+        this.setState(state => ({
+            dwelling: Object.assign(state.dwelling, answer)
+        }));
     }
 
     goToAddressList() {
-        const {address} = this.state.survey;
+        const {address} = this.props.survey;
         this.props.onPrevious(address);
     }
 
     save() {
-        const {survey} = this.state;
-        this.createHousehold();
-        this.props.requestSaveSurvey(survey);
-        this.props.onSubmit(survey._id);
+        const {dwelling} = this.state;
+        const {survey} = this.props;
+        this.props.requestUpdateSurvey(survey, dwelling);
+        this.props.onSubmit(survey);
     }
 
     render() {
-        const {rows} = this.props;
-        const {submitButtonText, survey} = this.state;
-        if (!survey || !survey.dwellings || !survey.address) {
+        const {rows, survey} = this.props;
+        const {dwelling} = this.state;
+        if (!survey || !dwelling) {
             return null;
         }
         return (
@@ -84,13 +74,13 @@ class DwellingResponse extends Component {
                 <AddressCard address={survey.address}/>
                 <FormBuilder
                     rows={rows}
-                    chapter={survey.dwellings[0].dwellingState}
+                    chapter={dwelling}
                     onChange={answer => this.handleChangeAnswer(answer)}
                 />
                 <NavigationButtons
                     onBack={() => this.goToAddressList()}
                     onSubmit={() => this.save()}
-                    submitButtonText={submitButtonText}
+                    submitButtonText={(dwelling.response === answers.NO ? 'Guardar y salir' : 'Siguiente')}
                 />
             </Fragment>
         );
@@ -99,11 +89,14 @@ class DwellingResponse extends Component {
 
 export default connect(
     state => ({
-        survey: state.survey.survey
+        survey: state.survey.survey,
+        dwelling: state.survey.dwelling
     }),
     dispatch => ({
         requestSurvey: id => dispatch(requestSurvey(id)),
         requestSaveSurvey: survey => dispatch(requestSaveSurvey(survey)),
-        requestCreateHousehold: survey => dispatch(requestCreateHousehold(survey))
+        requestCreateHousehold: dwelling => dispatch(requestCreateHousehold(dwelling)),
+        requestDwelling: (survey, order) => dispatch(requestDwelling(survey, order)),
+        requestUpdateSurvey: (survey, dwelling) => dispatch(requestUpdateSurvey(survey, dwelling))
     })
 )(DwellingResponse);

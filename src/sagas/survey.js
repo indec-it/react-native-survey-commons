@@ -5,9 +5,10 @@ import {SurveysService} from '../services';
 import {
     receiveAddresses,
     receiveAreas,
+    receiveDwelling,
     receiveSurvey,
     notifySaveSucceeded,
-    notifyCreateHouseholdSucceeded
+    notifyUpdateSurveySucceeded
 } from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
@@ -55,10 +56,28 @@ export function* saveSurvey({survey}) {
     }
 }
 
-export function* createHousehold({survey}) {
+export function* createHousehold({dwelling}) {
     try {
-        yield call(SurveysService.createHousehold, survey);
-        yield put(notifyCreateHouseholdSucceeded());
+        const dwellingUpdated = yield call(SurveysService.addHouseholdToDwelling, dwelling);
+        yield put(receiveDwelling(dwellingUpdated));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* findDwelling({id, order}) {
+    try {
+        const {survey, dwelling} = yield call(SurveysService.findDwelling, id, order);
+        yield put(receiveDwelling(survey, dwelling));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* updateSurvey({survey, dwelling}) {
+    try {
+        yield call(SurveysService.updateDwelling, survey, dwelling);
+        yield put(notifyUpdateSurveySucceeded());
     } catch (err) {
         yield put(handleError(err));
     }

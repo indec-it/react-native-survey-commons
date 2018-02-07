@@ -1,5 +1,6 @@
 export default class Dwelling {
-    order = null;
+    order = 1;
+    households = [];
     dwellingState = {
         response: null,
         noResponseCause: null

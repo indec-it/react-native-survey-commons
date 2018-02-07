@@ -7,16 +7,17 @@ import {filter} from 'lodash';
 
 import {canDrawQuestion} from '../../util';
 
-const FormBuilder = ({chapter, onChange, rows}) => {
-    const registry = new ComponentsRegistry();
-    return (
-        <ScrollView>
-            {rows.map(row => (
-                <Row key={row.id}>
-                    {filter(
-                        row.questions,
-                        question => canDrawQuestion(question, chapter)
-                    ).map(question => {
+const registry = new ComponentsRegistry();
+
+const FormBuilder = ({chapter, onChange, rows}) => (
+    <ScrollView>
+        {rows.map(row => (
+            <Row key={row.id}>
+                {filter(
+                    row.questions,
+                    question => canDrawQuestion(question, chapter)
+                )
+                    .map(question => {
                         const QuestionComponent = registry.get(question.type);
                         return (
                             <QuestionComponent
@@ -27,12 +28,12 @@ const FormBuilder = ({chapter, onChange, rows}) => {
                                 onChange={answer => onChange(answer)}
                             />
                         );
-                    })}
-                </Row>
-            ))}
-        </ScrollView>
-    );
-};
+                    })
+                }
+            </Row>
+        ))}
+    </ScrollView>
+);
 
 FormBuilder.propTypes = {
     rows: PropTypes.shape({}).isRequired,

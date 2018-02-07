@@ -1,5 +1,6 @@
 export default class Address {
     state = null;
+    street = null;
     departmentCode = null;
     departmentName = null;
     locality = null;

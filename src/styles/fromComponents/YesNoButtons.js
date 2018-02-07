@@ -23,8 +23,12 @@ const style = StyleSheet.create({
     }
 });
 
+const textWithBadgeStyle = {
+    badge: badge.defaultStyle,
+    textBox: textBox.defaultStyle
+};
+
 export default {
     style,
-    textBoxStyle: textBox.defaultStyle,
-    badgeStyle: badge.defaultStyle
+    textWithBadgeStyle
 };

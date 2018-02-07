@@ -24,7 +24,11 @@ const style = StyleSheet.create({
     }
 });
 
+const textWithBadgeStyle = {
+    textBox: textBox.defaultStyle
+};
+
 export default {
     style,
-    textBoxStyle: textBox.defaultStyle
+    textWithBadgeStyle
 };

@@ -59,13 +59,36 @@ export const notifySaveSucceeded = () => ({
 });
 
 export const HOUSEHOLD_CREATE_REQUESTED = 'HOUSEHOLD_CREATE_REQUESTED';
-export const HOUSEHOLD_CREATE_SUCCEEDED = 'HOUSEHOLD_CREATE_SUCCEEDED';
 
-export const requestCreateHousehold = survey => ({
+export const requestCreateHousehold = dwelling => ({
     type: HOUSEHOLD_CREATE_REQUESTED,
-    survey
+    dwelling
 });
 
-export const notifyCreateHouseholdSucceeded = () => ({
-    type: HOUSEHOLD_CREATE_SUCCEEDED
+export const DWELLING_FETCH_REQUESTED = 'DWELLING_FETCH_REQUESTED';
+export const DWELLING_FETCH_SUCCEEDED = 'DWELLING_FETCH_SUCCEEDED';
+
+export const requestDwelling = (id, order) => ({
+    type: DWELLING_FETCH_REQUESTED,
+    id,
+    order
+});
+
+export const receiveDwelling = (survey, dwelling) => ({
+    type: DWELLING_FETCH_SUCCEEDED,
+    survey,
+    dwelling
+});
+
+export const UPDATE_SURVEY_REQUESTED = 'UPDATE_SURVEY_REQUESTED';
+export const UPDATE_SURVEY_SUCCEEDED = 'UPDATE_SURVEY_SUCCEEDED';
+
+export const requestUpdateSurvey = (survey, dwelling) => ({
+    type: UPDATE_SURVEY_REQUESTED,
+    survey,
+    dwelling
+});
+
+export const notifyUpdateSurveySucceeded = () => ({
+    type: UPDATE_SURVEY_SUCCEEDED
 });

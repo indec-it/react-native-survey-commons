@@ -9,7 +9,7 @@ import {
     requestDwelling,
     requestUpdateSurvey
 } from '../../actions/survey';
-import FormBuilder from '../FormBuilder';
+import Form from '../Form';
 import {Dwelling, Survey} from '../../model';
 import {answers} from '../../constants';
 import questionPropTypes from '../../util/questionPropTypes';
@@ -72,7 +72,7 @@ class DwellingResponse extends Component {
         return (
             <Fragment>
                 <AddressCard address={survey.address}/>
-                <FormBuilder
+                <Form
                     rows={rows}
                     chapter={dwelling}
                     onChange={answer => this.handleChangeAnswer(answer)}

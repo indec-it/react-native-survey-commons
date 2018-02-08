@@ -27,8 +27,8 @@ class HouseholdsList extends Component {
     };
 
     static defaultProps = {
-        households: []
-    }
+        households: null
+    };
 
     constructor(props) {
         super(props);

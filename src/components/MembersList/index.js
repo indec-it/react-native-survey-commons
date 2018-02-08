@@ -73,11 +73,11 @@ class MembersList extends Component {
         return (
             <Fragment>
                 <Title>Listado de Miembros</Title>
+                {isEmpty(members) && <Text>No posee miembros</Text>}
                 {!isEmpty(members) &&
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={members}/>
                 </View>}
-                {isEmpty(members) && <Text>No posee miembros</Text>}
                 <NavigationButtons
                     onBack={() => this.back()}
                     onSubmit={() => this.closeVisit()}

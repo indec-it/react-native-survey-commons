@@ -45,7 +45,7 @@ Form.propTypes = {
 
 Form.defaultProps = {
     chapter: {},
-    style: null
+    style: {}
 };
 
 export default Form;

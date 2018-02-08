@@ -1,10 +1,13 @@
 import {
     createHousehold,
+    closeSurvey,
     fetchAddressesByState,
     findDwelling,
     findSurvey,
     fetchAreas,
     fetchAddresses,
+    fetchHouseholds,
+    fetchMembers,
     updateSurvey,
     saveSurvey
 } from './survey';
@@ -17,8 +20,11 @@ export {findDwelling};
 export {findSurvey};
 export {fetchAreas};
 export {fetchAddresses};
+export {fetchHouseholds};
+export {fetchMembers};
 export {isConnected};
 export {ping};
 export {updateSurvey};
+export {closeSurvey};
 export {saveSurvey};
 export {sync};

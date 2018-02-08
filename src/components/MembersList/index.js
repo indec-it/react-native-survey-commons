@@ -1,61 +1,57 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
+import {isEmpty} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestHouseholds, requestCloseSurvey} from '../../actions/survey';
-import {Address} from '../../model';
+import {requestMembers, requestCloseSurvey} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from '../AreasList/styles';
-import AddressCard from '../AddressCard';
 
-class HouseholdsList extends Component {
+class MembersList extends Component {
     static propTypes = {
         requestCloseSurvey: PropTypes.func.isRequired,
-        requestHouseholds: PropTypes.func.isRequired,
+        requestMembers: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        households: PropTypes.arrayOf(PropTypes.shape({})),
-        survey: PropTypes.shape({
-            address: PropTypes.instanceOf(Address).isRequired
-        }).isRequired,
+        members: PropTypes.arrayOf(PropTypes.shape({})),
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        households: null
+        members: null
     };
 
     constructor(props) {
         super(props);
         this.columns = [{
             id: 1,
-            label: 'Nombre',
-            field: 'name'
-        }, {
-            id: 2,
             label: 'Número',
             field: 'order'
         }, {
+            id: 2,
+            label: 'Nombre',
+            field: 'name'
+        }, {
             id: 3,
-            label: 'Jefa/e',
-            field: 'householdHead'
+            label: 'Relación',
+            field: 'relation'
         }, {
             id: 4,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: household => this.props.onSelect(this.props.match.params.id, household.order)
+            onPress: () => this.props.onSelect()
         }];
     }
 
     componentDidMount() {
-        const {id, dwelling} = this.props.match.params;
-        this.props.requestHouseholds(id, dwelling);
+        const {id, dwelling, household} = this.props.match.params;
+        this.props.requestMembers(id, dwelling, household);
     }
 
     back() {
@@ -63,28 +59,29 @@ class HouseholdsList extends Component {
         this.props.onPrevious(id);
     }
 
-    closeDwelling() {
+    closeVisit() {
         const {id} = this.props.match.params;
         this.props.requestCloseSurvey(id);
         this.props.onSubmit();
     }
 
     render() {
-        const {survey, households} = this.props;
-        if (!households || !survey) {
+        const {members} = this.props;
+        if (!members) {
             return null;
         }
         return (
             <Fragment>
-                <AddressCard address={survey.address}/>
-                <Title>Listado de hogares</Title>
+                <Title>Listado de Miembros</Title>
+                {isEmpty(members) && <Text>No posee miembros</Text>}
+                {!isEmpty(members) &&
                 <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={households}/>
-                </View>
+                    <Table columns={this.columns} data={members}/>
+                </View>}
                 <NavigationButtons
                     onBack={() => this.back()}
-                    onSubmit={() => this.closeDwelling()}
-                    submitButtonText="Cerrar vivienda"
+                    onSubmit={() => this.closeVisit()}
+                    submitButtonText="Cerrar Vivienda"
                 />
             </Fragment>
         );
@@ -92,12 +89,9 @@ class HouseholdsList extends Component {
 }
 
 export default connect(
-    state => ({
-        survey: state.survey.survey,
-        households: state.survey.households
-    }),
+    state => ({members: state.survey.members}),
     dispatch => ({
-        requestHouseholds: (id, dwelling) => dispatch(requestHouseholds(id, dwelling)),
+        requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
         requestCloseSurvey: id => dispatch(requestCloseSurvey(id))
     })
-)(HouseholdsList);
+)(MembersList);

@@ -6,9 +6,12 @@ import {
     receiveAddresses,
     receiveAreas,
     receiveDwelling,
+    receiveHouseholds,
+    receiveMembers,
     receiveSurvey,
     notifySaveSucceeded,
-    notifyUpdateSurveySucceeded
+    notifyUpdateSurveySucceeded,
+    notifyCloseSucceeded
 } from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
@@ -56,6 +59,15 @@ export function* saveSurvey({survey}) {
     }
 }
 
+export function* closeSurvey({id}) {
+    try {
+        yield call(SurveysService.closeSurvey, id);
+        yield put(notifyCloseSucceeded());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
 export function* createHousehold({dwelling}) {
     try {
         const dwellingUpdated = yield call(SurveysService.addHouseholdToDwelling, dwelling);
@@ -78,6 +90,24 @@ export function* updateSurvey({survey, dwelling}) {
     try {
         yield call(SurveysService.updateDwelling, survey, dwelling);
         yield put(notifyUpdateSurveySucceeded());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchHouseholds({id, dwelling}) {
+    try {
+        const households = yield call(SurveysService.fetchHouseholds, id, dwelling);
+        yield put(receiveHouseholds(households));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchMembers({id, dwelling, household}) {
+    try {
+        const members = yield call(SurveysService.getMembers, id, dwelling, household);
+        yield put(receiveMembers(members));
     } catch (err) {
         yield put(handleError(err));
     }

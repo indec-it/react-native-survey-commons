@@ -33,7 +33,7 @@ class DwellingResponse extends Component {
 
     static defaultProps = {
         saving: false
-    }
+    };
 
     constructor(props) {
         super(props);

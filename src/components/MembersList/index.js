@@ -45,7 +45,7 @@ class MembersList extends Component {
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: () => this.props.onSelect()
+            onPress: member => this.props.onSelect(member.order)
         }];
     }
 

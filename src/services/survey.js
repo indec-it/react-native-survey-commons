@@ -2,7 +2,7 @@ import {StorageService} from '@indec/react-native-commons/services';
 import {filter, map, toNumber, uniqBy, max, find, merge} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
-import {Household} from '../model';
+import {Household, Survey} from '../model';
 
 const storage = new StorageService('survey');
 
@@ -84,7 +84,7 @@ export default class SurveysService {
     }
 
     static async findDwelling(id, order) {
-        const survey = await SurveysService.findById(id);
+        const survey = new Survey(await SurveysService.findById(id));
         return {
             survey,
             dwelling: find(survey.dwellings, dwelling => dwelling.order === toNumber(order))

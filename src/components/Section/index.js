@@ -1,7 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator} from '@indec/react-native-commons';
+import {ScrollView, View} from 'react-native';
 
 import {requestSurvey, requestSaveSurvey} from '../../actions/survey';
 import Form from '../Form';
@@ -9,6 +10,7 @@ import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import NavigationButtons from '../NavigationButtons';
+import styles from './styles';
 
 class Section extends Component {
     static propTypes = {
@@ -61,17 +63,21 @@ class Section extends Component {
         const {rows} = this.props;
         const {survey} = this.state;
         return (
-            <Fragment>
-                <Form
-                    rows={rows}
-                    chapter={survey}
-                    onChange={answer => this.handleChangeAnswer(answer)}
-                />
-                <NavigationButtons
-                    onBack={() => this.handleBack()}
-                    onSubmit={() => this.handleSubmit()}
-                />
-            </Fragment>
+            <View style={styles.container}>
+                <ScrollView>
+                    <Form
+                        rows={rows}
+                        chapter={survey}
+                        onChange={answer => this.handleChangeAnswer(answer)}
+                    />
+                    <View>
+                        <NavigationButtons
+                            onBack={() => this.handleBack()}
+                            onSubmit={() => this.handleSubmit()}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
         );
     }
 

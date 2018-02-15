@@ -3,6 +3,7 @@ import {handleError} from '@indec/react-native-commons/sagas';
 
 import {SurveysService} from '../services';
 import {
+    receiveAddress,
     receiveAddresses,
     receiveAreas,
     receiveDwelling,
@@ -10,8 +11,8 @@ import {
     receiveMembers,
     receiveSurvey,
     notifySaveSucceeded,
-    notifyUpdateSurveySucceeded,
-    notifyCloseSucceeded
+    notifyCloseSucceeded,
+    receiveUpdatedDwelling
 } from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
@@ -41,15 +42,6 @@ export function* fetchAreas() {
     }
 }
 
-export function* fetchAddresses({area, ups}) {
-    try {
-        const addresses = yield call(SurveysService.fetchAddresses, ups, area);
-        yield put(receiveAddresses(addresses));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
 export function* saveSurvey({survey}) {
     try {
         yield call(SurveysService.save, survey);
@@ -68,28 +60,28 @@ export function* closeSurvey({id}) {
     }
 }
 
-export function* createHousehold({dwelling}) {
-    try {
-        const dwellingUpdated = yield call(SurveysService.addHouseholdToDwelling, dwelling);
-        yield put(receiveDwelling(dwellingUpdated));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
 export function* findDwelling({id, order}) {
     try {
-        const {survey, dwelling} = yield call(SurveysService.findDwelling, id, order);
-        yield put(receiveDwelling(survey, dwelling));
+        const dwelling = yield call(SurveysService.findDwelling, id, order);
+        yield put(receiveDwelling(dwelling));
     } catch (err) {
         yield put(handleError(err));
     }
 }
 
-export function* updateSurvey({survey, dwelling}) {
+export function* createHousehold({dwelling}) {
     try {
-        yield call(SurveysService.updateDwelling, survey, dwelling);
-        yield put(notifyUpdateSurveySucceeded());
+        const updatedDwelling = yield call(SurveysService.addHouseholdToDwelling, dwelling);
+        yield put(receiveDwelling(updatedDwelling));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* updateDwelling({id, dwelling}) {
+    try {
+        const survey = yield call(SurveysService.updateDwelling, id, dwelling);
+        yield put(receiveUpdatedDwelling(survey));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -108,6 +100,15 @@ export function* fetchMembers({id, dwelling, household}) {
     try {
         const members = yield call(SurveysService.getMembers, id, dwelling, household);
         yield put(receiveMembers(members));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchAddress({id}) {
+    try {
+        const address = yield call(SurveysService.getAddress, id);
+        yield put(receiveAddress(address));
     } catch (err) {
         yield put(handleError(err));
     }

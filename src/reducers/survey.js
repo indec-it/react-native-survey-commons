@@ -1,9 +1,12 @@
 import {
+    ADDRESS_FETCH_SUCCEEDED,
     ADDRESSES_FETCH_BY_STATE_REQUESTED,
     ADDRESSES_FETCH_RECEIVED,
     AREAS_FETCH_RECEIVED,
     AREAS_FETCH_REQUESTED,
     DWELLING_FETCH_SUCCEEDED,
+    DWELLING_UPDATE_REQUESTED,
+    DWELLING_UPDATE_SUCCEEDED,
     HOUSEHOLDS_FETCH_SUCCEEDED,
     MEMBERS_FETCH_SUCCEEDED,
     SURVEY_FETCH_RECEIVED,
@@ -18,16 +21,22 @@ export default function (state = {surveys: {}}, action) {
             };
         case ADDRESSES_FETCH_RECEIVED:
             return {...state, addresses: action.addresses};
+        case ADDRESS_FETCH_SUCCEEDED:
+            return {...state, address: action.address};
         case AREAS_FETCH_REQUESTED:
             return {...state, areas: []};
         case AREAS_FETCH_RECEIVED:
             return {...state, areas: action.areas};
+        case DWELLING_UPDATE_REQUESTED:
+            return {...state, saving: true};
+        case DWELLING_UPDATE_SUCCEEDED:
+            return {...state, saving: false, survey: action.survey};
         case SURVEY_FETCH_REQUESTED:
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:
             return {...state, survey: action.survey};
         case DWELLING_FETCH_SUCCEEDED:
-            return {...state, survey: action.survey, dwelling: action.dwelling};
+            return {...state, dwelling: action.dwelling};
         case MEMBERS_FETCH_SUCCEEDED:
             return {...state, members: action.members};
         case HOUSEHOLDS_FETCH_SUCCEEDED:

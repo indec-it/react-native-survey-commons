@@ -2,32 +2,33 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
-import {Title} from '@indec/react-native-commons';
+import {Button, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestHouseholds, requestCloseSurvey} from '../../actions/survey';
-import {Address} from '../../model';
+import {requestDwelling, requestCloseSurvey, requestCreateHousehold, requestAddress} from '../../actions/survey';
+import {Address, Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from '../AreasList/styles';
 import AddressCard from '../AddressCard';
 
 class HouseholdsList extends Component {
     static propTypes = {
+        requestAddress: PropTypes.func.isRequired,
         requestCloseSurvey: PropTypes.func.isRequired,
-        requestHouseholds: PropTypes.func.isRequired,
+        requestCreateHousehold: PropTypes.func.isRequired,
+        requestDwelling: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        households: PropTypes.arrayOf(PropTypes.shape({})),
-        survey: PropTypes.shape({
-            address: PropTypes.instanceOf(Address).isRequired
-        }).isRequired,
+        dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
+        address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        households: null
+        dwelling: null,
+        address: null
     };
 
     constructor(props) {
@@ -51,11 +52,19 @@ class HouseholdsList extends Component {
             color: '#0295cf',
             onPress: household => this.props.onSelect(this.props.match.params.id, household.order)
         }];
+        this.state = {};
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const {id, dwelling} = this.props.match.params;
-        this.props.requestHouseholds(id, dwelling);
+        this.props.requestDwelling(id, dwelling);
+        this.props.requestAddress(id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.dwelling) {
+            this.state.dwelling = new Dwelling(nextProps.dwelling);
+        }
     }
 
     back() {
@@ -70,16 +79,22 @@ class HouseholdsList extends Component {
     }
 
     render() {
-        const {survey, households} = this.props;
-        if (!households || !survey) {
+        const {address} = this.props;
+        const {dwelling} = this.state;
+        if (!dwelling || !address) {
             return null;
         }
         return (
             <Fragment>
-                <AddressCard address={survey.address}/>
+                <AddressCard address={address}/>
+                <Button
+                    primary
+                    title="Agregar Hogar"
+                    onPress={() => this.props.requestCreateHousehold(dwelling)}
+                />
                 <Title>Listado de hogares</Title>
                 <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={households}/>
+                    <Table columns={this.columns} data={dwelling.households}/>
                 </View>
                 <NavigationButtons
                     onBack={() => this.back()}
@@ -93,11 +108,13 @@ class HouseholdsList extends Component {
 
 export default connect(
     state => ({
-        survey: state.survey.survey,
-        households: state.survey.households
+        dwelling: state.survey.dwelling,
+        address: state.survey.address
     }),
     dispatch => ({
-        requestHouseholds: (id, dwelling) => dispatch(requestHouseholds(id, dwelling)),
-        requestCloseSurvey: id => dispatch(requestCloseSurvey(id))
+        requestDwelling: (id, dwelling) => dispatch(requestDwelling(id, dwelling)),
+        requestCloseSurvey: id => dispatch(requestCloseSurvey(id)),
+        requestCreateHousehold: dwelling => dispatch(requestCreateHousehold(dwelling)),
+        requestAddress: id => dispatch(requestAddress(id))
     })
 )(HouseholdsList);

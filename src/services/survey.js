@@ -90,7 +90,7 @@ export default class SurveysService {
     }
 
     static async updateDwelling(id, dwelling) {
-        const survey = await SurveysService.findById(id);
+        const survey = new Survey(await SurveysService.findById(id));
         if (dwelling.response === answers.YES) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }

@@ -85,21 +85,20 @@ export default class SurveysService {
 
     static async findDwelling(id, order) {
         const survey = new Survey(await SurveysService.findById(id));
-        return {
-            survey,
-            dwelling: find(survey.dwellings, dwelling => dwelling.order === toNumber(order))
-        };
+        const dwellingOrder = toNumber(order);
+        return find(survey.dwellings, dwelling => dwelling.order === dwellingOrder);
     }
 
-    static async updateDwelling(survey, dwelling) {
-        const newSurvey = survey;
+    static async updateDwelling(id, dwelling) {
+        const survey = await SurveysService.findById(id);
         if (dwelling.response === answers.YES) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
-        const currentDwelling = find(newSurvey.dwellings, d => d.order === dwelling.order);
+        const currentDwelling = find(survey.dwellings, d => d.order === dwelling.order);
         merge(currentDwelling, dwelling);
-        newSurvey.dwellingResponse = dwelling.response;
-        return SurveysService.save(newSurvey);
+        survey.dwellingResponse = dwelling.response;
+        SurveysService.save(survey);
+        return survey;
     }
 
     static async fetchHouseholds(id, dwelling) {
@@ -113,5 +112,10 @@ export default class SurveysService {
         const householdOrder = toNumber(household);
         const households = await SurveysService.fetchHouseholds(id, dwelling);
         return find(households, h => h.order === householdOrder).members || [];
+    }
+
+    static async getAddress(id) {
+        const {address} = await SurveysService.findById(id);
+        return address;
     }
 }

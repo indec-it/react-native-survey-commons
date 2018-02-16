@@ -57,6 +57,11 @@ class AddressesList extends Component {
             style: styles.column
         }, {
             id: 5,
+            label: 'N° list.',
+            field: 'listNumber',
+            style: styles.column
+        }, {
+            id: 6,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',

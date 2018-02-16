@@ -23,12 +23,14 @@ class HouseholdsList extends Component {
         address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
-        onSubmit: PropTypes.func.isRequired
+        onSubmit: PropTypes.func.isRequired,
+        saving: PropTypes.bool
     };
 
     static defaultProps = {
         dwelling: null,
-        address: null
+        address: null,
+        saving: false
     };
 
     constructor(props) {
@@ -65,9 +67,12 @@ class HouseholdsList extends Component {
         if (nextProps.dwelling) {
             this.state.dwelling = new Dwelling(nextProps.dwelling);
         }
+        if (this.props.saving && !nextProps.saving) {
+            this.props.onSubmit();
+        }
     }
 
-    back() {
+    goBack() {
         const {id} = this.props.match.params;
         this.props.onPrevious(id);
     }
@@ -75,7 +80,6 @@ class HouseholdsList extends Component {
     closeDwelling() {
         const {id} = this.props.match.params;
         this.props.requestCloseSurvey(id);
-        this.props.onSubmit();
     }
 
     render() {
@@ -97,7 +101,7 @@ class HouseholdsList extends Component {
                     <Table columns={this.columns} data={dwelling.households}/>
                 </View>
                 <NavigationButtons
-                    onBack={() => this.back()}
+                    onBack={() => this.goBack()}
                     onSubmit={() => this.closeDwelling()}
                     submitButtonText="Cerrar vivienda"
                 />
@@ -109,7 +113,8 @@ class HouseholdsList extends Component {
 export default connect(
     state => ({
         dwelling: state.survey.dwelling,
-        address: state.survey.address
+        address: state.survey.address,
+        saving: state.survey.saving
     }),
     dispatch => ({
         requestDwelling: (id, dwelling) => dispatch(requestDwelling(id, dwelling)),

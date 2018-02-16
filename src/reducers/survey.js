@@ -38,9 +38,9 @@ export default function (state = {surveys: {}}, action) {
         case DWELLING_UPDATE_SUCCEEDED:
             return {...state, saving: false, survey: action.survey};
         case SURVEY_FETCH_REQUESTED:
-            return {...state, survey: null, saving: true};
+            return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:
-            return {...state, survey: action.survey, saving: false};
+            return {...state, survey: action.survey};
         case DWELLING_FETCH_SUCCEEDED:
             return {...state, dwelling: action.dwelling};
         case MEMBERS_FETCH_SUCCEEDED:

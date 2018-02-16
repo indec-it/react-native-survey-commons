@@ -13,6 +13,7 @@ import Form from '../Form';
 import {Dwelling, Address, Survey} from '../../model';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import canSubmitChapter from '../../util/canSubmitChapter';
 import AddressCard from '../AddressCard';
 import NavigationButtons from '../NavigationButtons';
 import styles from './styles';
@@ -73,6 +74,11 @@ class DwellingResponse extends Component {
         this.props.requestUpdateDwelling(id, dwelling);
     }
 
+    disableSubmit() {
+        const {rows, dwelling} = this.props;
+        return !canSubmitChapter(rows, dwelling);
+    }
+
     render() {
         const {rows, address} = this.props;
         const {dwelling} = this.state;
@@ -92,6 +98,7 @@ class DwellingResponse extends Component {
                         <NavigationButtons
                             onBack={() => this.handleBack()}
                             onSubmit={() => this.handleSubmit()}
+                            disableSubmit={this.disableSubmit()}
                         />
                     </View>
                 </ScrollView>

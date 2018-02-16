@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
-import {Title} from '@indec/react-native-commons';
+import {Button, Col, Row, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {isEmpty} from 'lodash';
 
@@ -20,6 +20,8 @@ class MembersList extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onViewDetails: PropTypes.func.isRequired,
+        onAddMember: PropTypes.func.isRequired,
         saving: PropTypes.bool
     };
 
@@ -79,6 +81,24 @@ class MembersList extends Component {
         }
         return (
             <Fragment>
+                <Row>
+                    <Col>
+                        <Button
+                            onPress={
+                                () => this.props.onViewDetails(this.props.match.params.id)
+                            }
+                            primary
+                            title="Caracteristicas"
+                        />
+                    </Col>
+                    <Col>
+                        <Button
+                            onPress={() => this.props.onAddMember()}
+                            primary
+                            title="Gestión de miembros"
+                        />
+                    </Col>
+                </Row>
                 <Title>Listado de Miembros</Title>
                 {isEmpty(members) && <Text>No posee miembros</Text>}
                 {!isEmpty(members) &&

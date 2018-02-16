@@ -1,6 +1,7 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {ScrollView, View} from 'react-native';
 
 import {
     requestAddress,
@@ -10,11 +11,11 @@ import {
 } from '../../actions/survey';
 import Form from '../Form';
 import {Dwelling, Address, Survey} from '../../model';
-import {answers} from '../../constants';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import AddressCard from '../AddressCard';
 import NavigationButtons from '../NavigationButtons';
+import styles from './styles';
 
 class DwellingResponse extends Component {
     static propTypes = {
@@ -61,12 +62,12 @@ class DwellingResponse extends Component {
         }));
     }
 
-    goToAddressList() {
+    handleBack() {
         const {address} = this.props;
         this.props.onPrevious(address);
     }
 
-    save() {
+    handleSubmit() {
         const {dwelling} = this.state;
         const {id} = this.props.match.params;
         this.props.requestUpdateDwelling(id, dwelling);
@@ -79,19 +80,22 @@ class DwellingResponse extends Component {
             return null;
         }
         return (
-            <Fragment>
-                <AddressCard address={address}/>
-                <Form
-                    rows={rows}
-                    chapter={dwelling}
-                    onChange={answer => this.handleChangeAnswer(answer)}
-                />
-                <NavigationButtons
-                    onBack={() => this.goToAddressList()}
-                    onSubmit={() => this.save()}
-                    submitButtonText={(dwelling.response === answers.NO ? 'Guardar y salir' : 'Siguiente')}
-                />
-            </Fragment>
+            <View style={styles.container}>
+                <ScrollView>
+                    <AddressCard address={address}/>
+                    <Form
+                        rows={rows}
+                        chapter={dwelling}
+                        onChange={answer => this.handleChangeAnswer(answer)}
+                    />
+                    <View>
+                        <NavigationButtons
+                            onBack={() => this.handleBack()}
+                            onSubmit={() => this.handleSubmit()}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
         );
     }
 }

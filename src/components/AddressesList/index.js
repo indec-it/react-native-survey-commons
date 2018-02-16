@@ -6,20 +6,14 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {TabNavigator} from '@indec/react-native-commons';
 
 import {requestAddressesBySurveyState} from '../../actions/survey';
+import {Address} from '../../model';
 import {addressesListTabs, surveyAddressState as surveyAddressStateEnum} from '../../constants';
 import styles from './styles';
 
 class AddressesList extends Component {
     static propTypes = {
         requestAddressesBySurveyState: PropTypes.func.isRequired,
-        addresses: PropTypes.arrayOf(PropTypes.shape({
-            street: PropTypes.string,
-            streetNumber: PropTypes.number,
-            floor: PropTypes.number,
-            departmentName: PropTypes.string,
-            surveyAddressState: PropTypes.number,
-            surveyId: PropTypes.string.isRequired
-        })),
+        addresses: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
         match: PropTypes.shape({
             params: PropTypes.shape({
                 area: PropTypes.string.isRequired,

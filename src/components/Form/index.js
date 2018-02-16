@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Row} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
 import {filter} from 'lodash';
 
+import QuestionMessages from '../QuestionMessages';
 import {canDrawQuestion} from '../../util';
 
 const registry = new ComponentsRegistry();
@@ -22,13 +23,23 @@ const Form = ({
                 ).map(question => {
                     const QuestionComponent = registry.get(question.type);
                     return (
-                        <QuestionComponent
-                            key={question.number}
-                            question={question}
-                            section={chapter}
-                            answer={chapter[question.name]}
-                            onChange={answer => onChange(answer)}
-                        />
+                        <View style={{flex: 1}}>
+                            <QuestionComponent
+                                key={question.number}
+                                question={question}
+                                section={chapter}
+                                answer={chapter[question.name]}
+                                onChange={answer => onChange(answer)}
+                            />
+                            {
+                                chapter[question.name] &&
+                                <QuestionMessages
+                                    answer={chapter[question.name]}
+                                    errorValidators={question.errorValidators}
+                                    warningValidators={question.warningValidators}
+                                />
+                            }
+                        </View>
                     );
                 })}
             </Row>

@@ -4,7 +4,7 @@ import {Button, Col, Row} from '@indec/react-native-commons';
 
 import styles from './styles';
 
-const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
+const NavigatorButtons = ({onBack, submitButtonText, onSubmit, disableSubmit}) => (
     <Row>
         <Col>
             <Button
@@ -16,6 +16,7 @@ const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
         </Col>
         <Col>
             <Button
+                disabled={disableSubmit}
                 title={submitButtonText}
                 onPress={onSubmit}
                 rounded
@@ -28,11 +29,13 @@ const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
 NavigatorButtons.propTypes = {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    submitButtonText: PropTypes.string
+    submitButtonText: PropTypes.string,
+    disableSubmit: PropTypes.bool
 };
 
 NavigatorButtons.defaultProps = {
-    submitButtonText: 'Siguiente'
+    submitButtonText: 'Siguiente',
+    disableSubmit: false
 };
 
 export default NavigatorButtons;

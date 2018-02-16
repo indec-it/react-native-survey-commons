@@ -10,6 +10,7 @@ import {Survey} from '../../model';
 import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import canSubmitChapter from '../../util/canSubmitChapter';
 import NavigationButtons from '../NavigationButtons';
 import styles from './styles';
 
@@ -67,6 +68,12 @@ class Section extends Component {
         this.props.requestSaveSurvey(survey);
     }
 
+    disableSubmit() {
+        const {survey} = this.state;
+        const {rows} = this.props;
+        return !canSubmitChapter(rows, survey);
+    }
+
     renderContent() {
         const {rows} = this.props;
         const {survey} = this.state;
@@ -82,6 +89,7 @@ class Section extends Component {
                         <NavigationButtons
                             onBack={() => this.handleBack()}
                             onSubmit={() => this.handleSubmit()}
+                            disableSubmit={this.disableSubmit()}
                         />
                     </View>
                 </ScrollView>

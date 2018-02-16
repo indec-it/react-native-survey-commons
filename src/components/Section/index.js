@@ -6,6 +6,7 @@ import {ScrollView, View} from 'react-native';
 
 import {requestSurvey, requestSaveSurvey} from '../../actions/survey';
 import Form from '../Form';
+import {Survey} from '../../model';
 import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -17,10 +18,15 @@ class Section extends Component {
         requestSaveSurvey: PropTypes.func.isRequired,
         requestSurvey: PropTypes.func.isRequired,
         rows: questionPropTypes.isRequired,
-        survey: PropTypes.shape({}).isRequired,
+        survey: PropTypes.instanceOf(Survey).isRequired,
         match: matchParamsIdPropTypes.isRequired,
         onPrevious: PropTypes.func.isRequired,
-        onSubmit: PropTypes.func.isRequired
+        onSubmit: PropTypes.func.isRequired,
+        saving: PropTypes.bool
+    };
+
+    static defaultProps = {
+        saving: false
     };
 
     constructor(props) {
@@ -36,6 +42,9 @@ class Section extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.survey) {
             this.state.survey = nextProps.survey;
+        }
+        if (this.props.saving && !nextProps.saving) {
+            this.props.onSubmit();
         }
     }
 
@@ -56,7 +65,6 @@ class Section extends Component {
     handleSubmit() {
         const {survey} = this.state;
         this.props.requestSaveSurvey(survey);
-        this.props.onSubmit(survey._id);
     }
 
     renderContent() {
@@ -88,7 +96,8 @@ class Section extends Component {
 
 export default connect(
     state => ({
-        survey: state.survey.survey
+        survey: state.survey.survey,
+        saving: state.survey.saving
     }),
     dispatch => ({
         requestSurvey: id => dispatch(requestSurvey(id)),

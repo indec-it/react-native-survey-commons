@@ -21,11 +21,13 @@ class MembersList extends Component {
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onViewDetails: PropTypes.func.isRequired,
-        onAddMember: PropTypes.func.isRequired
+        onAddMember: PropTypes.func.isRequired,
+        saving: PropTypes.bool
     };
 
     static defaultProps = {
-        members: null
+        members: null,
+        saving: false
     };
 
     constructor(props) {
@@ -56,7 +58,13 @@ class MembersList extends Component {
         this.props.requestMembers(id, dwelling, household);
     }
 
-    back() {
+    componentWillReceiveProps(nextProps) {
+        if (this.props.saving && !nextProps.saving) {
+            this.props.onSubmit();
+        }
+    }
+
+    goBack() {
         const {id} = this.props.match.params;
         this.props.onPrevious(id);
     }
@@ -64,7 +72,6 @@ class MembersList extends Component {
     closeVisit() {
         const {id} = this.props.match.params;
         this.props.requestCloseSurvey(id);
-        this.props.onSubmit();
     }
 
     render() {
@@ -99,7 +106,7 @@ class MembersList extends Component {
                     <Table columns={this.columns} data={members}/>
                 </View>}
                 <NavigationButtons
-                    onBack={() => this.back()}
+                    onBack={() => this.goBack()}
                     onSubmit={() => this.closeVisit()}
                     submitButtonText="Cerrar Vivienda"
                 />
@@ -109,7 +116,10 @@ class MembersList extends Component {
 }
 
 export default connect(
-    state => ({members: state.survey.members}),
+    state => ({
+        members: state.survey.members,
+        saving: state.survey.saving
+    }),
     dispatch => ({
         requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
         requestCloseSurvey: id => dispatch(requestCloseSurvey(id))

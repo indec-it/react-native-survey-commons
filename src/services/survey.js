@@ -1,5 +1,5 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {filter, map, toNumber, uniqBy, max, find, merge} from 'lodash';
+import {filter, map, toNumber, uniqBy, max, find, merge, reject} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
 import {Household, Survey} from '../model';
@@ -67,9 +67,9 @@ export default class SurveysService {
     static async fetchAddressesBySurveyState(ups, area, surveyAddressState) {
         const addresses = await SurveysService.fetchAddresses(ups, area);
         if (!surveyAddressState) {
-            return addresses;
+            return reject(addresses, address => address.surveyAddressState === surveyState.RESOLVED);
         }
-        return filter(addresses, address => address.surveyAddressState === surveyAddressState);
+        return filter(addresses, address => address.surveyAddressState === surveyState.RESOLVED);
     }
 
     /**

@@ -50,7 +50,7 @@ class DwellingResponse extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.dwelling) {
-            this.state.dwelling = nextProps.dwelling;
+            this.state.dwelling = new Dwelling(nextProps.dwelling);
         }
         if (this.props.saving && !nextProps.saving && nextProps.survey) {
             this.props.onSubmit(nextProps.survey);
@@ -59,7 +59,7 @@ class DwellingResponse extends Component {
 
     handleChangeAnswer(answer) {
         this.setState(state => ({
-            dwelling: Object.assign(state.dwelling, answer)
+            dwelling: new Dwelling(Object.assign(state.dwelling, answer))
         }));
     }
 

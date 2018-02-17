@@ -91,12 +91,20 @@ export default class SurveysService {
 
     static async updateDwelling(id, dwelling) {
         const survey = new Survey(await SurveysService.findById(id));
+<<<<<<< f144246afb4d6cd8e2e1c46b4ae2ece5f0a00d17
         const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
         const currentResponse = survey.dwellings[dwellingIndex].response;
         survey.dwellings[dwellingIndex] = dwelling;
         if (dwelling.response === answers.YES && currentResponse !== dwelling.response) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
+=======
+        const previousDwelling = find(survey.dwellings, d => d.order === dwelling.order);
+        if (dwelling.response === answers.YES && previousDwelling.response !== dwelling.response) {
+            SurveysService.addHouseholdToDwelling(dwelling);
+        }
+        merge(previousDwelling, dwelling);
+>>>>>>> fix(dwellingResponse): fix add new household when dwelling response
         survey.dwellingResponse = dwelling.response;
         await SurveysService.save(survey);
         return survey;

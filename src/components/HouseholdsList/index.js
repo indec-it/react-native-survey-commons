@@ -98,7 +98,7 @@ class HouseholdsList extends Component {
                 />
                 <Title>Listado de hogares</Title>
                 <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={dwelling.households}/>
+                    <Table columns={this.columns} data={dwelling.getHouseholds()}/>
                 </View>
                 <NavigationButtons
                     onBack={() => this.goBack()}

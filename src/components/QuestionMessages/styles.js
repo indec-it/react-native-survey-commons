@@ -4,14 +4,18 @@ export default StyleSheet.create({
     messagesContainer: {
         paddingHorizontal: 20
     },
+    messageContainer: {
+        padding: 7,
+        borderRadius: 5
+    },
+    errorMessageContainer: {
+        backgroundColor: 'red'
+    },
+    warningMessageContainer: {
+        backgroundColor: 'orange'
+    },
     message: {
-        marginBottom: 5,
-        fontWeight: 'bold'
-    },
-    errorMessage: {
-        color: 'red',
-    },
-    warningMessage: {
-        color: 'orange',
+        fontWeight: 'bold',
+        color: 'white'
     }
 });

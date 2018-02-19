@@ -3,6 +3,8 @@ export default class Household {
     members = [];
     response = null;
     noResponseCause = null;
+    disabled = false;
+    id = Date.now();
 
     constructor(obj) {
         Object.assign(this, obj);

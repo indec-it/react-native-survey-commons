@@ -4,7 +4,9 @@ import {Button, Col, Row} from '@indec/react-native-commons';
 
 import styles from './styles';
 
-const NavigatorButtons = ({onBack, submitButtonText, onSubmit, disableSubmit}) => (
+const NavigatorButtons = ({
+    onBack, submitButtonText, onSubmit, disableSubmit
+}) => (
     <Row>
         <Col>
             <Button

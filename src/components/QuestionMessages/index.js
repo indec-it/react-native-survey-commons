@@ -12,18 +12,22 @@ const QuestionMessages = ({
             errorValidators
                 .filter(v => v.isValid(answer))
                 .map(v => (
-                    <Text style={[styles.message, styles.errorMessage]}>
-                        {v.getErrorMessage()}
-                    </Text>
+                    <View style={[styles.messageContainer, styles.errorMessageContainer]}>
+                        <Text style={styles.message}>
+                            {v.getErrorMessage()}
+                        </Text>
+                    </View>
                 ))
         }
         {
             warningValidators
                 .filter(v => v.isValid(answer))
                 .map(v => (
-                    <Text style={[styles.message, styles.warningMessage]}>
-                        {v.getErrorMessage()}
-                    </Text>
+                    <View style={[styles.messageContainer, styles.warningMessageContainer]}>
+                        <Text style={styles.message}>
+                            {v.getErrorMessage()}
+                        </Text>
+                    </View>
                 ))
         }
     </View>

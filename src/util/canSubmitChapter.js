@@ -7,7 +7,7 @@ export default (rows, chapter) => {
     const validatedQuestions = flatten(questions.map(q => {
         const answer = chapter[q.name];
         const errorValidators = q.errorValidators || [];
-       
+
         return errorValidators.map(v => v.isValid(answer));
     }));
 

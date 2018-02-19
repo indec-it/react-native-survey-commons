@@ -1,5 +1,5 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {filter, map, toNumber, uniqBy, max, find, merge, reject} from 'lodash';
+import {filter, find, findIndex, map, max, toNumber, uniqBy, reject} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
 import {Household, Survey} from '../model';
@@ -91,13 +91,14 @@ export default class SurveysService {
 
     static async updateDwelling(id, dwelling) {
         const survey = new Survey(await SurveysService.findById(id));
-        if (dwelling.response === answers.YES) {
+        const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
+        const currentResponse = survey.dwellings[dwellingIndex].response;
+        survey.dwellings[dwellingIndex] = dwelling;
+        if (dwelling.response === answers.YES && currentResponse !== dwelling.response) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
-        const currentDwelling = find(survey.dwellings, d => d.order === dwelling.order);
-        merge(currentDwelling, dwelling);
         survey.dwellingResponse = dwelling.response;
-        SurveysService.save(survey);
+        await SurveysService.save(survey);
         return survey;
     }
 

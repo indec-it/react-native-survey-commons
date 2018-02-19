@@ -5,7 +5,6 @@ import {ScrollView, View} from 'react-native';
 
 import {
     requestAddress,
-    requestCreateHousehold,
     requestDwelling,
     requestUpdateDwelling
 } from '../../actions/survey';
@@ -112,7 +111,6 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestCreateHousehold: dwelling => dispatch(requestCreateHousehold(dwelling)),
         requestDwelling: (survey, dwelling) => dispatch(requestDwelling(survey, dwelling)),
         requestUpdateDwelling: (id, dwelling) => dispatch(requestUpdateDwelling(id, dwelling)),
         requestAddress: id => dispatch(requestAddress(id))

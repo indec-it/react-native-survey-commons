@@ -120,6 +120,15 @@ export default class SurveysService {
         return survey;
     }
 
+    static async createHousehold(id, dwellingOrder) {
+        const survey = new Survey(await SurveysService.findById(id));
+        const order = toNumber(dwellingOrder);
+        const dwelling = find(survey.dwellings, d => d.order === order);
+        SurveysService.addHouseholdToDwelling(dwelling);
+        await SurveysService.save(survey);
+        return dwelling;
+    }
+
     static async fetchHouseholds(id, dwelling) {
         const dwellingOrder = toNumber(dwelling);
         const survey = await SurveysService.findById(id);

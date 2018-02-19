@@ -69,19 +69,19 @@ export function* findDwelling({id, order}) {
     }
 }
 
-export function* createHousehold({dwelling}) {
+export function* updateDwelling({id, dwelling}) {
     try {
-        const updatedDwelling = yield call(SurveysService.addHouseholdToDwelling, dwelling);
-        yield put(receiveDwelling(updatedDwelling));
+        const survey = yield call(SurveysService.updateDwelling, id, dwelling);
+        yield put(receiveUpdatedDwelling(survey));
     } catch (err) {
         yield put(handleError(err));
     }
 }
 
-export function* updateDwelling({id, dwelling}) {
+export function* createHousehold({id, dwellingOrder}) {
     try {
-        const survey = yield call(SurveysService.updateDwelling, id, dwelling);
-        yield put(receiveUpdatedDwelling(survey));
+        const dwelling = yield call(SurveysService.createHousehold, id, dwellingOrder);
+        yield put(receiveDwelling(dwelling));
     } catch (err) {
         yield put(handleError(err));
     }

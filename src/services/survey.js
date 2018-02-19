@@ -1,10 +1,20 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {filter, map, toNumber, uniqBy, max, find, merge, reject} from 'lodash';
+import {
+    castArray, filter, find, findIndex, forEach, isEmpty, map, max, reject, toNumber, uniqBy
+} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
-import {Household, Survey} from '../model';
+import {Dwelling, Household, Survey} from '../model';
 
 const storage = new StorageService('survey');
+
+const disableHouseholds = households => forEach(
+    castArray(households),
+    household => {
+        const disabledHousehold = household;
+        disabledHousehold.disabled = true;
+    }
+);
 
 export default class SurveysService {
     static async closeSurvey(id) {
@@ -78,7 +88,12 @@ export default class SurveysService {
      * @returns {Dwelling} The given dwelling including the new household.
      */
     static addHouseholdToDwelling(dwelling) {
-        const maxOrder = max(map(dwelling.households, household => household.order)) || 0;
+        const maxOrder = max(
+            map(
+                dwelling.getHouseholds(),
+                household => household.order
+            )
+        ) || 0;
         dwelling.households.push(new Household({order: maxOrder + 1}));
         return dwelling;
     }
@@ -90,22 +105,35 @@ export default class SurveysService {
     }
 
     static async updateDwelling(id, dwelling) {
-        const survey = await SurveysService.findById(id);
-        if (dwelling.response === answers.YES) {
+        const survey = new Survey(await SurveysService.findById(id));
+        const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
+        const currentResponse = survey.dwellings[dwellingIndex].response;
+        survey.dwellings[dwellingIndex] = dwelling;
+        if (dwelling.response === answers.YES && currentResponse !== dwelling.response) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
-        const currentDwelling = find(survey.dwellings, d => d.order === dwelling.order);
-        merge(currentDwelling, dwelling);
+        if (dwelling.response === answers.NO && !isEmpty(dwelling.households)) {
+            disableHouseholds(dwelling.households);
+        }
         survey.dwellingResponse = dwelling.response;
-        SurveysService.save(survey);
+        await SurveysService.save(survey);
         return survey;
+    }
+
+    static async createHousehold(id, dwellingOrder) {
+        const survey = new Survey(await SurveysService.findById(id));
+        const order = toNumber(dwellingOrder);
+        const dwelling = find(survey.dwellings, d => d.order === order);
+        SurveysService.addHouseholdToDwelling(dwelling);
+        await SurveysService.save(survey);
+        return dwelling;
     }
 
     static async fetchHouseholds(id, dwelling) {
         const dwellingOrder = toNumber(dwelling);
         const survey = await SurveysService.findById(id);
-        const foundDwelling = find(survey.dwellings, d => d.order === dwellingOrder);
-        return foundDwelling.households;
+        const foundDwelling = new Dwelling(find(survey.dwellings, d => d.order === dwellingOrder));
+        return foundDwelling.getHouseholds();
     }
 
     static async getMembers(id, dwelling, household) {

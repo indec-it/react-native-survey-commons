@@ -5,7 +5,6 @@ import {ScrollView, View} from 'react-native';
 
 import {
     requestAddress,
-    requestCreateHousehold,
     requestDwelling,
     requestUpdateDwelling
 } from '../../actions/survey';
@@ -14,6 +13,7 @@ import {Dwelling, Address, Survey} from '../../model';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import canSubmitChapter from '../../util/canSubmitChapter';
+import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import AddressCard from '../AddressCard';
 import NavigationButtons from '../NavigationButtons';
 import styles from './styles';
@@ -50,7 +50,7 @@ class DwellingResponse extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.dwelling) {
-            this.state.dwelling = nextProps.dwelling;
+            this.state.dwelling = new Dwelling(nextProps.dwelling);
         }
         if (this.props.saving && !nextProps.saving && nextProps.survey) {
             this.props.onSubmit(nextProps.survey);
@@ -59,7 +59,10 @@ class DwellingResponse extends Component {
 
     handleChangeAnswer(answer) {
         this.setState(state => ({
-            dwelling: Object.assign(state.dwelling, answer)
+            dwelling: cleanChildrenQuestions(
+                this.props.rows,
+                new Dwelling(Object.assign(state.dwelling, answer))
+            )
         }));
     }
 
@@ -115,7 +118,6 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestCreateHousehold: dwelling => dispatch(requestCreateHousehold(dwelling)),
         requestDwelling: (survey, dwelling) => dispatch(requestDwelling(survey, dwelling)),
         requestUpdateDwelling: (id, dwelling) => dispatch(requestUpdateDwelling(id, dwelling)),
         requestAddress: id => dispatch(requestAddress(id))

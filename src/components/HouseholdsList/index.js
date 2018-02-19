@@ -94,11 +94,14 @@ class HouseholdsList extends Component {
                 <Button
                     primary
                     title="Agregar Hogar"
-                    onPress={() => this.props.requestCreateHousehold(dwelling)}
+                    onPress={() => this.props.requestCreateHousehold(
+                        this.props.match.params.id,
+                        this.props.match.params.dwelling
+                    )}
                 />
                 <Title>Listado de hogares</Title>
                 <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={dwelling.households}/>
+                    <Table columns={this.columns} data={dwelling.getHouseholds()}/>
                 </View>
                 <NavigationButtons
                     onBack={() => this.goBack()}
@@ -119,7 +122,7 @@ export default connect(
     dispatch => ({
         requestDwelling: (id, dwelling) => dispatch(requestDwelling(id, dwelling)),
         requestCloseSurvey: id => dispatch(requestCloseSurvey(id)),
-        requestCreateHousehold: dwelling => dispatch(requestCreateHousehold(dwelling)),
+        requestCreateHousehold: (id, dwellingOrder) => dispatch(requestCreateHousehold(id, dwellingOrder)),
         requestAddress: id => dispatch(requestAddress(id))
     })
 )(HouseholdsList);

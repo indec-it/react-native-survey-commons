@@ -62,13 +62,6 @@ export const notifySaveSucceeded = () => ({
     type: SURVEY_SAVE_SUCCEEDED
 });
 
-export const HOUSEHOLD_CREATE_REQUESTED = 'HOUSEHOLD_CREATE_REQUESTED';
-
-export const requestCreateHousehold = dwelling => ({
-    type: HOUSEHOLD_CREATE_REQUESTED,
-    dwelling
-});
-
 export const DWELLING_FETCH_REQUESTED = 'DWELLING_FETCH_REQUESTED';
 export const DWELLING_FETCH_SUCCEEDED = 'DWELLING_FETCH_SUCCEEDED';
 
@@ -95,6 +88,14 @@ export const requestUpdateDwelling = (id, dwelling) => ({
 export const receiveUpdatedDwelling = survey => ({
     type: DWELLING_UPDATE_SUCCEEDED,
     survey
+});
+
+export const HOUSEHOLD_CREATE_REQUESTED = 'HOUSEHOLD_CREATE_REQUESTED';
+
+export const requestCreateHousehold = (id, dwellingOrder) => ({
+    type: HOUSEHOLD_CREATE_REQUESTED,
+    id,
+    dwellingOrder
 });
 
 export const HOUSEHOLDS_FETCH_REQUESTED = 'HOUSEHOLDS_FETCH_REQUESTED';

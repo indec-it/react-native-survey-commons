@@ -13,6 +13,7 @@ import Form from '../Form';
 import {Dwelling, Address, Survey} from '../../model';
 import questionPropTypes from '../../util/questionPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import AddressCard from '../AddressCard';
 import NavigationButtons from '../NavigationButtons';
 import styles from './styles';
@@ -58,7 +59,10 @@ class DwellingResponse extends Component {
 
     handleChangeAnswer(answer) {
         this.setState(state => ({
-            dwelling: new Dwelling(Object.assign(state.dwelling, answer))
+            dwelling: cleanChildrenQuestions(
+                this.props.rows,
+                new Dwelling(Object.assign(state.dwelling, answer))
+            )
         }));
     }
 

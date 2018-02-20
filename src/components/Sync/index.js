@@ -79,8 +79,6 @@ class Sync extends Component {
                         <Button
                             disabled={this.state.syncPressed}
                             large
-                            primary
-                            backgroundColor="#4fb3bf"
                             icon={getFontAwesome('refresh')}
                             title="Sincronizar"
                             onPress={() => this.handleSync()}

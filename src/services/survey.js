@@ -28,7 +28,7 @@ export default class SurveysService {
     }
 
     static async findById(id) {
-        return storage.findById(id);
+        return new Survey(await storage.findById(id));
     }
 
     static async save(surveys) {
@@ -90,7 +90,7 @@ export default class SurveysService {
     static addHouseholdToDwelling(dwelling) {
         const maxOrder = max(
             map(
-                dwelling.getHouseholds(),
+                new Dwelling(dwelling).getHouseholds(),
                 household => household.order
             )
         ) || 0;
@@ -99,13 +99,13 @@ export default class SurveysService {
     }
 
     static async findDwelling(id, order) {
-        const survey = new Survey(await SurveysService.findById(id));
+        const survey = await SurveysService.findById(id);
         const dwellingOrder = toNumber(order);
         return find(survey.dwellings, dwelling => dwelling.order === dwellingOrder);
     }
 
     static async updateDwelling(id, dwelling) {
-        const survey = new Survey(await SurveysService.findById(id));
+        const survey = await SurveysService.findById(id);
         const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
         const currentResponse = survey.dwellings[dwellingIndex].response;
         survey.dwellings[dwellingIndex] = dwelling;
@@ -121,7 +121,7 @@ export default class SurveysService {
     }
 
     static async createHousehold(id, dwellingOrder) {
-        const survey = new Survey(await SurveysService.findById(id));
+        const survey = await SurveysService.findById(id);
         const order = toNumber(dwellingOrder);
         const dwelling = find(survey.dwellings, d => d.order === order);
         SurveysService.addHouseholdToDwelling(dwelling);
@@ -130,9 +130,7 @@ export default class SurveysService {
     }
 
     static async fetchHouseholds(id, dwelling) {
-        const dwellingOrder = toNumber(dwelling);
-        const survey = await SurveysService.findById(id);
-        const foundDwelling = new Dwelling(find(survey.dwellings, d => d.order === dwellingOrder));
+        const foundDwelling = await SurveysService.findDwelling(id, dwelling);
         return foundDwelling.getHouseholds();
     }
 

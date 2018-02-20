@@ -5,6 +5,7 @@ export default class Household {
     noResponseCause = null;
     disabled = false;
     id = Date.now();
+    visits = [];
 
     constructor(obj) {
         Object.assign(this, obj);

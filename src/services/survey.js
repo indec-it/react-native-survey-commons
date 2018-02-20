@@ -67,7 +67,8 @@ export default class SurveysService {
                 floor: survey.address.floor,
                 departmentName: survey.address.departmentName,
                 surveyAddressState: survey.surveyAddressState,
-                surveyId: survey._id
+                surveyId: survey._id,
+                dwellingResponse: survey.dwellingResponse
             })
         );
     }
@@ -141,5 +142,40 @@ export default class SurveysService {
     static async getAddress(id) {
         const {address} = await SurveysService.findById(id);
         return address;
+    }
+
+    static async findHousehold(id, dwellingOrder, householdOrder) {
+        const households = await SurveysService.fetchHouseholds(id, dwellingOrder);
+        const order = toNumber(householdOrder);
+        return find(households, household => household.order === order);
+    }
+
+    static async updateHousehold(id, dwellingOrder, household) {
+        const survey = await SurveysService.findById(id);
+        const dwelling = await SurveysService.findDwelling(id, dwellingOrder);
+        const householdIndex = findIndex(dwelling.households, h => h.order === household.order);
+        dwelling.households[householdIndex] = household;
+        await SurveysService.save(survey);
+        return household;
+    }
+
+    static async findMember(id, dwellingOrder, householdOrder, memberOrder) {
+        const members = await SurveysService.getMembers(id, dwellingOrder, householdOrder, memberOrder);
+        const order = toNumber(memberOrder);
+        return find(members, member => member.order === order);
+    }
+
+    static async saveMember(id, dwellingOrder, householdOrder, member) {
+        const survey = await SurveysService.findById(id);
+        const household = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
+        const currentMember = findIndex(household.members, m => m.order === member.order);
+        household.members[currentMember] = member;
+        await SurveysService.save(survey);
+        return member;
+    }
+
+    static createHouseholdVisit(household) {
+        household.visits.push({start: new Date()});
+        return household;
     }
 }

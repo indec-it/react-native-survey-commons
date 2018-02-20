@@ -53,9 +53,9 @@ class MembersList extends Component {
         }];
     }
 
-    componentDidMount() {
-        const {id, dwelling, household} = this.props.match.params;
-        this.props.requestMembers(id, dwelling, household);
+    componentWillMount() {
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -76,6 +76,7 @@ class MembersList extends Component {
 
     render() {
         const {members} = this.props;
+        const {dwellingOrder, householdOrder} = this.props.match.params;
         if (!members) {
             return null;
         }
@@ -85,7 +86,7 @@ class MembersList extends Component {
                     <Col>
                         <Button
                             onPress={
-                                () => this.props.onViewDetails(this.props.match.params.id)
+                                () => this.props.onViewDetails(dwellingOrder, householdOrder)
                             }
                             primary
                             title="Caracteristicas"

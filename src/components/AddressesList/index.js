@@ -60,7 +60,7 @@ class AddressesList extends Component {
             icon: 'arrow-right',
             color: '#0295cf',
             style: styles.column,
-            onPress: address => this.props.onSelect(address.surveyId)
+            onPress: address => this.props.onSelect(address)
         }];
         this.state = {
             surveyAddressState: surveyAddressStateEnum.OPENED

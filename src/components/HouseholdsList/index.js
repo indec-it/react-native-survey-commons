@@ -58,8 +58,8 @@ class HouseholdsList extends Component {
     }
 
     componentWillMount() {
-        const {id, dwelling} = this.props.match.params;
-        this.props.requestDwelling(id, dwelling);
+        const {id, dwellingOrder} = this.props.match.params;
+        this.props.requestDwelling(id, dwellingOrder);
         this.props.requestAddress(id);
     }
 
@@ -97,7 +97,7 @@ class HouseholdsList extends Component {
                     title="Agregar Hogar"
                     onPress={() => this.props.requestCreateHousehold(
                         this.props.match.params.id,
-                        this.props.match.params.dwelling
+                        this.props.match.params.dwellingOrder
                     )}
                 />
                 <Title>&nbsp; Listado de hogares</Title>

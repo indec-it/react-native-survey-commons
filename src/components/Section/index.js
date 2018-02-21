@@ -78,13 +78,11 @@ class Section extends Component {
                         chapter={survey}
                         onChange={answer => this.handleChangeAnswer(answer)}
                     />
-                    <View>
-                        <NavigationButtons
-                            onBack={() => this.handleBack()}
-                            onSubmit={() => this.handleSubmit()}
-                        />
-                    </View>
                 </ScrollView>
+                <NavigationButtons
+                    onBack={() => this.handleBack()}
+                    onSubmit={() => this.handleSubmit()}
+                />
             </View>
         );
     }

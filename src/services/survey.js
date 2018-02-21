@@ -208,4 +208,31 @@ export default class SurveysService {
         lastVisit.end = new Date();
         return SurveysService.save(survey);
     }
+
+    static async deleteHousehold(id, dwellingOrder, householdOrder) {
+        const survey = await SurveysService.findById(id);
+        const dwelling = getDwelling(survey, dwellingOrder);
+
+        dwelling.households = map(
+            filter(dwelling.households, household => household.order !== householdOrder),
+            (member, index) => Object.assign(member, {order: index + 1})
+        );
+
+        await SurveysService.save(survey);
+        return dwelling.households;
+    }
+
+    static async deleteMember(id, dwellingOrder, householdOrder, memberOrder) {
+        const survey = await SurveysService.findById(id);
+        const dwelling = getDwelling(survey, dwellingOrder);
+        const household = getHousehold(dwelling, householdOrder);
+
+        household.members = map(
+            filter(household.members, member => member.order !== memberOrder),
+            (member, index) => Object.assign(member, {order: index + 1})
+        );
+
+        await SurveysService.save(survey);
+        return household.members;
+    }
 }

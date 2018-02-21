@@ -7,7 +7,7 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {isEmpty} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestMembers, requestCloseHouseholdVisit} from '../../actions/survey';
+import {requestMembers, requestCloseHouseholdVisit, requestDeleteMember} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from './styles';
 
@@ -15,6 +15,7 @@ class MembersList extends Component {
     static propTypes = {
         requestCloseHouseholdVisit: PropTypes.func.isRequired,
         requestMembers: PropTypes.func.isRequired,
+        requestDeleteMember: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.shape({})),
         onPrevious: PropTypes.func.isRequired,
@@ -51,6 +52,18 @@ class MembersList extends Component {
             icon: 'arrow-right',
             color: '#0295cf',
             onPress: member => this.props.onSelect(member.order)
+        }, {
+            id: 5,
+            componentClass: TableIcon,
+            icon: 'trash',
+            color: 'red',
+            showValue: member => !member.homeBoss,
+            onPress: member => this.props.requestDeleteMember(
+                this.props.match.params.id,
+                this.props.match.params.dwelling,
+                this.props.match.params.household,
+                member.order
+            )
         }];
     }
 
@@ -136,6 +149,9 @@ export default connect(
         requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
         requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder) => dispatch(
             requestCloseHouseholdVisit(id, dwellingOrder, householdOrder)
+        ),
+        requestDeleteMember: (id, dwelling, household, member) => dispatch(
+            requestDeleteMember(id, dwelling, household, member)
         )
     })
 )(MembersList);

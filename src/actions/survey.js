@@ -231,3 +231,22 @@ export const requestCloseHouseholdVisit = (id, dwellingOrder, householdOrder) =>
 export const notifyCloseHouseholdVisit = () => ({
     type: HOUSEHOLD_CLOSE_VISIT_SUCCEEDED
 });
+
+export const HOUSEHOLD_DELETE_REQUESTED = 'HOUSEHOLD_DELETE_REQUESTED';
+
+export const requestDeleteHousehold = (id, dwelling, household) => ({
+    type: HOUSEHOLD_DELETE_REQUESTED,
+    id,
+    dwelling,
+    household
+});
+
+export const MEMBER_DELETE_REQUESTED = 'MEMBER_DELETE_REQUESTED';
+
+export const requestDeleteMember = (id, dwelling, household, member) => ({
+    type: MEMBER_DELETE_REQUESTED,
+    id,
+    dwelling,
+    household,
+    member
+});

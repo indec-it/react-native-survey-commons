@@ -131,6 +131,15 @@ export function* saveMembers({
     }
 }
 
+export function* deleteHousehold({id, dwelling: dwellingOrder, household}) {
+    try {
+        const dwelling = yield call(SurveysService.deleteHousehold, id, dwellingOrder, household);
+        yield put(receiveDwelling(dwelling));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
 export function* findHousehold({id, dwellingOrder, householdOrder}) {
     try {
         const household = yield call(SurveysService.findHousehold, id, dwellingOrder, householdOrder);
@@ -184,6 +193,17 @@ export function* closeHouseholdVisit({id, dwellingOrder, householdOrder}) {
     try {
         yield call(SurveysService.closeHouseholdVisit, id, toNumber(dwellingOrder), toNumber(householdOrder));
         yield put(notifyCloseHouseholdVisit());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* deleteMember({
+    id, dwelling, household, member
+}) {
+    try {
+        const members = yield call(SurveysService.deleteMember, id, dwelling, household, member);
+        yield put(receiveMembers(members));
     } catch (err) {
         yield put(handleError(err));
     }

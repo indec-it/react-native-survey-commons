@@ -42,8 +42,8 @@ class AreasList extends Component {
         }, {
             id: 4,
             componentClass: TableIcon,
-            icon: 'arrow-right',
-            color: '#0295cf',
+            icon: 'chevron-right',
+            color: '#004e82',
             onPress: area => this.props.onSelect(area)
         }];
     }
@@ -56,7 +56,7 @@ class AreasList extends Component {
         const {areas} = this.props;
         return (
             <Fragment>
-                <Title>Listado de áreas</Title>
+                <Title> &nbsp; Listado de áreas</Title>
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={areas}/>
                 </View>

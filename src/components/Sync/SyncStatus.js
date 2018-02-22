@@ -12,40 +12,35 @@ const getSyncStatus = syncStatus => {
         case syncStatusEnum.LOADING_DATA:
             return (
                 <View style={styles.syncStatusRow}>
-                    <Icon {...getFontAwesome('gear')} size={32}/>
-                    <Text style={styles.syncStatusText}>Cargando datos...</Text>
-                    <Icon {...getFontAwesome('gear')} size={32}/>
+                    <Text style={styles.syncStatusText}>Cargando datos.... </Text>
+                    <Icon {...getFontAwesome('refresh')} size={32}/>
                 </View>
             );
         case syncStatusEnum.SENDING_DATA:
             return (
                 <View style={styles.syncStatusRow}>
-                    <Icon {...getFontAwesome('gear')} size={32}/>
-                    <Text>Enviando datos...</Text>
-                    <Icon {...getFontAwesome('gear')} size={32}/>
+                    <Text>Enviando datos.... </Text>
+                    <Icon {...getFontAwesome('refresh')} size={32}/>
                 </View>
             );
         case syncStatusEnum.SAVING_DATA:
             return (
                 <View style={styles.syncStatusRow}>
-                    <Icon {...getFontAwesome('gear')} size={32}/>
-                    <Text>Guardando datos...</Text>
-                    <Icon {...getFontAwesome('gear')} size={32}/>
+                    <Text>Guardando datos... </Text>
+                    <Icon {...getFontAwesome('refresh')} size={32}/>
                 </View>
             );
         case syncStatusEnum.COMPLETED:
             return (
                 <View style={styles.syncStatusRow}>
-                    <Icon {...getFontAwesome('check')} size={32}/>
-                    <Text>Sincronizado</Text>
-                    <Icon {...getFontAwesome('check')} size={32}/>
+                    <Text>Sincronizado </Text>
+                    <Icon {...getFontAwesome('check', 'green')} size={32}/>
                 </View>
             );
         case syncStatusEnum.HAS_ERROR:
             return (
                 <View style={styles.syncStatusRow}>
-                    <Icon {...getFontAwesome('times')} size={32}/>
-                    <Text>No sincronizado</Text>
+                    <Text>No sincronizado </Text>
                     <Icon {...getFontAwesome('times')} size={32}/>
                 </View>
             );

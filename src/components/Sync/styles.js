@@ -17,7 +17,7 @@ export default StyleSheet.create({
     syncRow: {
         padding: 20,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     surveyCount: {
@@ -29,7 +29,9 @@ export default StyleSheet.create({
         justifyContent: 'space-around'
     },
     syncStatusText: {
-        padding: 8
+        padding: 8,
+        marginLeft: 15,
+        marginRight: 15
     },
     network: {
         flex: 1,
@@ -39,8 +41,7 @@ export default StyleSheet.create({
     },
     networkConnection: {
         flexDirection: 'row',
-        padding: 10,
-        backgroundColor: '#e8e8e8'
+        padding: 10
     },
     networkText: {
         padding: 6

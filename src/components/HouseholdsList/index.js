@@ -92,6 +92,7 @@ class HouseholdsList extends Component {
             <Fragment>
                 <AddressCard address={address}/>
                 <Button
+                    buttonStyle={styles.createButton}
                     primary
                     title="Agregar Hogar"
                     onPress={() => this.props.requestCreateHousehold(
@@ -99,7 +100,7 @@ class HouseholdsList extends Component {
                         this.props.match.params.dwelling
                     )}
                 />
-                <Title>Listado de hogares</Title>
+                <Title>&nbsp; Listado de hogares</Title>
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={dwelling.getHouseholds()}/>
                 </View>

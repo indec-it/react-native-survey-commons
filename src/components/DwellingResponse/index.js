@@ -84,20 +84,18 @@ class DwellingResponse extends Component {
         }
         return (
             <View style={styles.container}>
+                <AddressCard address={address}/>
                 <ScrollView>
-                    <AddressCard address={address}/>
                     <Form
                         rows={rows}
                         chapter={dwelling}
                         onChange={answer => this.handleChangeAnswer(answer)}
                     />
-                    <View>
-                        <NavigationButtons
-                            onBack={() => this.handleBack()}
-                            onSubmit={() => this.handleSubmit()}
-                        />
-                    </View>
                 </ScrollView>
+                <NavigationButtons
+                    onBack={() => this.handleBack()}
+                    onSubmit={() => this.handleSubmit()}
+                />
             </View>
         );
     }

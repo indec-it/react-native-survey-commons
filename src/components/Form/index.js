@@ -12,7 +12,7 @@ import {canDrawQuestion} from '../../util';
 const registry = new ComponentsRegistry();
 
 const Form = ({
-    chapter, onChange, rows, style
+    chapter, onChange, rows, style, componentStyles
 }) => (
     <ScrollView style={style.container}>
         {rows.map(row => (
@@ -22,6 +22,7 @@ const Form = ({
                     question => canDrawQuestion(question, chapter)
                 ).map(question => {
                     const QuestionComponent = registry.get(question.type);
+                    const componentStyle = componentStyles[question.type] || {};
                     return (
                         <View style={{flex: 1}}>
                             <QuestionComponent
@@ -30,6 +31,8 @@ const Form = ({
                                 section={chapter}
                                 answer={chapter[question.name]}
                                 onChange={answer => onChange(answer)}
+                                style={componentStyle.style}
+                                textWithBadgeStyle={componentStyle.textWithBadgeStyle}
                             />
                             {
                                 chapter[question.name] &&
@@ -51,12 +54,14 @@ Form.propTypes = {
     rows: PropTypes.shape({}).isRequired,
     chapter: PropTypes.shape({}),
     onChange: PropTypes.func.isRequired,
+    componentStyles: PropTypes.shape({stylePropType}),
     style: stylePropType
 };
 
 Form.defaultProps = {
     chapter: {},
-    style: {}
+    style: {},
+    componentStyles: {}
 };
 
 export default Form;

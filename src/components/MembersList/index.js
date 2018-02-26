@@ -82,7 +82,7 @@ class MembersList extends Component {
         }
         return (
             <Fragment>
-                <Row>
+                <Row style={styles.actionButtons}>
                     <Col>
                         <Button
                             onPress={
@@ -100,8 +100,8 @@ class MembersList extends Component {
                         />
                     </Col>
                 </Row>
-                <Title>Listado de Miembros</Title>
-                {isEmpty(members) && <Text>No posee miembros</Text>}
+                <Title style={styles.title}> &nbsp; Listado de Miembros</Title>
+                {isEmpty(members) && <Text style={styles.informationText}> &nbsp; No posee miembros</Text>}
                 {!isEmpty(members) &&
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={members}/>

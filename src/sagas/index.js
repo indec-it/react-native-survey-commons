@@ -1,15 +1,19 @@
 import {
     closeSurvey,
     createHousehold,
+    createHouseholdVisit,
     fetchAddressesByState,
     findDwelling,
+    findHousehold,
+    findMember,
     findSurvey,
     fetchAddress,
     fetchAreas,
-    fetchAddresses,
     fetchHouseholds,
     fetchMembers,
     updateDwelling,
+    updateHousehold,
+    saveMember,
     saveSurvey
 } from './survey';
 import {isConnected, ping} from './network';
@@ -17,16 +21,20 @@ import {sync} from './sync';
 
 export {closeSurvey};
 export {createHousehold};
+export {createHouseholdVisit};
 export {fetchAddressesByState};
 export {findDwelling};
+export {findHousehold};
+export {findMember};
 export {findSurvey};
 export {fetchAddress};
 export {fetchAreas};
-export {fetchAddresses};
 export {fetchHouseholds};
 export {fetchMembers};
 export {isConnected};
 export {ping};
 export {updateDwelling};
+export {updateHousehold};
+export {saveMember};
 export {saveSurvey};
 export {sync};

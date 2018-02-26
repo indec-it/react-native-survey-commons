@@ -7,8 +7,14 @@ import {
     DWELLING_FETCH_SUCCEEDED,
     DWELLING_UPDATE_REQUESTED,
     DWELLING_UPDATE_SUCCEEDED,
+    HOUSEHOLD_FETCH_SUCCEEDED,
+    HOUSEHOLD_UPDATE_REQUESTED,
+    HOUSEHOLD_UPDATE_SUCCEEDED,
     HOUSEHOLDS_FETCH_SUCCEEDED,
+    MEMBER_FETCH_SUCCEEDED,
     MEMBERS_FETCH_SUCCEEDED,
+    MEMBER_SAVE_REQUESTED,
+    MEMBER_SAVE_SUCCEEDED,
     SURVEY_CLOSE_REQUESTED,
     SURVEY_CLOSE_SUCCEEDED,
     SURVEY_FETCH_RECEIVED,
@@ -33,20 +39,28 @@ export default function (state = {surveys: {}}, action) {
             return {...state, areas: []};
         case AREAS_FETCH_RECEIVED:
             return {...state, areas: action.areas};
+        case DWELLING_FETCH_SUCCEEDED:
+            return {...state, dwelling: action.dwelling};
         case DWELLING_UPDATE_REQUESTED:
             return {...state, saving: true};
         case DWELLING_UPDATE_SUCCEEDED:
             return {...state, saving: false, survey: action.survey};
-        case SURVEY_FETCH_REQUESTED:
-            return {...state, survey: null};
-        case SURVEY_FETCH_RECEIVED:
-            return {...state, survey: action.survey};
-        case DWELLING_FETCH_SUCCEEDED:
-            return {...state, dwelling: action.dwelling};
-        case MEMBERS_FETCH_SUCCEEDED:
-            return {...state, members: action.members};
+        case HOUSEHOLD_FETCH_SUCCEEDED:
+            return {...state, household: action.household};
+        case HOUSEHOLD_UPDATE_REQUESTED:
+            return {...state, saving: true};
+        case HOUSEHOLD_UPDATE_SUCCEEDED:
+            return {...state, saving: false, household: action.household};
         case HOUSEHOLDS_FETCH_SUCCEEDED:
             return {...state, households: action.households};
+        case MEMBER_FETCH_SUCCEEDED:
+            return {...state, member: action.member};
+        case MEMBERS_FETCH_SUCCEEDED:
+            return {...state, members: action.members};
+        case MEMBER_SAVE_REQUESTED:
+            return {...state, saving: true};
+        case MEMBER_SAVE_SUCCEEDED:
+            return {...state, member: action.member, saving: false};
         case UPDATE_SURVEY_REQUESTED:
             return {...state, saving: true};
         case UPDATE_SURVEY_SUCCEEDED:
@@ -55,6 +69,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, saving: true};
         case SURVEY_CLOSE_SUCCEEDED:
             return {...state, saving: false};
+        case SURVEY_FETCH_REQUESTED:
+            return {...state, survey: null};
+        case SURVEY_FETCH_RECEIVED:
+            return {...state, survey: action.survey};
         case SURVEY_SAVE_REQUESTED:
             return {...state, saving: true};
         case SURVEY_SAVE_SUCCEEDED:

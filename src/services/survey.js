@@ -1,7 +1,5 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {
-    castArray, filter, find, findIndex, forEach, isEmpty, map, max, reject, toNumber, uniqBy
-} from 'lodash';
+import {castArray, filter, find, findIndex, forEach, isEmpty, map, max, reject, toNumber, uniqBy} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
 import {Dwelling, Household, Survey} from '../model';

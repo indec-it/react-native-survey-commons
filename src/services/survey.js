@@ -14,6 +14,16 @@ const disableHouseholds = households => forEach(
     }
 );
 
+const getDwelling = (survey, dwellingOrder) => {
+    const order = toNumber(dwellingOrder);
+    return find(survey.dwellings, dwelling => dwelling.order === order);
+};
+
+const getHousehold = (dwelling, householdOrder) => {
+    const order = toNumber(householdOrder);
+    return find(dwelling.households, household => household.order === order);
+};
+
 export default class SurveysService {
     static async closeSurvey(id) {
         const survey = await SurveysService.findById(id);
@@ -152,7 +162,7 @@ export default class SurveysService {
 
     static async updateHousehold(id, dwellingOrder, household) {
         const survey = await SurveysService.findById(id);
-        const dwelling = await SurveysService.findDwelling(id, dwellingOrder);
+        const dwelling = find(survey.dwellings, d => d.order === toNumber(dwellingOrder));
         const householdIndex = findIndex(dwelling.households, h => h.order === household.order);
         dwelling.households[householdIndex] = household;
         await SurveysService.save(survey);
@@ -167,9 +177,10 @@ export default class SurveysService {
 
     static async saveMember(id, dwellingOrder, householdOrder, member) {
         const survey = await SurveysService.findById(id);
-        const household = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
-        const currentMember = findIndex(household.members, m => m.order === member.order);
-        household.members[currentMember] = member;
+        const dwelling = getDwelling(survey, dwellingOrder);
+        const household = getHousehold(dwelling, householdOrder);
+        const memberIndex = findIndex(household.members, m => m.order === member.order);
+        household.members[memberIndex] = member;
         await SurveysService.save(survey);
         return member;
     }

@@ -15,8 +15,7 @@ import {
     receiveUpdatedDwelling,
     receiveHouseholdUpdated,
     receiveHousehold,
-    receiveMember,
-    receiveUpdatedMember
+    receiveMember
 } from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
@@ -152,7 +151,7 @@ export function* saveMember({
 }) {
     try {
         const newMember = yield call(SurveysService.saveMember, id, dwellingOrder, householdOrder, member);
-        yield put(receiveUpdatedMember(newMember));
+        yield put(receiveMember(newMember));
     } catch (err) {
         yield put(handleError(err));
     }

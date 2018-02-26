@@ -24,7 +24,7 @@ class HouseholdEditor extends Component {
 
     static defaultProps = {
         saving: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -48,8 +48,7 @@ class HouseholdEditor extends Component {
     onChange(answer) {
         const {chapter} = this.props;
         const {household} = this.state;
-        handleChangeAnswer(household, chapter, answer);
-        this.setState({household});
+        this.setState({household: handleChangeAnswer(household, chapter, answer)});
     }
 
     onSubmit() {
@@ -87,10 +86,8 @@ export default connect(
     }),
     dispatch => ({
         requestHousehold: (id, dwellingOrder, householdOrder) =>
-            dispatch(requestHousehold(id, dwellingOrder, householdOrder)
-            ),
+            dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
         requestUpdateHousehold: (id, dwellingOrder, household) =>
-            dispatch(requestUpdateHousehold(id, dwellingOrder, household)
-            )
+            dispatch(requestUpdateHousehold(id, dwellingOrder, household))
     })
 )(HouseholdEditor);

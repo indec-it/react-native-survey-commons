@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView, View} from 'react-native';
+import {View} from 'react-native';
 
 import Form from '../Form';
 import chapterPropTypes from '../../util/chapterPropTypes';
@@ -11,19 +11,15 @@ const Section = ({
     chapter, onChange, onPrevious, onSubmit, section
 }) => (
     <View style={styles.container}>
-        <ScrollView>
-            <Form
-                rows={chapter}
-                chapter={section}
-                onChange={answer => onChange(answer)}
-            />
-            <View>
-                <NavigationButtons
-                    onBack={() => onPrevious()}
-                    onSubmit={() => onSubmit()}
-                />
-            </View>
-        </ScrollView>
+        <Form
+            rows={chapter}
+            chapter={section}
+            onChange={answer => onChange(answer)}
+        />
+        <NavigationButtons
+            onBack={() => onPrevious()}
+            onSubmit={() => onSubmit()}
+        />
     </View>
 );
 

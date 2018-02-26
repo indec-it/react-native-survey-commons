@@ -24,7 +24,7 @@ class MemberEditor extends Component {
 
     static defaultProps = {
         saving: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -50,8 +50,7 @@ class MemberEditor extends Component {
     onChange(answer) {
         const {chapter} = this.props;
         const {member} = this.state;
-        handleChangeAnswer(member, chapter, answer);
-        this.setState({member});
+        this.setState({member: handleChangeAnswer(member, chapter, answer)});
     }
 
     onSubmit() {
@@ -91,10 +90,8 @@ export default connect(
     }),
     dispatch => ({
         requestMember: (id, dwellingOrder, householdOrder, memberOrder) =>
-            dispatch(requestMember(id, dwellingOrder, householdOrder, memberOrder)
-            ),
+            dispatch(requestMember(id, dwellingOrder, householdOrder, memberOrder)),
         requestSaveMember: (id, dwellingOrder, householdOrder, member) =>
-            dispatch(requestSaveMember(id, dwellingOrder, householdOrder, member)
-            )
+            dispatch(requestSaveMember(id, dwellingOrder, householdOrder, member))
     })
 )(MemberEditor);

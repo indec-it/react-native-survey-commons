@@ -25,7 +25,7 @@ class DwellingEditor extends Component {
 
     static defaultProps = {
         saving: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -49,8 +49,7 @@ class DwellingEditor extends Component {
     onChange(answer) {
         const {chapter} = this.props;
         const {dwelling} = this.state;
-        handleChangeAnswer(dwelling, chapter, answer);
-        this.setState({dwelling});
+        this.setState({dwelling: handleChangeAnswer(dwelling, chapter, answer)});
     }
 
     onSubmit() {

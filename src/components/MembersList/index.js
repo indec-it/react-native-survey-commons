@@ -2,14 +2,14 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
-import {Button, Col, Row, Title} from '@indec/react-native-commons';
+import {Button, Col, LoadingIndicator, Row, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {isEmpty} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
 import {requestMembers, requestCloseSurvey} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
-import styles from '../AreasList/styles';
+import styles from './styles';
 
 class MembersList extends Component {
     static propTypes = {
@@ -74,15 +74,12 @@ class MembersList extends Component {
         this.props.requestCloseSurvey(id);
     }
 
-    render() {
+    renderContent() {
         const {members} = this.props;
         const {dwellingOrder, householdOrder} = this.props.match.params;
-        if (!members) {
-            return null;
-        }
         return (
             <Fragment>
-                <Row>
+                <Row style={styles.actionButtons}>
                     <Col>
                         <Button
                             onPress={
@@ -100,8 +97,8 @@ class MembersList extends Component {
                         />
                     </Col>
                 </Row>
-                <Title>Listado de Miembros</Title>
-                {isEmpty(members) && <Text>No posee miembros</Text>}
+                <Title style={styles.title}> &nbsp; Listado de Miembros</Title>
+                {isEmpty(members) && <Text style={styles.informationText}> &nbsp; No posee miembros</Text>}
                 {!isEmpty(members) &&
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={members}/>
@@ -113,6 +110,10 @@ class MembersList extends Component {
                 />
             </Fragment>
         );
+    }
+
+    render() {
+        return this.props.members ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 

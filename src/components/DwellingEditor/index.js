@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Title} from '@indec/react-native-commons';
+import {LoadingIndicator, Title} from '@indec/react-native-commons';
 
 import {requestDwelling, requestUpdateDwelling} from '../../actions/survey';
 import {Dwelling, Survey} from '../../model';
@@ -58,12 +58,9 @@ class DwellingEditor extends Component {
         this.props.requestUpdateDwelling(id, dwelling);
     }
 
-    render() {
+    renderContent() {
         const {chapter} = this.props;
         const {dwelling} = this.state;
-        if (!dwelling) {
-            return null;
-        }
         const section = getSection(dwelling, chapter);
         return (
             <Fragment>
@@ -77,6 +74,10 @@ class DwellingEditor extends Component {
                 />
             </Fragment>
         );
+    }
+
+    render() {
+        return this.state.dwelling ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 

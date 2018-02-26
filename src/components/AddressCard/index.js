@@ -1,57 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Col, Grid, Row} from '@indec/react-native-commons';
-import {Text} from 'react-native';
+import {Col, Row} from '@indec/react-native-commons';
+import {Text, View} from 'react-native';
 
 import styles from './styles';
 
 const AddressCard = ({address}) => (
-    <Grid style={styles.cardContainer}>
+    <View style={styles.cardContainer}>
         <Row>
-            <Col size={2}>
-                <Text>Calle</Text>
+            <Col>
+                <Text>Calle: {address.street}</Text>
+                <Text>Número: {address.streetNumber}</Text>
+                <Text>Nº en listado: {address.listNumber}</Text>
             </Col>
             <Col>
-                <Text>Número</Text>
-            </Col>
-            <Col>
-                <Text>Nº en listado</Text>
+                <Text>Piso: {address.floor}</Text>
+                <Text>Depto: {address.department}</Text>
+                <Text>Habitación: {address.room}</Text>
             </Col>
         </Row>
-        <Row>
-            <Col size={2}>
-                <Text>{address.street}</Text>
-            </Col>
-            <Col>
-                <Text>{address.streetNumber}</Text>
-            </Col>
-            <Col>
-                <Text>{address.listNumber}</Text>
-            </Col>
-        </Row>
-        <Row>
-            <Col size={2}>
-                <Text>Piso</Text>
-            </Col>
-            <Col>
-                <Text>Depto</Text>
-            </Col>
-            <Col>
-                <Text>Habitación</Text>
-            </Col>
-        </Row>
-        <Row>
-            <Col size={2}>
-                <Text>{address.floor}</Text>
-            </Col>
-            <Col>
-                <Text>{address.department}</Text>
-            </Col>
-            <Col>
-                <Text>{address.room}</Text>
-            </Col>
-        </Row>
-    </Grid>
+    </View>
 );
 
 AddressCard.propTypes = {

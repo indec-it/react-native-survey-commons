@@ -58,8 +58,7 @@ class HouseholdResponse extends Component {
     onChange(answer) {
         const {chapter} = this.props;
         const {household} = this.state;
-        handleChangeAnswer(household, chapter, answer);
-        this.setState({household});
+        this.setState({household: handleChangeAnswer(household, chapter, answer)});
     }
 
     async onSubmit() {

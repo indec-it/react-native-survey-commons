@@ -5,6 +5,7 @@ export default class Dwelling {
     households = [];
     response = null;
     noResponseCause = null;
+    id = Date.now();
 
     constructor(obj) {
         Object.assign(this, obj);

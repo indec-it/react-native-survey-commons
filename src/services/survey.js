@@ -154,6 +154,15 @@ export default class SurveysService {
         return address;
     }
 
+    static async saveMembers(id, dwellingOrder, householdOrder, members) {
+        const survey = await SurveysService.findById(id);
+        const dwelling = getDwelling(survey, dwellingOrder);
+        const household = getHousehold(dwelling, householdOrder);
+        household.members = members;
+        await SurveysService.save(survey);
+        return survey;
+    }
+
     static async findHousehold(id, dwellingOrder, householdOrder) {
         const households = await SurveysService.fetchHouseholds(id, dwellingOrder);
         const order = toNumber(householdOrder);

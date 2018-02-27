@@ -12,6 +12,7 @@ import {
     fetchHouseholds,
     fetchMembers,
     updateDwelling,
+    saveMembers,
     updateHousehold,
     saveMember,
     saveSurvey
@@ -34,6 +35,7 @@ export {fetchMembers};
 export {isConnected};
 export {ping};
 export {updateDwelling};
+export {saveMembers};
 export {updateHousehold};
 export {saveMember};
 export {saveSurvey};

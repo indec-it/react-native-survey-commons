@@ -2,10 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     tableContainer: {
+        backgroundColor: '#fff',
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        backgroundColor: '#fff'
+        flexDirection: 'row'
     }
 });

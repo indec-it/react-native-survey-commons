@@ -187,18 +187,12 @@ export const receiveMember = member => ({
 });
 
 export const MEMBER_SAVE_REQUESTED = 'MEMBER_SAVE_REQUESTED';
-export const MEMBER_SAVE_SUCCEEDED = 'MEMBER_SAVE_SUCCEEDED';
 
 export const requestSaveMember = (id, dwellingOrder, householdOrder, member) => ({
     type: MEMBER_SAVE_REQUESTED,
     id,
     dwellingOrder,
     householdOrder,
-    member
-});
-
-export const receiveSavedMember = member => ({
-    type: MEMBER_SAVE_SUCCEEDED,
     member
 });
 

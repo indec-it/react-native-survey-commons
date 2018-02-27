@@ -9,7 +9,9 @@ import {map, concat, filter, max} from 'lodash';
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
 import {requestMembers, requestSaveMembers} from '../../actions/survey';
-import {chapterPropTypes, cleanChildrenQuestions, isMemberSelected} from '../../util';
+import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
+import chapterPropTypes from '../../util/chapterPropTypes';
+import isMemberSelected from '../../util/isMemberSelected';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 

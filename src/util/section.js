@@ -11,8 +11,11 @@ const getSection = (entity, chapter) => {
 };
 
 const handleChangeAnswer = (entity, chapter, answer) => {
-    const section = chapter.root ? entity : entity[chapter.name];
-    return cleanChildrenQuestions(chapter.rows, Object.assign(section, answer));
+    const section = cleanChildrenQuestions(
+        chapter.rows,
+        Object.assign(chapter.root ? entity : entity[chapter.name], answer)
+    );
+    return chapter.root ? section : Object.assign({}, entity, {[chapter.name]: section});
 };
 
 export {getSection};

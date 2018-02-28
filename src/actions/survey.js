@@ -115,11 +115,11 @@ export const receiveHouseholds = households => ({
 export const MEMBERS_FETCH_REQUESTED = 'MEMBERS_FETCH_REQUESTED';
 export const MEMBERS_FETCH_SUCCEEDED = 'MEMBERS_FETCH_SUCCEEDED';
 
-export const requestMembers = (id, dwelling, household) => ({
+export const requestMembers = (id, dwellingOrder, householdOrder) => ({
     type: MEMBERS_FETCH_REQUESTED,
     id,
-    dwelling,
-    household
+    dwellingOrder,
+    householdOrder
 });
 
 export const receiveMembers = members => ({
@@ -138,6 +138,21 @@ export const requestAddress = id => ({
 export const receiveAddress = address => ({
     type: ADDRESS_FETCH_SUCCEEDED,
     address
+});
+
+export const MEMBERS_SAVE_REQUESTED = 'MEMBERS_SAVE_REQUESTED';
+export const MEMBERS_SAVE_SUCCEEDED = 'MEMBERS_SAVE_SUCCEEDED';
+
+export const requestSaveMembers = (id, dwellingOrder, householdOrder, members) => ({
+    type: MEMBERS_SAVE_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder,
+    members
+});
+
+export const notifySaveMembersSucceeded = () => ({
+    type: MEMBERS_SAVE_SUCCEEDED
 });
 
 export const HOUSEHOLD_FETCH_REQUESTED = 'HOUSEHOLD_FETCH_REQUESTED';
@@ -187,18 +202,12 @@ export const receiveMember = member => ({
 });
 
 export const MEMBER_SAVE_REQUESTED = 'MEMBER_SAVE_REQUESTED';
-export const MEMBER_SAVE_SUCCEEDED = 'MEMBER_SAVE_SUCCEEDED';
 
 export const requestSaveMember = (id, dwellingOrder, householdOrder, member) => ({
     type: MEMBER_SAVE_REQUESTED,
     id,
     dwellingOrder,
     householdOrder,
-    member
-});
-
-export const receiveSavedMember = member => ({
-    type: MEMBER_SAVE_SUCCEEDED,
     member
 });
 

@@ -9,7 +9,7 @@ import NavigationButtons from '../NavigationButtons';
 import {requestDwelling, requestCloseSurvey, requestCreateHousehold, requestAddress} from '../../actions/survey';
 import {Address, Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
-import styles from '../AreasList/styles';
+import styles from './styles';
 import AddressCard from '../AddressCard';
 
 class HouseholdsList extends Component {

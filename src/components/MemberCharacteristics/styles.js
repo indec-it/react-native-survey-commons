@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-    container: {
-        height: 55
+    divider: {
+        height: 1,
+        backgroundColor: '#bbb'
     }
 });

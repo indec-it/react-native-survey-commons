@@ -15,7 +15,6 @@ const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
                     title="Anterior"
                     onPress={onBack}
                     rounded
-                    buttonStyle={styles.button}
                 />
             </Col>
             <Col>
@@ -24,7 +23,6 @@ const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
                     title={submitButtonText}
                     onPress={onSubmit}
                     rounded
-                    buttonStyle={styles.button}
                 />
             </Col>
         </Row>

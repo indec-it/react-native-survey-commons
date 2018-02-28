@@ -8,6 +8,7 @@ import {
     receiveAreas,
     receiveDwelling,
     receiveHouseholds,
+    notifySaveMembersSucceeded,
     receiveMembers,
     receiveSurvey,
     notifySaveSucceeded,
@@ -15,8 +16,7 @@ import {
     receiveUpdatedDwelling,
     receiveHouseholdUpdated,
     receiveHousehold,
-    receiveMember,
-    receiveUpdatedMember
+    receiveMember
 } from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
@@ -100,9 +100,9 @@ export function* fetchHouseholds({id, dwelling}) {
     }
 }
 
-export function* fetchMembers({id, dwelling, household}) {
+export function* fetchMembers({id, dwellingOrder, householdOrder}) {
     try {
-        const members = yield call(SurveysService.getMembers, id, dwelling, household);
+        const members = yield call(SurveysService.getMembers, id, dwellingOrder, householdOrder);
         yield put(receiveMembers(members));
     } catch (err) {
         yield put(handleError(err));
@@ -113,6 +113,17 @@ export function* fetchAddress({id}) {
     try {
         const address = yield call(SurveysService.getAddress, id);
         yield put(receiveAddress(address));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* saveMembers({
+    id, dwellingOrder, householdOrder, members
+}) {
+    try {
+        yield call(SurveysService.saveMembers, id, dwellingOrder, householdOrder, members);
+        yield put(notifySaveMembersSucceeded());
     } catch (err) {
         yield put(handleError(err));
     }
@@ -152,7 +163,7 @@ export function* saveMember({
 }) {
     try {
         const newMember = yield call(SurveysService.saveMember, id, dwellingOrder, householdOrder, member);
-        yield put(receiveUpdatedMember(newMember));
+        yield put(receiveMember(newMember));
     } catch (err) {
         yield put(handleError(err));
     }

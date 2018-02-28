@@ -1,5 +1,6 @@
 import {call, put} from 'redux-saga/effects';
 import {handleError} from '@indec/react-native-commons/sagas';
+import {toNumber} from 'lodash';
 
 import {SurveysService} from '../services';
 import {
@@ -16,7 +17,8 @@ import {
     receiveUpdatedDwelling,
     receiveHouseholdUpdated,
     receiveHousehold,
-    receiveMember
+    receiveMember,
+    notifyCloseHouseholdVisit
 } from '../actions/survey';
 
 export function* fetchAddressesByState({ups, area, state}) {
@@ -162,8 +164,8 @@ export function* saveMember({
     id, dwellingOrder, householdOrder, member
 }) {
     try {
-        const newMember = yield call(SurveysService.saveMember, id, dwellingOrder, householdOrder, member);
-        yield put(receiveMember(newMember));
+        const savedMember = yield call(SurveysService.saveMember, id, dwellingOrder, householdOrder, member);
+        yield put(receiveMember(savedMember));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -173,6 +175,15 @@ export function* createHouseholdVisit({household}) {
     try {
         const updatedHousehold = yield call(SurveysService.createHouseholdVisit, household);
         yield put(receiveHousehold(updatedHousehold));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* closeHouseholdVisit({id, dwellingOrder, householdOrder}) {
+    try {
+        yield call(SurveysService.closeHouseholdVisit, id, toNumber(dwellingOrder), toNumber(householdOrder));
+        yield put(notifyCloseHouseholdVisit());
     } catch (err) {
         yield put(handleError(err));
     }

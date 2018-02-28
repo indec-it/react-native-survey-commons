@@ -217,3 +217,17 @@ export const requestCreateHouseholdVisit = household => ({
     type: HOUSEHOLD_CREATE_VISIT_REQUESTED,
     household
 });
+
+export const HOUSEHOLD_CLOSE_VISIT_REQUESTED = 'HOUSEHOLD_CLOSE_VISIT_REQUESTED';
+export const HOUSEHOLD_CLOSE_VISIT_SUCCEEDED = 'HOUSEHOLD_CLOSE_VISIT_SUCCEEDED';
+
+export const requestCloseHouseholdVisit = (id, dwellingOrder, householdOrder) => ({
+    type: HOUSEHOLD_CLOSE_VISIT_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder
+});
+
+export const notifyCloseHouseholdVisit = () => ({
+    type: HOUSEHOLD_CLOSE_VISIT_SUCCEEDED
+});

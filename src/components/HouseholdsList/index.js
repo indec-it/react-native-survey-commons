@@ -11,7 +11,7 @@ import {
     requestCloseSurvey,
     requestCreateHousehold,
     requestAddress,
-    requestDeleteHousehold
+    requestRemoveHousehold
 } from '../../actions/survey';
 import {Address, Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -23,7 +23,7 @@ class HouseholdsList extends Component {
         requestAddress: PropTypes.func.isRequired,
         requestCloseSurvey: PropTypes.func.isRequired,
         requestCreateHousehold: PropTypes.func.isRequired,
-        requestDeleteHousehold: PropTypes.func.isRequired,
+        requestRemoveHousehold: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
         onViewDwelling: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -67,8 +67,8 @@ class HouseholdsList extends Component {
             icon: 'trash',
             color: 'red',
             showValue: household => household.order !== 1,
-            onPress: household => this.props.requestDeleteHousehold(
-                this.props.match.params.id, this.props.match.params.dwelling, household.order
+            onPress: household => this.props.requestRemoveHousehold(
+                this.props.match.params.id, this.props.match.params.dwellingOrder, household.order
             )
         }];
         this.state = {};
@@ -147,10 +147,12 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestDwelling: (id, dwelling) => dispatch(requestDwelling(id, dwelling)),
+        requestDwelling: (id, dwellingOrder) => dispatch(requestDwelling(id, dwellingOrder)),
         requestCloseSurvey: id => dispatch(requestCloseSurvey(id)),
         requestCreateHousehold: (id, dwellingOrder) => dispatch(requestCreateHousehold(id, dwellingOrder)),
         requestAddress: id => dispatch(requestAddress(id)),
-        requestDeleteHousehold: (id, dwelling, household) => dispatch(requestDeleteHousehold(id, dwelling, household))
+        requestRemoveHousehold: (id, dwellingOrder, householdOrder) => (
+            dispatch(requestRemoveHousehold(id, dwellingOrder, householdOrder))
+        )
     })
 )(HouseholdsList);

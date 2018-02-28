@@ -3,8 +3,6 @@ import {
     closeSurvey,
     createHousehold,
     createHouseholdVisit,
-    deleteHousehold,
-    deleteMember,
     fetchAddressesByState,
     findDwelling,
     findHousehold,
@@ -15,6 +13,8 @@ import {
     fetchHouseholds,
     fetchMembers,
     updateDwelling,
+    removeHousehold,
+    removeMember,
     saveMembers,
     updateHousehold,
     saveMember,
@@ -27,8 +27,6 @@ export {closeHouseholdVisit};
 export {closeSurvey};
 export {createHousehold};
 export {createHouseholdVisit};
-export {deleteHousehold};
-export {deleteMember};
 export {fetchAddressesByState};
 export {findDwelling};
 export {findHousehold};
@@ -41,6 +39,8 @@ export {fetchMembers};
 export {isConnected};
 export {ping};
 export {updateDwelling};
+export {removeHousehold};
+export {removeMember};
 export {saveMembers};
 export {updateHousehold};
 export {saveMember};

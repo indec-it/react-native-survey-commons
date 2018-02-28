@@ -7,7 +7,7 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {isEmpty} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestMembers, requestCloseHouseholdVisit, requestDeleteMember} from '../../actions/survey';
+import {requestMembers, requestCloseHouseholdVisit, requestRemoveMember} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from './styles';
 
@@ -15,7 +15,7 @@ class MembersList extends Component {
     static propTypes = {
         requestCloseHouseholdVisit: PropTypes.func.isRequired,
         requestMembers: PropTypes.func.isRequired,
-        requestDeleteMember: PropTypes.func.isRequired,
+        requestRemoveMember: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.shape({})),
         onPrevious: PropTypes.func.isRequired,
@@ -57,11 +57,11 @@ class MembersList extends Component {
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',
-            showValue: member => !member.homeBoss,
-            onPress: member => this.props.requestDeleteMember(
+            hideValue: member => member.isHomeBoss(),
+            onPress: member => this.props.requestRemoveMember(
                 this.props.match.params.id,
-                this.props.match.params.dwelling,
-                this.props.match.params.household,
+                this.props.match.params.dwellingOrder,
+                this.props.match.params.householdOrder,
                 member.order
             )
         }];
@@ -146,12 +146,14 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
+        requestMembers: (id, dwellingOrder, householdOrder) => (
+            dispatch(requestMembers(id, dwellingOrder, householdOrder))
+        ),
         requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder) => dispatch(
             requestCloseHouseholdVisit(id, dwellingOrder, householdOrder)
         ),
-        requestDeleteMember: (id, dwelling, household, member) => dispatch(
-            requestDeleteMember(id, dwelling, household, member)
+        requestRemoveMember: (id, dwellingOrder, householdOrder, memberOrder) => dispatch(
+            requestRemoveMember(id, dwellingOrder, householdOrder, memberOrder)
         )
     })
 )(MembersList);

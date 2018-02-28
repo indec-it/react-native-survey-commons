@@ -21,9 +21,27 @@ import {
     notifyCloseHouseholdVisit
 } from '../actions/survey';
 
+export function* fetchAreas() {
+    try {
+        const areas = yield call(SurveysService.fetchAreas);
+        yield put(receiveAreas(areas));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchAddress({id}) {
+    try {
+        const address = yield call(SurveysService.getAddress, id);
+        yield put(receiveAddress(address));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
 export function* fetchAddressesByState({ups, area, state}) {
     try {
-        const addresses = yield call(SurveysService.fetchAddressesBySurveyState, ups, area, state);
+        const addresses = yield call(SurveysService.fetchAddressesBySurveyState, toNumber(ups), toNumber(area), state);
         yield put(receiveAddresses(addresses));
     } catch (err) {
         yield put(handleError(err));
@@ -34,15 +52,6 @@ export function* findSurvey({id}) {
     try {
         const survey = yield call(SurveysService.findById, id);
         yield put(receiveSurvey(survey));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* fetchAreas() {
-    try {
-        const areas = yield call(SurveysService.fetchAreas);
-        yield put(receiveAreas(areas));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -68,7 +77,7 @@ export function* closeSurvey({id}) {
 
 export function* findDwelling({id, dwellingOrder}) {
     try {
-        const dwelling = yield call(SurveysService.findDwelling, id, dwellingOrder);
+        const dwelling = yield call(SurveysService.findDwelling, id, toNumber(dwellingOrder));
         yield put(receiveDwelling(dwelling));
     } catch (err) {
         yield put(handleError(err));
@@ -84,57 +93,10 @@ export function* updateDwelling({id, dwelling}) {
     }
 }
 
-export function* createHousehold({id, dwellingOrder}) {
+export function* fetchHouseholds({id, dwellingOrder}) {
     try {
-        const dwelling = yield call(SurveysService.createHousehold, id, dwellingOrder);
-        yield put(receiveDwelling(dwelling));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* fetchHouseholds({id, dwelling}) {
-    try {
-        const households = yield call(SurveysService.fetchHouseholds, id, dwelling);
+        const households = yield call(SurveysService.fetchHouseholds, id, toNumber(dwellingOrder));
         yield put(receiveHouseholds(households));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* fetchMembers({id, dwellingOrder, householdOrder}) {
-    try {
-        const members = yield call(SurveysService.getMembers, id, dwellingOrder, householdOrder);
-        yield put(receiveMembers(members));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* fetchAddress({id}) {
-    try {
-        const address = yield call(SurveysService.getAddress, id);
-        yield put(receiveAddress(address));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* saveMembers({
-    id, dwellingOrder, householdOrder, members
-}) {
-    try {
-        yield call(SurveysService.saveMembers, id, dwellingOrder, householdOrder, members);
-        yield put(notifySaveMembersSucceeded());
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* deleteHousehold({id, dwelling: dwellingOrder, household}) {
-    try {
-        const dwelling = yield call(SurveysService.deleteHousehold, id, dwellingOrder, household);
-        yield put(receiveDwelling(dwelling));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -142,8 +104,22 @@ export function* deleteHousehold({id, dwelling: dwellingOrder, household}) {
 
 export function* findHousehold({id, dwellingOrder, householdOrder}) {
     try {
-        const household = yield call(SurveysService.findHousehold, id, dwellingOrder, householdOrder);
+        const household = yield call(
+            SurveysService.findHousehold,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder)
+        );
         yield put(receiveHousehold(household));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* createHousehold({id, dwellingOrder}) {
+    try {
+        const dwelling = yield call(SurveysService.createHousehold, id, toNumber(dwellingOrder));
+        yield put(receiveDwelling(dwelling));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -151,30 +127,22 @@ export function* findHousehold({id, dwellingOrder, householdOrder}) {
 
 export function* updateHousehold({id, dwellingOrder, household}) {
     try {
-        const updatedHousehold = yield call(SurveysService.updateHousehold, id, dwellingOrder, household);
-        yield put(receiveHouseholdUpdated(updatedHousehold));
+        const savedHousehold = yield call(SurveysService.saveHousehold, id, toNumber(dwellingOrder), household);
+        yield put(receiveHouseholdUpdated(savedHousehold));
     } catch (err) {
         yield put(handleError(err));
     }
 }
 
-export function* findMember({
-    id, dwellingOrder, householdOrder, memberOrder
-}) {
+export function* removeHousehold({id, dwellingOrder, householdOrder}) {
     try {
-        const member = yield call(SurveysService.findMember, id, dwellingOrder, householdOrder, memberOrder);
-        yield put(receiveMember(member));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* saveMember({
-    id, dwellingOrder, householdOrder, member
-}) {
-    try {
-        const savedMember = yield call(SurveysService.saveMember, id, dwellingOrder, householdOrder, member);
-        yield put(receiveMember(savedMember));
+        const dwelling = yield call(
+            SurveysService.removeHousehold,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder)
+        );
+        yield put(receiveDwelling(dwelling));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -198,11 +166,71 @@ export function* closeHouseholdVisit({id, dwellingOrder, householdOrder}) {
     }
 }
 
-export function* deleteMember({
-    id, dwelling, household, member
+export function* fetchMembers({id, dwellingOrder, householdOrder}) {
+    try {
+        const members = yield call(SurveysService.getMembers, id, toNumber(dwellingOrder), toNumber(householdOrder));
+        yield put(receiveMembers(members));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* saveMembers({
+    id, dwellingOrder, householdOrder, members
 }) {
     try {
-        const members = yield call(SurveysService.deleteMember, id, dwelling, household, member);
+        yield call(SurveysService.saveMembers, id, toNumber(dwellingOrder), toNumber(householdOrder), members);
+        yield put(notifySaveMembersSucceeded());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* findMember({
+    id, dwellingOrder, householdOrder, memberOrder
+}) {
+    try {
+        const member = yield call(
+            SurveysService.findMember,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder),
+            toNumber(memberOrder)
+        );
+        yield put(receiveMember(member));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* saveMember({
+    id, dwellingOrder, householdOrder, member
+}) {
+    try {
+        const savedMember = yield call(
+            SurveysService.saveMember,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder),
+            member
+        );
+        yield put(receiveMember(savedMember));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* removeMember({
+    id, dwellingOrder, householdOrder, memberOrder
+}) {
+    try {
+        const members = yield call(
+            SurveysService.removeMember,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder),
+            toNumber(memberOrder)
+        );
         yield put(receiveMembers(members));
     } catch (err) {
         yield put(handleError(err));

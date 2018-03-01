@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
-import {Button, Col, LoadingIndicator, Row, Title} from '@indec/react-native-commons';
+import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {isEmpty} from 'lodash';
 
@@ -93,39 +93,36 @@ class MembersList extends Component {
         const {dwellingOrder, householdOrder} = this.props.match.params;
         return (
             <Fragment>
-                <Row style={styles.actionButtons}>
-                    <Col>
-                        <Button
-                            onPress={
-                                () => this.props.onViewDetails(dwellingOrder, householdOrder)
-                            }
-                            primary
-                            title="Caracteristicas"
-                        />
-                    </Col>
-                    <Col>
-                        <Button
-                            onPress={
-                                () => this.props.onViewDetection(dwellingOrder, householdOrder)
-                            }
-                            primary
-                            title="Detección de viviendas y hogares"
-                        />
-                    </Col>
-                    <Col>
-                        <Button
-                            onPress={() => this.props.onAddMember()}
-                            primary
-                            title="Gestión de miembros"
-                        />
-                    </Col>
-                </Row>
-                <Title style={styles.title}> &nbsp; Listado de Miembros</Title>
-                {isEmpty(members) && <Text style={styles.informationText}> &nbsp; No posee miembros</Text>}
-                {!isEmpty(members) &&
+                <View style={styles.actionButtons}>
+                    <Button
+                        onPress={
+                            () => this.props.onViewDetails(dwellingOrder, householdOrder)
+                        }
+                        primary
+                        title="Caracteristicas"
+                    />
+                    <Button
+                        onPress={() => this.props.onAddMember()}
+                        primary
+                        title="Gestión de miembros"
+                    />
+                    <Button
+                        buttonStyle={styles.marginTopButton}
+                        onPress={
+                            () => this.props.onViewDetection(dwellingOrder, householdOrder)
+                        }
+                        primary
+                        title="Detección de viviendas y hogares"
+                    />
+                </View>
                 <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={members}/>
-                </View>}
+                    <Title>Listado de Miembros</Title>
+                    {isEmpty(members) && <Text style={styles.informationText}>(No posee miembros)</Text>}
+                    {!isEmpty(members) &&
+                    <View style={styles.tableContainer}>
+                        <Table columns={this.columns} data={members}/>
+                    </View>}
+                </View>
                 <NavigationButtons
                     onBack={() => this.goBack()}
                     onSubmit={() => this.closeHouseholdVisit()}

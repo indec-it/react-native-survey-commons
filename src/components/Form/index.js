@@ -6,12 +6,12 @@ import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
 import {filter} from 'lodash';
 
-import {canDrawQuestion} from '../../util';
+import canDrawQuestion from '../../util/canDrawQuestion';
 
 const registry = new ComponentsRegistry();
 
 const Form = ({
-    chapter, onChange, rows, style
+    chapter, onChange, rows, style, questionStyles
 }) => (
     <ScrollView style={style.container}>
         {rows.map(row => (
@@ -21,6 +21,7 @@ const Form = ({
                     question => canDrawQuestion(question, chapter)
                 ).map(question => {
                     const QuestionComponent = registry.get(question.type);
+                    const questionStyle = questionStyles[question.type];
                     return (
                         <QuestionComponent
                             key={question.number}
@@ -28,6 +29,8 @@ const Form = ({
                             section={chapter}
                             answer={chapter[question.name]}
                             onChange={answer => onChange(answer)}
+                            style={questionStyle.style}
+                            textWithBadgeStyle={questionStyle.textWithBadgeStyle}
                         />
                     );
                 })}
@@ -40,12 +43,14 @@ Form.propTypes = {
     rows: PropTypes.shape({}).isRequired,
     chapter: PropTypes.shape({}),
     onChange: PropTypes.func.isRequired,
+    questionStyles: PropTypes.shape({}),
     style: stylePropType
 };
 
 Form.defaultProps = {
     chapter: {},
-    style: {}
+    style: {},
+    questionStyles: {}
 };
 
 export default Form;

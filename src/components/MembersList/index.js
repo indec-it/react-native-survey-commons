@@ -7,13 +7,13 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {isEmpty} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestMembers, requestCloseSurvey} from '../../actions/survey';
+import {requestMembers, requestCloseHouseholdVisit} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from './styles';
 
 class MembersList extends Component {
     static propTypes = {
-        requestCloseSurvey: PropTypes.func.isRequired,
+        requestCloseHouseholdVisit: PropTypes.func.isRequired,
         requestMembers: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.shape({})),
@@ -70,9 +70,9 @@ class MembersList extends Component {
         this.props.onPrevious(id);
     }
 
-    closeVisit() {
-        const {id} = this.props.match.params;
-        this.props.requestCloseSurvey(id);
+    closeHouseholdVisit() {
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        this.props.requestCloseHouseholdVisit(id, dwellingOrder, householdOrder);
     }
 
     renderContent() {
@@ -115,8 +115,8 @@ class MembersList extends Component {
                 </View>}
                 <NavigationButtons
                     onBack={() => this.goBack()}
-                    onSubmit={() => this.closeVisit()}
-                    submitButtonText="Cerrar Vivienda"
+                    onSubmit={() => this.closeHouseholdVisit()}
+                    submitButtonText="Cerrar visita"
                 />
             </Fragment>
         );
@@ -134,6 +134,8 @@ export default connect(
     }),
     dispatch => ({
         requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
-        requestCloseSurvey: id => dispatch(requestCloseSurvey(id))
+        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder) => dispatch(
+            requestCloseHouseholdVisit(id, dwellingOrder, householdOrder)
+        )
     })
 )(MembersList);

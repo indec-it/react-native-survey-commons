@@ -21,7 +21,7 @@ const Form = ({
                     question => canDrawQuestion(question, chapter)
                 ).map(question => {
                     const QuestionComponent = registry.get(question.type);
-                    const questionStyle = questionStyles[question.type];
+                    const questionStyle = questionStyles[question.type] || {};
                     return (
                         <QuestionComponent
                             key={question.number}

@@ -20,6 +20,7 @@ class MembersList extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onViewDetection: PropTypes.func.isRequired,
         onViewDetails: PropTypes.func.isRequired,
         onAddMember: PropTypes.func.isRequired,
         saving: PropTypes.bool
@@ -87,6 +88,15 @@ class MembersList extends Component {
                             }
                             primary
                             title="Caracteristicas"
+                        />
+                    </Col>
+                    <Col>
+                        <Button
+                            onPress={
+                                () => this.props.onViewDetection(dwellingOrder, householdOrder)
+                            }
+                            primary
+                            title="Detección de viviendas y hogares"
                         />
                     </Col>
                     <Col>

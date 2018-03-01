@@ -8,7 +8,7 @@ import styles from './styles';
 const AddressCard = ({address}) => (
     <View style={styles.cardContainer}>
         <Row>
-            <Col>
+            <Col size={2}>
                 <Text>Calle: {address.street}</Text>
                 <Text>Número: {address.streetNumber}</Text>
                 <Text>Nº en listado: {address.listNumber}</Text>

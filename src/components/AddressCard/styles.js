@@ -7,7 +7,8 @@ export default StyleSheet.create({
         marginTop: 20,
         marginRight: 20,
         marginLeft: 20,
-        padding: 30,
-        height: 128
+        padding: 10,
+        height: 85,
+        backgroundColor: '#d5e8e8'
     }
 });

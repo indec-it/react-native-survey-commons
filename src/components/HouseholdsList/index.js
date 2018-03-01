@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
-import {Button, Title} from '@indec/react-native-commons';
+import {Col, Button, Title, Row} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 
 import NavigationButtons from '../NavigationButtons';
@@ -18,6 +18,7 @@ class HouseholdsList extends Component {
         requestCloseSurvey: PropTypes.func.isRequired,
         requestCreateHousehold: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
+        onViewDwelling: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
         address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
@@ -85,21 +86,30 @@ class HouseholdsList extends Component {
     render() {
         const {address} = this.props;
         const {dwelling} = this.state;
+        const {id, dwellingOrder} = this.props.match.params;
         if (!dwelling || !address) {
             return null;
         }
         return (
             <Fragment>
                 <AddressCard address={address}/>
-                <Button
-                    buttonStyle={styles.createButton}
-                    primary
-                    title="Agregar Hogar"
-                    onPress={() => this.props.requestCreateHousehold(
-                        this.props.match.params.id,
-                        this.props.match.params.dwellingOrder
-                    )}
-                />
+                <Row>
+                    <Col>
+                        <Button
+                            primary
+                            title="Modificar respuesta vivienda"
+                            onViewDwelling={() => this.props.onViewDwelling(dwellingOrder)}
+                        />
+                    </Col>
+                    <Col>
+                        <Button
+                            buttonStyle={styles.createButton}
+                            primary
+                            title="Agregar Hogar"
+                            onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
+                        />
+                    </Col>
+                </Row>
                 <Title>&nbsp; Listado de hogares</Title>
                 <View style={styles.tableContainer}>
                     <Table columns={this.columns} data={dwelling.getHouseholds()}/>

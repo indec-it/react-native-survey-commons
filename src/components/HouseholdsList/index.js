@@ -6,7 +6,13 @@ import {Col, Button, Title, Row} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestDwelling, requestCloseSurvey, requestCreateHousehold, requestAddress} from '../../actions/survey';
+import {
+    requestDwelling,
+    requestCloseSurvey,
+    requestCreateHousehold,
+    requestAddress,
+    requestRemoveHousehold
+} from '../../actions/survey';
 import {Address, Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from './styles';
@@ -17,6 +23,7 @@ class HouseholdsList extends Component {
         requestAddress: PropTypes.func.isRequired,
         requestCloseSurvey: PropTypes.func.isRequired,
         requestCreateHousehold: PropTypes.func.isRequired,
+        requestRemoveHousehold: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
         onViewDwelling: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -54,6 +61,15 @@ class HouseholdsList extends Component {
             icon: 'arrow-right',
             color: '#0295cf',
             onPress: household => this.props.onSelect(this.props.match.params.id, household.order)
+        }, {
+            id: 5,
+            componentClass: TableIcon,
+            icon: 'trash',
+            color: 'red',
+            showValue: household => household.order !== 1,
+            onPress: household => this.props.requestRemoveHousehold(
+                this.props.match.params.id, this.props.match.params.dwellingOrder, household.order
+            )
         }];
         this.state = {};
     }
@@ -131,9 +147,12 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestDwelling: (id, dwelling) => dispatch(requestDwelling(id, dwelling)),
+        requestDwelling: (id, dwellingOrder) => dispatch(requestDwelling(id, dwellingOrder)),
         requestCloseSurvey: id => dispatch(requestCloseSurvey(id)),
         requestCreateHousehold: (id, dwellingOrder) => dispatch(requestCreateHousehold(id, dwellingOrder)),
-        requestAddress: id => dispatch(requestAddress(id))
+        requestAddress: id => dispatch(requestAddress(id)),
+        requestRemoveHousehold: (id, dwellingOrder, householdOrder) => (
+            dispatch(requestRemoveHousehold(id, dwellingOrder, householdOrder))
+        )
     })
 )(HouseholdsList);

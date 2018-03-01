@@ -13,6 +13,8 @@ import {
     fetchHouseholds,
     fetchMembers,
     updateDwelling,
+    removeHousehold,
+    removeMember,
     saveMembers,
     updateHousehold,
     saveMember,
@@ -37,6 +39,8 @@ export {fetchMembers};
 export {isConnected};
 export {ping};
 export {updateDwelling};
+export {removeHousehold};
+export {removeMember};
 export {saveMembers};
 export {updateHousehold};
 export {saveMember};

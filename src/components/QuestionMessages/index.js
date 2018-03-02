@@ -21,7 +21,7 @@ const QuestionMessages = ({
         }
         {
             warningValidators
-                .filter(v => v.isValid(answer))
+                .filter(v => v.isValid(answer, chapter))
                 .map(v => (
                     <View style={[styles.messageContainer, styles.warningMessageContainer]}>
                         <Text style={styles.message}>

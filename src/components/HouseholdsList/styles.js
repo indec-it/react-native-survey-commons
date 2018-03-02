@@ -2,11 +2,24 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     tableContainer: {
-        backgroundColor: '#fff',
-        flex: 1,
-        flexDirection: 'row'
+        flex: 1
     },
-    createButton: {
-        marginTop: 25
+    actionButtons: {
+        marginTop: 20,
+        flex: 0.17,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
+    marginTopButton: {
+        marginTop: 5
+    },
+    title: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#333'
+    },
+    informationText: {
+        color: '#ff0000',
+        padding: 20
     }
 });

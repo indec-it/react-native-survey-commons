@@ -1,4 +1,4 @@
-import canDrawQuestion from './canDrawQuestion';
+import canAnswerQuestion from './canAnswerQuestion';
 import cleanChildrenQuestions from './cleanChildrenQuestions';
 import getQuestions from './getQuestions';
 import getQuestionsWithParents from './getQuestionsWithParents';
@@ -7,7 +7,7 @@ import isMemberSelected from './isMemberSelected';
 import chapterPropTypes from './chapterPropTypes';
 import matchParamsIdPropTypes from './matchParamsIdPropTypes';
 
-export {canDrawQuestion};
+export {canAnswerQuestion};
 export {cleanChildrenQuestions};
 export {getQuestions};
 export {getQuestionsWithParents};

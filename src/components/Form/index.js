@@ -35,7 +35,7 @@ const Form = ({
                                 textWithBadgeStyle={componentStyle.textWithBadgeStyle}
                             />
                             {
-                                chapter[question.name] &&
+                                (chapter[question.name] == null || chapter[question.name] == undefined) &&
                                 <QuestionMessages
                                     chapter={chapter}
                                     answer={chapter[question.name]}

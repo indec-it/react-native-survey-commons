@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {map, concat, filter, max} from 'lodash';
+import {map, max, concat, every, filter} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -13,6 +13,7 @@ import {requestMembers, requestSaveMembers} from '../../actions/survey';
 import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import isMemberSelected from '../../util/isMemberSelected';
+import isModuleValid from '../../util/isModuleValid';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 
@@ -115,7 +116,21 @@ class MemberManager extends Component {
 
     handleSubmit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestSaveMembers(id, dwellingOrder, householdOrder, this.state.members);
+        const {members} = this.state;
+        const isValid = every(
+            members.map(member => isModuleValid(
+                member.characteristics,
+                member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
+            )),
+            status => status === true
+        );
+        return isValid
+            ? this.props.requestSaveMembers(id, dwellingOrder, householdOrder, members)
+            : Alert.alert(
+                'Atención',
+                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
+                [{text: 'Aceptar'}]
+            );
     }
 
     renderContent() {

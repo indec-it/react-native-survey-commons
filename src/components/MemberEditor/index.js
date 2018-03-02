@@ -2,11 +2,13 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Alert} from '@indec/react-native-commons/util';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import chapterPropTypes from '../../util/chapterPropTypes';
+import isModuleValid from '../../util/isModuleValid';
 import {getSection, handleChangeAnswer} from '../../util/section';
 import Section from '../Section';
 
@@ -54,11 +56,17 @@ class MemberEditor extends Component {
     }
 
     onSubmit() {
-        const {
-            id, dwellingOrder, householdOrder
-        } = this.props.match.params;
+        const {chapter} = this.props;
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
-        this.props.requestSaveMember(id, dwellingOrder, householdOrder, member);
+        const section = getSection(member, chapter);
+        return isModuleValid(section, chapter.rows)
+            ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
+            : Alert.alert(
+                'Atención',
+                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
+                [{text: 'Aceptar'}]
+            );
     }
 
     renderContent() {

@@ -2,12 +2,13 @@ import {operators} from '@indec/react-native-form-builder';
 import lang from 'lodash/lang';
 import {some, isNil} from 'lodash';
 
-export default ({parents}, chapter) => {
+const canAnswerQuestion = ({parents}, chapter) => {
     if (!parents) {
         return true;
     }
     return some(
-        parents.map(parent => {
+        parents,
+        parent => {
             switch (parent.type) {
                 case operators.EXISTS:
                     return !isNil(chapter[parent.id]) === parent.value;
@@ -16,7 +17,8 @@ export default ({parents}, chapter) => {
                 default:
                     return lang[parent.type](chapter[parent.id], parent.value);
             }
-        }),
-        status => status === true
+        }
     );
 };
+
+export default canAnswerQuestion;

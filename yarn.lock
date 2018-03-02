@@ -211,7 +211,7 @@
 
 "@indec/react-native-form-builder@indec-it/react-native-form-builder":
   version "0.2.3"
-  resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/505f2f6410a299fd027cfb5e570e54d1b3800795"
+  resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/b1e45a7f60cebaa264747809fa196aa0c9c64282"
   dependencies:
     "@indec/react-native-commons" indec-it/react-native-commons#merge-styles
     "@indec/react-native-md-textinput" "^3.0.1"

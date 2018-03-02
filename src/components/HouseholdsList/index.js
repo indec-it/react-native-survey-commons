@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
-import {Col, Button, Title, Row} from '@indec/react-native-commons';
+import {Button, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 
 import NavigationButtons from '../NavigationButtons';
@@ -109,26 +109,24 @@ class HouseholdsList extends Component {
         return (
             <Fragment>
                 <AddressCard address={address}/>
-                <Row>
-                    <Col>
-                        <Button
-                            primary
-                            title="Modificar respuestas de vivienda"
-                            onViewDwelling={() => this.props.onViewDwelling(dwellingOrder)}
-                        />
-                    </Col>
-                    <Col>
-                        <Button
-                            buttonStyle={styles.createButton}
-                            primary
-                            title="Agregar Hogar"
-                            onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
-                        />
-                    </Col>
-                </Row>
-                <Title>&nbsp; Listado de hogares</Title>
+                <View style={styles.actionButtons}>
+                    <Button
+                        primary
+                        title="Modificar respuestas de vivienda"
+                        onViewDwelling={() => this.props.onViewDwelling(dwellingOrder)}
+                    />
+                    <Button
+                        buttonStyle={styles.createButton}
+                        primary
+                        title="Agregar Hogar"
+                        onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
+                    />
+                </View>
                 <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={dwelling.getHouseholds()}/>
+                    <Title>Listado de hogares</Title>
+                    <View style={styles.tableContainer}>
+                        <Table columns={this.columns} data={dwelling.getHouseholds()}/>
+                    </View>
                 </View>
                 <NavigationButtons
                     onBack={() => this.goBack()}

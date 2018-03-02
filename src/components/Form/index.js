@@ -37,6 +37,7 @@ const Form = ({
                             {
                                 chapter[question.name] &&
                                 <QuestionMessages
+                                    chapter={chapter}
                                     answer={chapter[question.name]}
                                     errorValidators={question.errorValidators}
                                     warningValidators={question.warningValidators}

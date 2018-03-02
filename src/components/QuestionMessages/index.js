@@ -5,12 +5,12 @@ import {View, Text} from 'react-native';
 import styles from './styles';
 
 const QuestionMessages = ({
-    answer, errorValidators, warningValidators
+    chapter, answer, errorValidators, warningValidators
 }) => (
     <View style={styles.messagesContainer}>
         {
             errorValidators
-                .filter(v => v.isValid(answer))
+                .filter(v => v.isValid(answer, chapter))
                 .map(v => (
                     <View style={[styles.messageContainer, styles.errorMessageContainer]}>
                         <Text style={styles.message}>
@@ -35,6 +35,7 @@ const QuestionMessages = ({
 
 QuestionMessages.propTypes = {
     answer: PropTypes.isRequired,
+    chapter: PropTypes.isRequired,
     errorValidators: PropTypes.shape([]),
     warningValidators: PropTypes.shape([])
 };

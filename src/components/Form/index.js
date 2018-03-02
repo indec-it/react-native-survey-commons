@@ -4,9 +4,8 @@ import {ScrollView} from 'react-native';
 import {Row} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
-import {filter} from 'lodash';
 
-import canDrawQuestion from '../../util/canDrawQuestion';
+import canAnswerQuestion from '../../util/canAnswerQuestion';
 
 const registry = new ComponentsRegistry();
 
@@ -16,10 +15,7 @@ const Form = ({
     <ScrollView style={style.container}>
         {rows.map(row => (
             <Row key={row.id} style={style.row}>
-                {filter(
-                    row.questions,
-                    question => canDrawQuestion(question, chapter)
-                ).map(question => {
+                {row.questions.map(question => {
                     const QuestionComponent = registry.get(question.type);
                     const questionStyle = questionStyles[question.type] || {};
                     return (
@@ -29,6 +25,7 @@ const Form = ({
                             section={chapter}
                             answer={chapter[question.name]}
                             onChange={answer => onChange(answer)}
+                            disabled={!canAnswerQuestion(question, chapter)}
                             style={questionStyle.style}
                             textWithBadgeStyle={questionStyle.textWithBadgeStyle}
                         />

@@ -99,12 +99,12 @@ class MembersList extends Component {
                             () => this.props.onViewDetails(dwellingOrder, householdOrder)
                         }
                         primary
-                        title="Caracteristicas"
+                        title="Características habitacionales del hogar"
                     />
                     <Button
                         onPress={() => this.props.onAddMember()}
                         primary
-                        title="Gestión de miembros"
+                        title="Gestión de personas"
                     />
                     <Button
                         buttonStyle={styles.marginTopButton}
@@ -112,12 +112,12 @@ class MembersList extends Component {
                             () => this.props.onViewDetection(dwellingOrder, householdOrder)
                         }
                         primary
-                        title="Detección de viviendas y hogares"
+                        title="Situación de la vivienda"
                     />
                 </View>
                 <View style={styles.tableContainer}>
-                    <Title>Listado de Miembros</Title>
-                    {isEmpty(members) && <Text style={styles.informationText}>(No posee miembros)</Text>}
+                    <Title>Listado de Personas del Hogar</Title>
+                    {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
                     {!isEmpty(members) &&
                     <View style={styles.tableContainer}>
                         <Table columns={this.columns} data={members}/>

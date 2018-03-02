@@ -82,7 +82,8 @@ class MemberManager extends Component {
         this.setState(state => {
             const maxOrder = max(state.members.map(member => member.order)) || 0;
             return ({
-                members: concat(state.members, new Member({order: maxOrder + 1}))
+                members: concat(state.members, new Member({order: maxOrder + 1})),
+                selectedMember: null
             });
         });
     }
@@ -136,7 +137,7 @@ class MemberManager extends Component {
                 <NavigationButtons
                     onBack={() => this.handleBack()}
                     onSubmit={() => this.handleSubmit()}
-                    submitButtonText="Guardar"
+                    submitButtonText="Guardar y salir"
                 />
             </Fragment>
         );

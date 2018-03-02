@@ -1,13 +1,13 @@
 import {filter, forEach} from 'lodash';
 
-import {canDrawQuestion, getQuestionsWithParents} from '.';
+import {canAnswerQuestion, getQuestionsWithParents} from '.';
 
 export default (rows, chapter) => {
     const newChapter = {...chapter};
     forEach(
         filter(
             getQuestionsWithParents(rows),
-            question => !canDrawQuestion(question, chapter)
+            question => !canAnswerQuestion(question, chapter)
         ),
         question => delete newChapter[question.name]
     );

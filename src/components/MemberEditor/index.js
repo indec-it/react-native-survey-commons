@@ -18,7 +18,7 @@ class MemberEditor extends Component {
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
-        member: PropTypes.shape({}).isRequired,
+        member: PropTypes.instanceOf(Member).isRequired,
         saving: PropTypes.bool
     };
 

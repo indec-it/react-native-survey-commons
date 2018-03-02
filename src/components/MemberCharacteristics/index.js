@@ -14,7 +14,7 @@ const MemberCharacteristics = ({
     <Fragment>
         <ListItem
             key={member.order}
-            leftIconOnPress={() => onSelect(member)}
+            onPress={() => onSelect(member)}
             onPressRightIcon={!member.isHomeBoss() ? () => onRemove(member) : undefined}
             title={member.characteristics.name}
             rightIcon={member.isHomeBoss() ? getFontAwesome('user') : getFontAwesome('trash', 'red')}

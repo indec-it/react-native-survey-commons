@@ -113,7 +113,7 @@ class HouseholdsList extends Component {
                     <Col>
                         <Button
                             primary
-                            title="Modificar respuesta vivienda"
+                            title="Modificar respuestas de vivienda"
                             onViewDwelling={() => this.props.onViewDwelling(dwellingOrder)}
                         />
                     </Col>

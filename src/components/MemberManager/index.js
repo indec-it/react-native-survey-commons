@@ -113,12 +113,12 @@ class MemberManager extends Component {
         return (
             <Fragment>
                 <Button
-                    title="Agregar miembro"
+                    title="Agregar una persona"
                     onPress={() => this.createMember()}
                     rounded
                     primary
                 />
-                <Title>Listado de Miembros</Title>
+                <Title>Listado de Personas del Hogar</Title>
                 <ScrollView>
                     <List>
                         {members.map(member => (

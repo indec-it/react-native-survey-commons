@@ -113,7 +113,7 @@ class HouseholdsList extends Component {
                     <Button
                         primary
                         title="Modificar respuestas de vivienda"
-                        onViewDwelling={() => this.props.onViewDwelling(dwellingOrder)}
+                        onPress={() => this.props.onViewDwelling(dwellingOrder)}
                     />
                     <Button
                         buttonStyle={styles.createButton}

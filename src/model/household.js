@@ -1,3 +1,7 @@
+import {isEmpty, map} from 'lodash';
+
+import Member from './member';
+
 export default class Household {
     order = 1;
     members = [];
@@ -9,5 +13,8 @@ export default class Household {
 
     constructor(obj) {
         Object.assign(this, obj);
+        if (obj && !isEmpty(obj.members)) {
+            this.members = map(obj.members, member => new Member(member));
+        }
     }
 }

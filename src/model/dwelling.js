@@ -1,4 +1,6 @@
-import {reject} from 'lodash';
+import {isEmpty, map, reject} from 'lodash';
+
+import Household from './household';
 
 export default class Dwelling {
     order = 1;
@@ -9,6 +11,11 @@ export default class Dwelling {
 
     constructor(obj) {
         Object.assign(this, obj);
+        if (obj && !isEmpty(obj.households)) {
+            this.households = map(obj.households, household => new Household(household));
+        } else {
+            this.households = [new Household()];
+        }
     }
 
     getHouseholds() {

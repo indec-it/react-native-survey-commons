@@ -24,12 +24,14 @@ class MembersList extends Component {
         onViewDetection: PropTypes.func.isRequired,
         onViewDetails: PropTypes.func.isRequired,
         onAddMember: PropTypes.func.isRequired,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        showCharacteristicsButton: PropTypes.bool
     };
 
     static defaultProps = {
         members: null,
-        saving: false
+        saving: false,
+        showCharacteristicsButton: true
     };
 
     constructor(props) {
@@ -89,18 +91,18 @@ class MembersList extends Component {
     }
 
     renderContent() {
-        const {members} = this.props;
+        const {members, showCharacteristicsButton} = this.props;
         const {dwellingOrder, householdOrder} = this.props.match.params;
         return (
             <Fragment>
                 <View style={styles.actionButtons}>
-                    <Button
+                    {showCharacteristicsButton && <Button
                         onPress={
                             () => this.props.onViewDetails(dwellingOrder, householdOrder)
                         }
                         primary
                         title="Características habitacionales del hogar"
-                    />
+                    />}
                     <Button
                         onPress={() => this.props.onAddMember()}
                         primary

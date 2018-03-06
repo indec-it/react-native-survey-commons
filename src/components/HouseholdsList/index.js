@@ -2,8 +2,9 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
-import {Button, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
+import {Button, Title} from '@indec/react-native-commons';
+import {Alert} from '@indec/react-native-commons/util';
 
 import NavigationButtons from '../NavigationButtons';
 import {
@@ -63,8 +64,19 @@ class HouseholdsList extends Component {
             icon: 'trash',
             color: 'red',
             showValue: household => household.order !== 1,
-            onPress: household => this.props.requestRemoveHousehold(
-                this.props.match.params.id, this.props.match.params.dwellingOrder, household.order
+            onPress: household => Alert.alert(
+                'Atención',
+                `¿Desea eliminar el hogar N° ${household.order}, recuerde que esto es permanente?`,
+                [{
+                    text: 'Cancelar'
+                }, {
+                    text: 'Confirmar',
+                    onPress: () => this.props.requestRemoveHousehold(
+                        this.props.match.params.id,
+                        this.props.match.params.dwellingOrder,
+                        household.order
+                    )
+                }]
             )
         }];
         this.state = {};

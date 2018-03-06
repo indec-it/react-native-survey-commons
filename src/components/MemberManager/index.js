@@ -4,6 +4,7 @@ import {ScrollView} from 'react-native';
 import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Alert} from '@indec/react-native-commons/util';
 import {map, concat, filter, max} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
@@ -89,13 +90,22 @@ class MemberManager extends Component {
     }
 
     removeMember(order) {
-        this.setState(
-            state => ({
-                members: map(
-                    filter(state.members, member => member.order !== order),
-                    (member, index) => Object.assign(member, {order: index + 1})
+        Alert.alert(
+            'Atención',
+            `¿Desea eliminar la persona N° ${order}, recuerde que esto es permanente?`,
+            [{
+                text: 'Cancelar'
+            }, {
+                text: 'Confirmar',
+                onPress: () => this.setState(
+                    state => ({
+                        members: map(
+                            filter(state.members, member => member.order !== order),
+                            (member, index) => Object.assign(member, {order: index + 1})
+                        )
+                    })
                 )
-            })
+            }]
         );
     }
 

@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Title} from '@indec/react-native-commons';
+import {LoadingIndicator, Title} from '@indec/react-native-commons';
 
 import {requestHousehold, requestUpdateHousehold} from '../../actions/survey';
 import {Household} from '../../model';
@@ -57,12 +57,9 @@ class HouseholdEditor extends Component {
         this.props.requestUpdateHousehold(id, dwellingOrder, household);
     }
 
-    render() {
+    renderContent() {
         const {chapter} = this.props;
         const {household} = this.state;
-        if (!household) {
-            return null;
-        }
         const section = getSection(household, chapter);
         return (
             <Fragment>
@@ -76,6 +73,10 @@ class HouseholdEditor extends Component {
                 />
             </Fragment>
         );
+    }
+
+    render() {
+        return this.state.household ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 

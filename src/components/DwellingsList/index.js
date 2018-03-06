@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Title} from '@indec/react-native-commons';
+import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
 
 import {requestSurvey} from '../../actions/survey';
@@ -48,7 +48,7 @@ class DwellingsList extends Component {
         this.props.requestSurvey(id);
     }
 
-    render() {
+    renderContent() {
         const {survey} = this.props;
         if (!survey) {
             return null;
@@ -60,6 +60,10 @@ class DwellingsList extends Component {
                 <Table columns={this.columns} data={survey.dwellings}/>
             </Fragment>
         );
+    }
+
+    render() {
+        return this.state.survey ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 

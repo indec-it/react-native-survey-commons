@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Title} from '@indec/react-native-commons';
+import {LoadingIndicator, Title} from '@indec/react-native-commons';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
@@ -61,12 +61,9 @@ class MemberEditor extends Component {
         this.props.requestSaveMember(id, dwellingOrder, householdOrder, member);
     }
 
-    render() {
+    renderContent() {
         const {chapter} = this.props;
         const {member} = this.state;
-        if (!member) {
-            return null;
-        }
         const section = getSection(member, chapter);
         return (
             <Fragment>
@@ -80,6 +77,10 @@ class MemberEditor extends Component {
                 />
             </Fragment>
         );
+    }
+
+    render() {
+        return this.state.member ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 

@@ -13,7 +13,7 @@
   "devDependencies": {
     "@commitlint/cli": "^6.1.2",
     "@commitlint/travis-cli": "^6.1.2",
-    "@indec/heimdall": "^0.2.3",
+    "@indec/heimdall": "^0.2.5",
     "@indec/react-native-commons": "^0.1.7",
     "@indec/react-native-form-builder": "indec-it/react-native-form-builder",
     "@indec/react-native-md-textinput": "^3.0.1",

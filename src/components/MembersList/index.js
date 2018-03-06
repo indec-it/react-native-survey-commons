@@ -4,12 +4,19 @@ import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
-import {isEmpty} from 'lodash';
+import {isEmpty, map} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
 import {requestMembers, requestCloseHouseholdVisit, requestRemoveMember} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import {Member} from '../../model';
 import styles from './styles';
+
+const getMembersCharacteristics = members => map(members, member => ({
+    ...member,
+    name: member.characteristics.name,
+    relationship: member.characteristics.relationship
+}));
 
 class MembersList extends Component {
     static propTypes = {
@@ -17,7 +24,7 @@ class MembersList extends Component {
         requestMembers: PropTypes.func.isRequired,
         requestRemoveMember: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        members: PropTypes.arrayOf(PropTypes.shape({})),
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -47,19 +54,19 @@ class MembersList extends Component {
         }, {
             id: 3,
             label: 'Relación',
-            field: 'relation'
+            field: 'relationship'
         }, {
             id: 4,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: member => this.props.onSelect(member.order)
+            onPress: member => this.props.onSelect(member)
         }, {
             id: 5,
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',
-            hideValue: member => member.isHomeBoss(),
+            hideValue: member => member.order === 1,
             onPress: member => this.props.requestRemoveMember(
                 this.props.match.params.id,
                 this.props.match.params.dwellingOrder,
@@ -90,39 +97,46 @@ class MembersList extends Component {
         this.props.requestCloseHouseholdVisit(id, dwellingOrder, householdOrder);
     }
 
-    renderContent() {
-        const {members, showCharacteristicsButton} = this.props;
+    renderButtons() {
         const {dwellingOrder, householdOrder} = this.props.match.params;
+        const {showCharacteristicsButton, members} = this.props;
+        return (
+            <View style={styles.actionButtons}>
+                {showCharacteristicsButton(members) && <Button
+                    onPress={
+                        () => this.props.onViewDetails(dwellingOrder, householdOrder)
+                    }
+                    primary
+                    title="Características habitacionales del hogar"
+                />}
+                <Button
+                    onPress={() => this.props.onAddMember()}
+                    primary
+                    title="Gestión de personas"
+                />
+                <Button
+                    buttonStyle={styles.marginTopButton}
+                    onPress={
+                        () => this.props.onViewDetection(dwellingOrder, householdOrder)
+                    }
+                    primary
+                    title="Situación de la vivienda"
+                />
+            </View>
+        );
+    }
+
+    renderContent() {
+        const {members} = this.props;
         return (
             <Fragment>
-                <View style={styles.actionButtons}>
-                    {showCharacteristicsButton && <Button
-                        onPress={
-                            () => this.props.onViewDetails(dwellingOrder, householdOrder)
-                        }
-                        primary
-                        title="Características habitacionales del hogar"
-                    />}
-                    <Button
-                        onPress={() => this.props.onAddMember()}
-                        primary
-                        title="Gestión de personas"
-                    />
-                    <Button
-                        buttonStyle={styles.marginTopButton}
-                        onPress={
-                            () => this.props.onViewDetection(dwellingOrder, householdOrder)
-                        }
-                        primary
-                        title="Situación de la vivienda"
-                    />
-                </View>
+                {this.renderButtons()}
                 <View style={styles.tableContainer}>
                     <Title>Listado de Personas del Hogar</Title>
                     {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
                     {!isEmpty(members) &&
                     <View style={styles.tableContainer}>
-                        <Table columns={this.columns} data={members}/>
+                        <Table columns={this.columns} data={getMembersCharacteristics(members)}/>
                     </View>}
                 </View>
                 <NavigationButtons

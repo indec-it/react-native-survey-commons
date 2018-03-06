@@ -45,24 +45,20 @@ class HouseholdsList extends Component {
         super(props);
         this.columns = [{
             id: 1,
-            label: 'Nombre',
-            field: 'name'
-        }, {
-            id: 2,
             label: 'Número',
             field: 'order'
         }, {
-            id: 3,
+            id: 2,
             label: 'Jefa/e',
             field: 'householdHead'
         }, {
-            id: 4,
+            id: 3,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: household => this.props.onSelect(this.props.match.params.id, household.order)
+            onPress: household => this.props.onSelect(this.props.match.params.id, household)
         }, {
-            id: 5,
+            id: 4,
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',

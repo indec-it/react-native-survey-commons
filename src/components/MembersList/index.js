@@ -2,8 +2,9 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
-import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
+import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Alert} from '@indec/react-native-commons/util';
 import {isEmpty, map} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
@@ -66,12 +67,21 @@ class MembersList extends Component {
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',
-            hideValue: member => member.order === 1,
-            onPress: member => this.props.requestRemoveMember(
-                this.props.match.params.id,
-                this.props.match.params.dwellingOrder,
-                this.props.match.params.householdOrder,
-                member.order
+            hideValue: member => member.isHomeBoss(),
+            onPress: member => Alert.alert(
+                'Atención',
+                `¿Desea eliminar la persona N° ${member.order}, recuerde que esto es permanente?`,
+                [{
+                    text: 'Cancelar'
+                }, {
+                    text: 'Confirmar',
+                    onPress: () => this.props.requestRemoveMember(
+                        this.props.match.params.id,
+                        this.props.match.params.dwellingOrder,
+                        this.props.match.params.householdOrder,
+                        member.order
+                    )
+                }]
             )
         }];
     }

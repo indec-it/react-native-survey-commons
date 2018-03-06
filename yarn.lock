@@ -197,9 +197,9 @@
     babel-runtime "6.26.0"
     execa "0.9.0"
 
-"@indec/heimdall@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@indec/heimdall/-/heimdall-0.2.3.tgz#9c85c850e6a333744b6a972f9ade100f30bfd328"
+"@indec/heimdall@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@indec/heimdall/-/heimdall-0.2.5.tgz#f3a4afc48edb3a1237fa7e60fe1f2869959d7dd6"
 
 "@indec/react-native-commons@^0.1.7":
   version "0.1.7"
@@ -213,7 +213,7 @@
   version "0.2.3"
   resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/b1e45a7f60cebaa264747809fa196aa0c9c64282"
   dependencies:
-    "@indec/react-native-commons" indec-it/react-native-commons#merge-styles
+    "@indec/react-native-commons" indec-it/react-native-commons
     "@indec/react-native-md-textinput" "^3.0.1"
     react-native-datepicker "^1.6.0"
 

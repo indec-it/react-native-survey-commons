@@ -98,7 +98,7 @@ export default class SurveysService {
         const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
         const currentResponse = survey.dwellings[dwellingIndex].response;
         survey.dwellings[dwellingIndex] = dwelling;
-        if (dwelling.response === answers.YES && currentResponse !== dwelling.response) {
+        if (dwelling.response === answers.YES && currentResponse !== dwelling.response && !dwelling.households) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
         if (dwelling.response === answers.NO && !isEmpty(dwelling.households)) {

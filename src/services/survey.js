@@ -1,5 +1,5 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {castArray, filter, find, findIndex, forEach, isEmpty, last, map, max, reject, uniqBy} from 'lodash';
+import {castArray, every, filter, find, findIndex, forEach, isEmpty, last, map, max, reject, uniqBy} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
 import {Dwelling, Household, Survey} from '../model';
@@ -98,7 +98,11 @@ export default class SurveysService {
         const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
         const currentResponse = survey.dwellings[dwellingIndex].response;
         survey.dwellings[dwellingIndex] = dwelling;
-        if (dwelling.response === answers.YES && currentResponse !== dwelling.response && !dwelling.households) {
+        if (dwelling.response === answers.YES && currentResponse !== dwelling.response
+            && (
+                isEmpty(dwelling.households) || every(dwelling.households, household => household.disabled)
+            )
+        ) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
         if (dwelling.response === answers.NO && !isEmpty(dwelling.households)) {

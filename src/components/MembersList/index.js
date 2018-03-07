@@ -16,7 +16,8 @@ import styles from './styles';
 const getMembersCharacteristics = members => map(members, member => ({
     ...member,
     name: member.characteristics.name,
-    relationship: member.characteristics.relationship
+    relationship: member.characteristics.relationship,
+    isHomeBoss: member.isHomeBoss()
 }));
 
 class MembersList extends Component {
@@ -67,7 +68,7 @@ class MembersList extends Component {
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',
-            hideValue: member => member.isHomeBoss(),
+            hideValue: member => member.isHomeBoss,
             onPress: member => Alert.alert(
                 'Atención',
                 `¿Desea eliminar la persona N° ${member.order}, recuerde que esto es permanente?`,

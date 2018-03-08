@@ -6,37 +6,59 @@ import {getFontAwesome} from '@indec/react-native-commons/util';
 
 import styles from './styles';
 
-const NavigatorButtons = ({onBack, submitButtonText, onSubmit}) => (
+const NavigatorButtons = ({
+    onBack, submitButtonText, onSubmit, iconLeft, iconRight
+}) => (
     <View style={styles.container}>
         <Row>
+            {onBack &&
             <Col>
                 <Button
-                    icon={getFontAwesome('chevron-left', '#333')}
+                    icon={getFontAwesome(iconLeft.name, iconLeft.color)}
                     title="Anterior"
                     onPress={onBack}
                     rounded
                 />
-            </Col>
+            </Col>}
+            {onSubmit &&
             <Col>
                 <Button
-                    icon={getFontAwesome('chevron-right', '#333')}
+                    iconRight={getFontAwesome(iconRight.name, iconRight.color)}
                     title={submitButtonText}
                     onPress={onSubmit}
                     rounded
                 />
-            </Col>
+            </Col>}
         </Row>
     </View>
 );
 
 NavigatorButtons.propTypes = {
-    onBack: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    submitButtonText: PropTypes.string
+    onBack: PropTypes.func,
+    onSubmit: PropTypes.func,
+    submitButtonText: PropTypes.string,
+    iconLeft: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired
+    }),
+    iconRight: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired
+    })
 };
 
 NavigatorButtons.defaultProps = {
-    submitButtonText: 'Siguiente'
+    submitButtonText: 'Siguiente',
+    onBack: null,
+    onSubmit: null,
+    iconLeft: {
+        name: 'chevron-left',
+        color: '#333'
+    },
+    iconRight: {
+        name: 'chevron-right',
+        color: '#333'
+    }
 };
 
 export default NavigatorButtons;

@@ -105,7 +105,16 @@ class MembersList extends Component {
 
     closeHouseholdVisit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestCloseHouseholdVisit(id, dwellingOrder, householdOrder);
+        Alert.alert(
+            'Atención',
+            'Usted está por cerrar la visita, ¿Desea continuar?. Recuerde que esta operación es irreversible.',
+            [{
+                text: 'Cancelar'
+            }, {
+                text: 'Confirmar',
+                onPress: () => this.props.requestCloseHouseholdVisit(id, dwellingOrder, householdOrder)
+            }]
+        );
     }
 
     renderButtons() {

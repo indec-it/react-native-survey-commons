@@ -25,16 +25,16 @@ class MembersList extends Component {
         requestCloseHouseholdVisit: PropTypes.func.isRequired,
         requestMembers: PropTypes.func.isRequired,
         requestRemoveMember: PropTypes.func.isRequired,
-        match: matchParamsIdPropTypes.isRequired,
-        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onViewDetection: PropTypes.func.isRequired,
         onViewDetails: PropTypes.func.isRequired,
         onAddMember: PropTypes.func.isRequired,
-        saving: PropTypes.bool,
-        showCharacteristicsButton: PropTypes.bool
+        showCharacteristicsButton: PropTypes.func,
+        match: matchParamsIdPropTypes.isRequired,
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+        saving: PropTypes.bool
     };
 
     static defaultProps = {

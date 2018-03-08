@@ -25,7 +25,6 @@ class MembersList extends Component {
         requestCloseHouseholdVisit: PropTypes.func.isRequired,
         requestMembers: PropTypes.func.isRequired,
         requestRemoveMember: PropTypes.func.isRequired,
-        onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onViewDetection: PropTypes.func.isRequired,
@@ -98,12 +97,7 @@ class MembersList extends Component {
         }
     }
 
-    goBack() {
-        const {id} = this.props.match.params;
-        this.props.onPrevious(id);
-    }
-
-    closeHouseholdVisit() {
+    handleCloseHouseholdVisit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         Alert.alert(
             'Atención',
@@ -160,8 +154,8 @@ class MembersList extends Component {
                     </View>}
                 </View>
                 <NavigationButtons
-                    onBack={() => this.goBack()}
-                    onSubmit={() => this.closeHouseholdVisit()}
+                    onSubmit={() => this.handleCloseHouseholdVisit()}
+                    iconRight={{name: 'lock', color: '#333'}}
                     submitButtonText="Cerrar visita"
                 />
             </Fragment>

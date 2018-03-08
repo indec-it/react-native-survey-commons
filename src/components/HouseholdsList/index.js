@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
-import {Button, Title} from '@indec/react-native-commons';
+import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 
 import NavigationButtons from '../NavigationButtons';
@@ -44,6 +44,7 @@ class HouseholdsList extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {};
         this.columns = [{
             id: 1,
             label: 'Número',
@@ -79,7 +80,6 @@ class HouseholdsList extends Component {
                 }]
             )
         }];
-        this.state = {};
     }
 
     componentWillMount() {
@@ -104,16 +104,22 @@ class HouseholdsList extends Component {
 
     closeDwelling() {
         const {id} = this.props.match.params;
-        this.props.requestCloseSurvey(id);
+        Alert.alert(
+            'Atención',
+            'Usted está por cerrar la vivienda, ¿Desea continuar?. Recuerde que esta operación es irreversible.',
+            [{
+                text: 'Cancelar'
+            }, {
+                text: 'Confirmar',
+                onPress: () => this.props.requestCloseSurvey(id)
+            }]
+        );
     }
 
-    render() {
+    renderContent() {
         const {address} = this.props;
         const {dwelling} = this.state;
         const {id, dwellingOrder} = this.props.match.params;
-        if (!dwelling || !address) {
-            return null;
-        }
         return (
             <Fragment>
                 <AddressCard address={address}/>
@@ -143,6 +149,10 @@ class HouseholdsList extends Component {
                 />
             </Fragment>
         );
+    }
+
+    render() {
+        return this.state.dwelling && this.props.address ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 

@@ -475,8 +475,8 @@
   version "0.2.3"
   resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/84935587bcb134faf8471e56c8d5888f95144f32"
   dependencies:
-    "@indec/react-native-commons" "^0.1.7"
-    "@indec/react-native-md-textinput" "^3.1.1"
+    "@indec/react-native-commons" indec-it/react-native-commons
+    "@indec/react-native-md-textinput" "^3.0.1"
     react-native-datepicker "^1.6.0"
 
 "@indec/react-native-md-textinput@^3.1.1":

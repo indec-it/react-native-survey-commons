@@ -38,7 +38,7 @@ export default function (state = {surveys: {}}, action) {
                 ...state, addresses: [], ups: action.ups, area: action.area, state: action.state
             };
         case ADDRESSES_FETCH_RECEIVED:
-            return {...state, addresses: action.addresses};
+            return {...state, addresses: action.addresses, survey: null};
         case ADDRESS_FETCH_SUCCEEDED:
             return {...state, address: action.address};
         case AREAS_FETCH_REQUESTED:

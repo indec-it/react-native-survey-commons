@@ -97,11 +97,6 @@ class HouseholdsList extends Component {
         }
     }
 
-    goBack() {
-        const {id} = this.props.match.params;
-        this.props.onPrevious(id);
-    }
-
     closeDwelling() {
         const {id} = this.props.match.params;
         Alert.alert(
@@ -143,7 +138,7 @@ class HouseholdsList extends Component {
                     </View>
                 </View>
                 <NavigationButtons
-                    onBack={() => this.goBack()}
+                    onBack={() => this.props.onPrevious(dwelling)}
                     onSubmit={() => this.closeDwelling()}
                     submitButtonText="Cerrar vivienda"
                 />

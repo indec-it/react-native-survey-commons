@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
-import {Row} from '@indec/react-native-commons';
+import {Col, Row, TextError} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
 
 import canAnswerQuestion from '../../util/canAnswerQuestion';
+import renderQuestionErrors from '../../util/renderQuestionErrors';
 
 const registry = new ComponentsRegistry();
 
@@ -18,17 +19,25 @@ const Form = ({
                 {row.questions.map(question => {
                     const QuestionComponent = registry.get(question.type);
                     const questionStyle = questionStyles[question.type] || {};
+                    const questionAnswer = chapter[question.name];
                     return (
-                        <QuestionComponent
-                            key={question.number}
-                            question={question}
-                            section={chapter}
-                            answer={chapter[question.name]}
-                            onChange={answer => onChange(answer)}
-                            disabled={!canAnswerQuestion(question, chapter)}
-                            style={questionStyle.style}
-                            textWithBadgeStyle={questionStyle.textWithBadgeStyle}
-                        />
+                        <Col>
+                            <QuestionComponent
+                                key={question.number}
+                                question={question}
+                                section={chapter}
+                                answer={questionAnswer}
+                                onChange={answer => onChange(answer)}
+                                disabled={!canAnswerQuestion(question, chapter)}
+                                style={questionStyle.style}
+                                textWithBadgeStyle={questionStyle.textWithBadgeStyle}
+                            />
+                            {renderQuestionErrors(
+                                question,
+                                questionAnswer,
+                                message => <TextError key={message}>{message}</TextError>
+                            )}
+                        </Col>
                     );
                 })}
             </Row>

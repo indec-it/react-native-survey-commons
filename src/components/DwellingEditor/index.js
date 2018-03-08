@@ -2,11 +2,13 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Alert} from '@indec/react-native-commons/util';
 
 import {requestDwelling, requestUpdateDwelling, requestSurvey} from '../../actions/survey';
 import {Dwelling, Survey} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import isModuleValid from '../../util/isModuleValid';
 import {getSection, handleChangeAnswer} from '../../util/section';
 import Section from '../Section';
 
@@ -50,12 +52,6 @@ class DwellingEditor extends Component {
         }
     }
 
-    handleSubmit() {
-        const {id} = this.props.match.params;
-        const {dwelling} = this.state;
-        this.props.requestUpdateDwelling(id, dwelling);
-    }
-
     handleChange(answer) {
         const {chapter} = this.props;
         const {dwelling} = this.state;
@@ -64,6 +60,20 @@ class DwellingEditor extends Component {
 
     handlePrevious() {
         this.props.requestSurvey(this.props.match.params.id);
+    }
+
+    handleSubmit() {
+        const {chapter} = this.props;
+        const {id} = this.props.match.params;
+        const {dwelling} = this.state;
+        const section = getSection(dwelling, chapter);
+        return isModuleValid(section, chapter.rows)
+            ? this.props.requestUpdateDwelling(id, dwelling)
+            : Alert.alert(
+                'Atención',
+                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
+                [{text: 'Aceptar'}]
+            );
     }
 
     renderContent() {

@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Alert} from '@indec/react-native-commons/util';
 
 import {
     requestHousehold,
@@ -12,6 +13,7 @@ import {
 import {Address, Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import isModuleValid from '../../util/isModuleValid';
 import {getSection, handleChangeAnswer} from '../../util/section';
 import Section from '../Section';
 import AddressCard from '../AddressCard';
@@ -33,7 +35,7 @@ class HouseholdResponse extends Component {
 
     static defaultProps = {
         saving: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -62,10 +64,18 @@ class HouseholdResponse extends Component {
     }
 
     async onSubmit() {
+        const {chapter} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {household} = this.state;
         await this.props.requestCreateHouseholdVisit(household);
-        this.props.requestUpdateHousehold(id, dwellingOrder, household);
+        const section = getSection(household, chapter);
+        return isModuleValid(section, chapter.rows)
+            ? this.props.requestUpdateHousehold(id, dwellingOrder, household)
+            : Alert.alert(
+                'Atención',
+                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
+                [{text: 'Aceptar'}]
+            );
     }
 
     renderContent() {

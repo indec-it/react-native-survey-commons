@@ -159,10 +159,13 @@ export default class SurveysService {
     static async removeHousehold(id, dwellingOrder, householdOrder) {
         const survey = await SurveysService.findById(id);
         const dwelling = getDwelling(survey, dwellingOrder);
+        const household = find(dwelling.households, h => h.order === householdOrder && !h.disabled);
 
-        dwelling.households = map(
-            filter(dwelling.households, household => household.order !== householdOrder),
-            (member, index) => Object.assign(member, {order: index + 1})
+        household.disabled = true;
+
+        forEach(
+            reject(dwelling.households, h => h.disabled),
+            (house, index) => Object.assign(house, {order: index + 1})
         );
 
         await SurveysService.save(survey);
@@ -216,10 +219,13 @@ export default class SurveysService {
         const survey = await SurveysService.findById(id);
         const dwelling = getDwelling(survey, dwellingOrder);
         const household = getHousehold(dwelling, householdOrder);
+        const member = find(household.members, m => m.order === memberOrder && !m.disabled);
 
-        household.members = map(
-            filter(household.members, member => member.order !== memberOrder),
-            (member, index) => Object.assign(member, {order: index + 1})
+        member.disabled = true;
+
+        forEach(
+            reject(household.members, m => m.disabled),
+            (m, index) => Object.assign(m, {order: index + 1})
         );
 
         await SurveysService.save(survey);

@@ -1,6 +1,7 @@
 export default class Member {
     order = 1;
     response = false;
+    disabled = false;
     notResponseCause = null;
     characteristics = {};
 

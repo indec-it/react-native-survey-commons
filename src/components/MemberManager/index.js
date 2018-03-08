@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {map, max, concat, every, filter} from 'lodash';
+import {concat, every, find, forEach, max, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -99,12 +99,15 @@ class MemberManager extends Component {
             }, {
                 text: 'Confirmar',
                 onPress: () => this.setState(
-                    state => ({
-                        members: map(
-                            filter(state.members, member => member.order !== order),
-                            (member, index) => Object.assign(member, {order: index + 1})
-                        )
-                    })
+                    ({members}) => {
+                        const member = find(members, m => m.order === order && !m.disabled);
+                        member.disabled = true;
+                        forEach(
+                            reject(members, m => m.disabled),
+                            (m, index) => Object.assign(m, {order: index + 1})
+                        );
+                        return ({members});
+                    }
                 )
             }]
         );
@@ -146,7 +149,7 @@ class MemberManager extends Component {
                 <Title>Listado de Personas del Hogar</Title>
                 <ScrollView>
                     <List>
-                        {members.map(member => (
+                        {reject(members, member => member.disabled).map(member => (
                             <MemberCharacteristics
                                 key={member.order}
                                 onChange={(answer, rows) => this.handleChange(answer, rows)}

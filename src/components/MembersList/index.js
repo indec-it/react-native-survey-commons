@@ -5,7 +5,7 @@ import {Text, View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {isEmpty, map} from 'lodash';
+import {isEmpty, map, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
 import {requestMembers, requestCloseHouseholdVisit, requestRemoveMember} from '../../actions/survey';
@@ -13,12 +13,15 @@ import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 import styles from './styles';
 
-const getMembersCharacteristics = members => map(members, member => ({
-    ...member,
-    name: member.characteristics.name,
-    relationship: member.characteristics.relationship,
-    isHomeBoss: member.isHomeBoss()
-}));
+const getMembersCharacteristics = members => map(
+    reject(members, member => member.disabled),
+    member => ({
+        ...member,
+        name: member.characteristics.name,
+        relationship: member.characteristics.relationship,
+        isHomeBoss: member.isHomeBoss()
+    })
+);
 
 class MembersList extends Component {
     static propTypes = {

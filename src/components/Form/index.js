@@ -7,6 +7,7 @@ import {stylePropType} from '@indec/react-native-commons/util';
 
 import canAnswerQuestion from '../../util/canAnswerQuestion';
 import renderQuestionErrors from '../../util/renderQuestionErrors';
+import rowsPropTypes from '../../util/rowsPropTypes';
 
 const registry = new ComponentsRegistry();
 
@@ -46,7 +47,7 @@ const Form = ({
 );
 
 Form.propTypes = {
-    rows: PropTypes.shape({}).isRequired,
+    rows: rowsPropTypes.isRequired,
     chapter: PropTypes.shape({}),
     onChange: PropTypes.func.isRequired,
     questionStyles: PropTypes.shape({}),

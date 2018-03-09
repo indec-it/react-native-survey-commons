@@ -1,12 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Title} from '@indec/react-native-commons';
 
 import {requestAreas} from '../../actions/survey';
-import styles from './styles';
 
 class AreasList extends Component {
     static propTypes = {
@@ -57,9 +55,7 @@ class AreasList extends Component {
         return (
             <Fragment>
                 <Title>Listado de áreas</Title>
-                <View style={styles.tableContainer}>
-                    <Table columns={this.columns} data={areas}/>
-                </View>
+                <Table columns={this.columns} data={areas}/>
             </Fragment>
         );
     }

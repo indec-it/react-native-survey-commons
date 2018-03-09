@@ -1,9 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-    tableContainer: {
-        flex: 1
-    },
     actionButtons: {
         marginTop: 20,
         flex: 0.17,

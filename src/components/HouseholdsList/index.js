@@ -131,11 +131,9 @@ class HouseholdsList extends Component {
                         onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
                     />
                 </View>
+                <Title>Listado de hogares</Title>
                 <View style={styles.tableContainer}>
-                    <Title>Listado de hogares</Title>
-                    <View style={styles.tableContainer}>
-                        <Table columns={this.columns} data={dwelling.getHouseholds()}/>
-                    </View>
+                    <Table columns={this.columns} data={dwelling.getHouseholds()}/>
                 </View>
                 <NavigationButtons
                     onBack={() => this.props.onPrevious(dwelling)}

@@ -150,7 +150,7 @@ export default class SurveysService {
     static async saveHousehold(id, dwellingOrder, household) {
         const survey = await SurveysService.findById(id);
         const dwelling = find(survey.dwellings, d => d.order === dwellingOrder);
-        const householdIndex = findIndex(dwelling.households, h => h.order === household.order);
+        const householdIndex = findIndex(dwelling.households, h => !h.disabled && h.order === household.order);
         dwelling.households[householdIndex] = household;
         await SurveysService.save(survey);
         return household;

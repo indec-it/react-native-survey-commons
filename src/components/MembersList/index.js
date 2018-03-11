@@ -152,9 +152,7 @@ class MembersList extends Component {
                     <Title>Listado de Personas del Hogar</Title>
                     {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
                     {!isEmpty(members) &&
-                    <View style={styles.tableContainer}>
-                        <Table columns={this.columns} data={getMembersCharacteristics(members)}/>
-                    </View>}
+                        <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
                 </View>
                 <NavigationButtons
                     onSubmit={() => this.handleCloseHouseholdVisit()}

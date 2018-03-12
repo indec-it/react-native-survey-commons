@@ -1,15 +1,25 @@
-import {filter, forEach} from 'lodash';
+import {forEach} from 'lodash';
 
 import {canAnswerQuestion, getQuestionsWithParents} from '.';
 
-export default (rows, chapter) => {
-    const newChapter = {...chapter};
+/**
+ * Clean children questions when the parent condition is false
+ * @param {Array<object>} rows An rows array where questions come from..
+ * @param {object} chapter A chapter to be cleaned.
+ * @returns {object} Returns a cleaned chapter of invalid children answers.
+ */
+const cleanChildrenQuestions = (rows, chapter) => {
+    const cleanedChapter = {...chapter};
     forEach(
-        filter(
-            getQuestionsWithParents(rows),
-            question => !canAnswerQuestion(question, chapter)
-        ),
-        question => delete newChapter[question.name]
+        getQuestionsWithParents(rows),
+        question => {
+            // We can't filter before the forEach because we need to clean the chain of questions dependency.
+            if (!canAnswerQuestion(question, cleanedChapter)) {
+                delete cleanedChapter[question.name];
+            }
+        }
     );
-    return newChapter;
+    return cleanedChapter;
 };
+
+export default cleanChildrenQuestions;

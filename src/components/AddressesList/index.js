@@ -31,27 +31,27 @@ class AddressesList extends Component {
         super(props);
         this.columns = [{
             id: 1,
-            label: 'Calle',
+            label: 'Nombre de calle',
             field: 'street',
             style: styles.streetColumn
         }, {
             id: 2,
-            label: 'Altura',
+            label: 'Puerta N°',
             field: 'streetNumber',
             style: styles.column
         }, {
             id: 3,
-            label: 'Piso',
+            label: 'Piso N°',
             field: 'floor',
             style: styles.column
         }, {
             id: 4,
-            label: 'Depto.',
-            field: 'departamentName',
+            label: 'Depto/Pieza',
+            field: 'room',
             style: styles.column
         }, {
             id: 5,
-            label: 'N° list.',
+            label: 'N° viv. list.',
             field: 'listNumber',
             style: styles.column
         }, {

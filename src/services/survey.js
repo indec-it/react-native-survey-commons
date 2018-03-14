@@ -48,7 +48,7 @@ export default class SurveysService {
                 survey => ({
                     area: survey.address.area,
                     ups: survey.address.ups,
-                    departmentName: survey.address.departmentName
+                    localityName: survey.address.localityName
                 })
             ),
             area => area.area
@@ -66,7 +66,8 @@ export default class SurveysService {
                 street: survey.address.street,
                 streetNumber: survey.address.streetNumber,
                 floor: survey.address.floor,
-                departmentName: survey.address.departmentName,
+                room: survey.address.room,
+                localityName: survey.address.localityName,
                 surveyAddressState: survey.surveyAddressState,
                 surveyId: survey._id,
                 dwellingResponse: survey.dwellingResponse,

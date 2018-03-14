@@ -13,7 +13,7 @@ class AreasList extends Component {
             PropTypes.shape({
                 ups: PropTypes.number,
                 area: PropTypes.number,
-                departmentName: PropTypes.string
+                localityName: PropTypes.string
             })
         ),
         onSelect: PropTypes.func.isRequired
@@ -31,12 +31,12 @@ class AreasList extends Component {
             field: 'ups'
         }, {
             id: 2,
-            label: 'Área',
+            label: 'N° Área',
             field: 'area'
         }, {
             id: 3,
-            label: 'Departamento',
-            field: 'departmentName'
+            label: 'Localidad',
+            field: 'localityName'
         }, {
             id: 4,
             componentClass: TableIcon,

@@ -152,8 +152,9 @@ class HouseholdsList extends Component {
                 <Title>Listado de hogares</Title>
                 <Table columns={this.columns} data={dwelling.getHouseholds()}/>
                 <NavigationButtons
-                    onBack={() => this.props.onPrevious(dwelling)}
+                    onBack={() => this.props.onPrevious(address, dwelling)}
                     onSubmit={() => this.closeDwelling()}
+                    backButtonText="Ir al listado de viviendas"
                     submitButtonText="Cerrar vivienda"
                 />
             </Fragment>

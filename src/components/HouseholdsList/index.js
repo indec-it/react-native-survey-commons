@@ -33,6 +33,8 @@ class HouseholdsList extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        dwellingValidationState: PropTypes.func.isRequired,
+        householdValidationState: PropTypes.func.isRequired,
         saving: PropTypes.bool
     };
 
@@ -53,6 +55,16 @@ class HouseholdsList extends Component {
             id: 2,
             label: 'Jefa/e',
             field: 'householdHead'
+        }, {
+            id: 1,
+            label: 'Estado',
+            componentClass: TableIcon,
+            icon: household => (
+                this.props.householdValidationState(household) ? 'check' : 'times'
+            ),
+            color: household => (
+                this.props.householdValidationState(household) ? 'green' : 'red'
+            )
         }, {
             id: 3,
             componentClass: TableIcon,
@@ -99,16 +111,22 @@ class HouseholdsList extends Component {
 
     closeDwelling() {
         const {id} = this.props.match.params;
-        Alert.alert(
-            'Atención',
-            'Usted está por cerrar la vivienda, ¿Desea continuar?. Recuerde que esta operación es irreversible.',
-            [{
-                text: 'Cancelar'
-            }, {
-                text: 'Confirmar',
-                onPress: () => this.props.requestCloseSurvey(id)
-            }]
-        );
+        return this.props.dwellingValidationState(this.state.dwelling)
+            ? Alert.alert(
+                'Atención',
+                'Usted está por cerrar la vivienda, ¿Desea continuar?. Recuerde que esta operación es irreversible.',
+                [{
+                    text: 'Cancelar'
+                }, {
+                    text: 'Confirmar',
+                    onPress: () => this.props.requestCloseSurvey(id)
+                }]
+            )
+            : Alert.alert(
+                'Atención',
+                'La vivienda no se puede cerrar porque no es válida.',
+                [{text: 'Aceptar'}]
+            );
     }
 
     renderContent() {

@@ -33,6 +33,7 @@ class MembersList extends Component {
         onViewDetails: PropTypes.func.isRequired,
         onAddMember: PropTypes.func.isRequired,
         showCharacteristicsButton: PropTypes.func,
+        validationState: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
     };
@@ -45,25 +46,35 @@ class MembersList extends Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            id: 1,
+            id: 2,
             label: 'Número',
             field: 'order'
         }, {
-            id: 2,
+            id: 3,
             label: 'Nombre',
             field: 'name'
         }, {
-            id: 3,
+            id: 4,
             label: 'Relación',
             field: 'relationship'
         }, {
-            id: 4,
+            id: 1,
+            label: 'Estado',
+            componentClass: TableIcon,
+            icon: member => (
+                this.props.validationState(member) ? 'check' : 'times'
+            ),
+            color: member => (
+                this.props.validationState(member) ? 'green' : 'red'
+            )
+        }, {
+            id: 5,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
             onPress: member => this.props.onSelect(member)
         }, {
-            id: 5,
+            id: 6,
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',
@@ -128,8 +139,7 @@ class MembersList extends Component {
                 <View style={styles.tableContainer}>
                     <Title>Listado de Personas del Hogar</Title>
                     {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
-                    {!isEmpty(members) &&
-                    <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
+                    {!isEmpty(members) && <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
                 </View>
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}

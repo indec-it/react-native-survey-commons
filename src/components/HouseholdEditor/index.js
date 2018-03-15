@@ -58,7 +58,11 @@ class HouseholdEditor extends Component {
         const {id, dwellingOrder} = this.props.match.params;
         const {household} = this.state;
         const section = getSection(household, chapter);
-        return isModuleValid(section, chapter.rows)
+        Object.assign(
+            section,
+            {valid: isModuleValid(section, chapter.rows)}
+        );
+        return section.valid
             ? this.props.requestUpdateHousehold(id, dwellingOrder, household)
             : Alert.alert(
                 'Atención',

@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, forEach, max, reject} from 'lodash';
+import {concat, every, find, forEach, isNil, max, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -24,6 +24,7 @@ class MemberManager extends Component {
         requestSaveMembers: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onPreSave: PropTypes.func,
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(
@@ -34,7 +35,8 @@ class MemberManager extends Component {
 
     static defaultProps = {
         members: [],
-        saving: false
+        saving: false,
+        onPreSave: null
     };
 
     constructor(props) {
@@ -120,13 +122,22 @@ class MemberManager extends Component {
     handleSubmit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {members} = this.state;
-        const isValid = every(
-            members.map(member => isModuleValid(
+        forEach(
+            members,
+            member => Object.assign(
                 member.characteristics,
-                member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
-            )),
-            status => status === true
+                {
+                    valid: isModuleValid(
+                        member.characteristics,
+                        member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
+                    )
+                }
+            )
         );
+        if (!isNil(this.props.onPreSave)) {
+            this.props.onPreSave(members, this.props.members);
+        }
+        const isValid = every(members, member => member.characteristics.valid);
         return isValid
             ? this.props.requestSaveMembers(id, dwellingOrder, householdOrder, members)
             : Alert.alert(

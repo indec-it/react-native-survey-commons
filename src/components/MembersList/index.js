@@ -136,14 +136,15 @@ class MembersList extends Component {
         return (
             <Fragment>
                 {this.renderButtons()}
-                <View style={styles.tableContainer}>
-                    <Title>Listado de Personas del Hogar</Title>
-                    {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
-                    {!isEmpty(members) && <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
-                </View>
+                <Title>Listado de Personas del Hogar</Title>
+                {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
+                {!isEmpty(members) && <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}
-                    iconRight={{name: 'lock', color: '#333'}}
+                    iconRight={{
+                        name: 'lock',
+                        color: '#333'
+                    }}
                     submitButtonText="Cerrar visita"
                 />
             </Fragment>

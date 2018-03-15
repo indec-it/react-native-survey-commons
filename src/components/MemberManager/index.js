@@ -5,11 +5,11 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, forEach, max, reject} from 'lodash';
+import {concat, every, find, filter, forEach, max, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
-import {requestMembers, requestSaveMembers} from '../../actions/survey';
+import {requestHousehold, requestMembers, requestSaveMembers} from '../../actions/survey';
 import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import isMemberSelected from '../../util/isMemberSelected';
@@ -17,10 +17,19 @@ import isModuleValid from '../../util/isModuleValid';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 
+const alert = () => Alert.alert(
+    'Atención no puede agregar más personas',
+    'Superó máximo indicado.',
+    [{
+        text: 'OK'
+    }]
+);
+
 class MemberManager extends Component {
     static propTypes = {
         match: matchParamsIdPropTypes.isRequired,
         requestMembers: PropTypes.func.isRequired,
+        requestHousehold: PropTypes.func.isRequired,
         requestSaveMembers: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -29,11 +38,18 @@ class MemberManager extends Component {
         members: PropTypes.arrayOf(
             PropTypes.instanceOf(Member)
         ),
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        household: PropTypes.shape({
+            situation: PropTypes.shape({
+                numberOfPersons: PropTypes.shape({}),
+                sharingFoodCostGroups: PropTypes.shape({})
+            })
+        })
     };
 
     static defaultProps = {
         members: [],
+        household: null,
         saving: false
     };
 
@@ -46,6 +62,7 @@ class MemberManager extends Component {
 
     componentWillMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        this.props.requestHousehold(id, dwellingOrder, householdOrder);
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
 
@@ -91,19 +108,20 @@ class MemberManager extends Component {
     }
 
     addMember() {
-        console.log('state =', this.state);
-        Alert.alert(
-            'Atención no puede agregar más personas',
-            'Superó máximo indicado.',
-            [{
-                text: 'Cancelar'
-            }, {
-                text: 'Confirmar',
-                onPress: () => this.createMember()
-            }]
-        );
+        const {members} = this.state;
+        const membersSize = filter(members, m => !m.disabled).length;
+        const {numberOfPersons, sharingFoodCostGroups} = this.props.household.situation;
+        if (numberOfPersons <= 1 && membersSize >= 1) {
+            alert();
+        } else {
+            this.createMember();
+        }
+        if (numberOfPersons > 1 && membersSize >= sharingFoodCostGroups) {
+            alert();
+        } else {
+            this.createMember();
+        }
     }
-
 
     removeMember(order) {
         Alert.alert(
@@ -157,24 +175,25 @@ class MemberManager extends Component {
             <Fragment>
                 <Button
                     title="Agregar una persona"
-                    onPress={() => this.createMember()}
+                    onPress={() => this.addMember()}
                     rounded
                     primary
                 />
                 <Title>Listado de Personas del Hogar</Title>
                 <ScrollView>
                     <List>
-                        {reject(members, member => member.disabled).map(member => (
-                            <MemberCharacteristics
-                                key={member.order}
-                                onChange={(answer, rows) => this.handleChange(answer, rows)}
-                                onRemove={({order}) => this.removeMember(order)}
-                                onSelect={selected => this.selectMember(selected)}
-                                chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
-                                member={member}
-                                isSelected={selectedMember && selectedMember.order === member.order}
-                            />
-                        ))}
+                        {reject(members, member => member.disabled)
+                            .map(member => (
+                                <MemberCharacteristics
+                                    key={member.order}
+                                    onChange={(answer, rows) => this.handleChange(answer, rows)}
+                                    onRemove={({order}) => this.removeMember(order)}
+                                    onSelect={selected => this.selectMember(selected)}
+                                    chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
+                                    member={member}
+                                    isSelected={selectedMember && selectedMember.order === member.order}
+                                />
+                            ))}
                     </List>
                 </ScrollView>
                 <NavigationButtons
@@ -194,9 +213,12 @@ class MemberManager extends Component {
 export default connect(
     state => ({
         members: state.survey.members,
+        household: state.survey.household,
         saving: state.survey.saving
     }),
     dispatch => ({
+        requestHousehold: (id, dwellingOrder, householdOrder) =>
+            dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
         requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
         requestSaveMembers: (id, dwelling, household, members) => dispatch(
             requestSaveMembers(id, dwelling, household, members)

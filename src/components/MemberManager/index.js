@@ -90,6 +90,21 @@ class MemberManager extends Component {
         });
     }
 
+    addMember() {
+        console.log('state =', this.state);
+        Alert.alert(
+            'Atención no puede agregar más personas',
+            'Superó máximo indicado.',
+            [{
+                text: 'Cancelar'
+            }, {
+                text: 'Confirmar',
+                onPress: () => this.createMember()
+            }]
+        );
+    }
+
+
     removeMember(order) {
         Alert.alert(
             'Atención',

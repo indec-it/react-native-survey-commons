@@ -8,7 +8,7 @@ import {Alert} from '@indec/react-native-commons/util';
 import {isEmpty, map, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestMembers, requestCloseHouseholdVisit, requestRemoveMember} from '../../actions/survey';
+import {requestMembers, requestRemoveMember} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 import styles from './styles';
@@ -25,7 +25,6 @@ const getMembersCharacteristics = members => map(
 
 class MembersList extends Component {
     static propTypes = {
-        requestCloseHouseholdVisit: PropTypes.func.isRequired,
         requestMembers: PropTypes.func.isRequired,
         requestRemoveMember: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
@@ -35,13 +34,11 @@ class MembersList extends Component {
         onAddMember: PropTypes.func.isRequired,
         showCharacteristicsButton: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
-        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
-        saving: PropTypes.bool
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
     };
 
     static defaultProps = {
         members: null,
-        saving: false,
         showCharacteristicsButton: true
     };
 
@@ -94,26 +91,6 @@ class MembersList extends Component {
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.saving && !nextProps.saving) {
-            this.props.onSubmit();
-        }
-    }
-
-    handleCloseHouseholdVisit() {
-        const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        Alert.alert(
-            'Atención',
-            'Usted está por cerrar la visita, ¿Desea continuar?. Recuerde que esta operación es irreversible.',
-            [{
-                text: 'Cancelar'
-            }, {
-                text: 'Confirmar',
-                onPress: () => this.props.requestCloseHouseholdVisit(id, dwellingOrder, householdOrder)
-            }]
-        );
-    }
-
     renderButtons() {
         const {dwellingOrder, householdOrder} = this.props.match.params;
         const {showCharacteristicsButton, members} = this.props;
@@ -152,10 +129,10 @@ class MembersList extends Component {
                     <Title>Listado de Personas del Hogar</Title>
                     {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
                     {!isEmpty(members) &&
-                        <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
+                    <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
                 </View>
                 <NavigationButtons
-                    onSubmit={() => this.handleCloseHouseholdVisit()}
+                    onSubmit={() => this.props.onSubmit()}
                     iconRight={{name: 'lock', color: '#333'}}
                     submitButtonText="Cerrar visita"
                 />
@@ -176,9 +153,6 @@ export default connect(
     dispatch => ({
         requestMembers: (id, dwellingOrder, householdOrder) => (
             dispatch(requestMembers(id, dwellingOrder, householdOrder))
-        ),
-        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder) => dispatch(
-            requestCloseHouseholdVisit(id, dwellingOrder, householdOrder)
         ),
         requestRemoveMember: (id, dwellingOrder, householdOrder, memberOrder) => dispatch(
             requestRemoveMember(id, dwellingOrder, householdOrder, memberOrder)

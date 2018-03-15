@@ -157,9 +157,17 @@ export function* createHouseholdVisit({household}) {
     }
 }
 
-export function* closeHouseholdVisit({id, dwellingOrder, householdOrder}) {
+export function* closeHouseholdVisit({
+    id, dwellingOrder, householdOrder, result
+}) {
     try {
-        yield call(SurveysService.closeHouseholdVisit, id, toNumber(dwellingOrder), toNumber(householdOrder));
+        yield call(
+            SurveysService.closeHouseholdVisit,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder),
+            result
+        );
         yield put(notifyCloseHouseholdVisit());
     } catch (err) {
         yield put(handleError(err));

@@ -171,18 +171,19 @@ export const requestCreateHouseholdVisit = household => ({
     household
 });
 
-export const HOUSEHOLD_CLOSE_VISIT_REQUESTED = 'HOUSEHOLD_CLOSE_VISIT_REQUESTED';
-export const HOUSEHOLD_CLOSE_VISIT_SUCCEEDED = 'HOUSEHOLD_CLOSE_VISIT_SUCCEEDED';
+export const CLOSE_HOUSEHOLD_VISIT_REQUESTED = 'CLOSE_HOUSEHOLD_VISIT_REQUESTED';
+export const CLOSE_HOUSEHOLD_VISIT_SUCCEEDED = 'CLOSE_HOUSEHOLD_VISIT_SUCCEEDED';
 
-export const requestCloseHouseholdVisit = (id, dwellingOrder, householdOrder) => ({
-    type: HOUSEHOLD_CLOSE_VISIT_REQUESTED,
+export const requestCloseHouseholdVisit = (id, dwellingOrder, householdOrder, result) => ({
+    type: CLOSE_HOUSEHOLD_VISIT_REQUESTED,
     id,
     dwellingOrder,
-    householdOrder
+    householdOrder,
+    result
 });
 
 export const notifyCloseHouseholdVisit = () => ({
-    type: HOUSEHOLD_CLOSE_VISIT_SUCCEEDED
+    type: CLOSE_HOUSEHOLD_VISIT_SUCCEEDED
 });
 
 export const MEMBERS_FETCH_REQUESTED = 'MEMBERS_FETCH_REQUESTED';

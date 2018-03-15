@@ -7,8 +7,8 @@ import {
     DWELLING_FETCH_SUCCEEDED,
     DWELLING_UPDATE_REQUESTED,
     DWELLING_UPDATE_SUCCEEDED,
-    HOUSEHOLD_CLOSE_VISIT_REQUESTED,
-    HOUSEHOLD_CLOSE_VISIT_SUCCEEDED,
+    CLOSE_HOUSEHOLD_VISIT_REQUESTED,
+    CLOSE_HOUSEHOLD_VISIT_SUCCEEDED,
     HOUSEHOLD_FETCH_SUCCEEDED,
     HOUSEHOLD_UPDATE_REQUESTED,
     HOUSEHOLD_UPDATE_SUCCEEDED,
@@ -68,7 +68,7 @@ export default function (state = {surveys: {}}, action) {
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:
             return {...state, survey: action.survey};
-        case HOUSEHOLD_CLOSE_VISIT_SUCCEEDED:
+        case CLOSE_HOUSEHOLD_VISIT_SUCCEEDED:
         case MEMBERS_SAVE_SUCCEEDED:
         case UPDATE_SURVEY_SUCCEEDED:
         case SURVEY_CLOSE_SUCCEEDED:
@@ -76,7 +76,7 @@ export default function (state = {surveys: {}}, action) {
             return {...state, saving: false};
         case DWELLING_UPDATE_REQUESTED:
         case MEMBERS_SAVE_REQUESTED:
-        case HOUSEHOLD_CLOSE_VISIT_REQUESTED:
+        case CLOSE_HOUSEHOLD_VISIT_REQUESTED:
         case HOUSEHOLD_UPDATE_REQUESTED:
         case MEMBER_SAVE_REQUESTED:
         case UPDATE_SURVEY_REQUESTED:

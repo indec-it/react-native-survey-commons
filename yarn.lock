@@ -256,7 +256,7 @@
 
 "@babel/plugin-transform-computed-properties@^7.0.0-beta":
   version "7.0.0-beta.41"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-computed-properties/-/plugin-transform-computed-properties-7.0.0-beta.41.tgz#16ec1978eba075aba847a9a5d9f469cba6dcc40a"
+  resolved "http://registry.npmjs.org/@babel/plugin-transform-computed-properties/-/plugin-transform-computed-properties-7.0.0-beta.41.tgz#16ec1978eba075aba847a9a5d9f469cba6dcc40a"
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.41"
 
@@ -540,7 +540,7 @@
 
 "@indec/react-native-table@indec-it/react-native-table":
   version "0.1.2"
-  resolved "https://codeload.github.com/indec-it/react-native-table/tar.gz/b5e4fd8820cf34af8d75eea4aa438b09c2fe8989"
+  resolved "https://codeload.github.com/indec-it/react-native-table/tar.gz/9fcf255560a1ab7eb4eb45e9e19cfa2ef85757c8"
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
@@ -1679,7 +1679,7 @@ compressible@~2.0.13:
 
 compression@^1.7.1:
   version "1.7.2"
-  resolved "https://registry.yarnpkg.com/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
   dependencies:
     accepts "~1.3.4"
     bytes "3.0.0"
@@ -4008,7 +4008,7 @@ pify@^3.0.0:
 
 pinkie-promise@^2.0.0:
   version "2.0.1"
-  resolved "https://registry.yarnpkg.com/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
+  resolved "http://registry.npmjs.org/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
   dependencies:
     pinkie "^2.0.0"
 

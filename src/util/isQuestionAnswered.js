@@ -1,7 +1,14 @@
 import {types} from '@indec/react-native-form-builder';
+import {isArray, isEmpty} from 'lodash';
+
 import canAnswerQuestion from './canAnswerQuestion';
 
-const isAnswered = (question, section, answer) => !canAnswerQuestion(question, section) || !!answer;
+const isAnswered = (question, section, answer) => {
+    if (isArray(answer) && isEmpty(answer)) {
+        return false;
+    }
+    return !!answer || !canAnswerQuestion(question, section);
+};
 
 const isQuestionAnswered = (question, section) => {
     switch (question.type) {

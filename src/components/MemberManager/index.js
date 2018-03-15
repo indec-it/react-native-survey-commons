@@ -41,8 +41,8 @@ class MemberManager extends Component {
         saving: PropTypes.bool,
         household: PropTypes.shape({
             situation: PropTypes.shape({
-                numberOfPersons: PropTypes.shape({}),
-                sharingFoodCostGroups: PropTypes.shape({})
+                numberOfPersons: PropTypes.number,
+                sharingFoodCostGroups: PropTypes.number
             })
         })
     };
@@ -111,12 +111,12 @@ class MemberManager extends Component {
         const {members} = this.state;
         const membersSize = filter(members, m => !m.disabled).length;
         const {numberOfPersons, sharingFoodCostGroups} = this.props.household.situation;
-        if (numberOfPersons <= 1 && membersSize >= 1) {
+        if (numberOfPersons === 1 && membersSize >= 1) {
             alert();
         } else {
             this.createMember();
         }
-        if (numberOfPersons > 1 && membersSize >= sharingFoodCostGroups) {
+        if (numberOfPersons === 2 && membersSize >= sharingFoodCostGroups) {
             alert();
         } else {
             this.createMember();

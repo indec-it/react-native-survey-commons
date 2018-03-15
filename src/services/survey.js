@@ -178,12 +178,13 @@ export default class SurveysService {
         return household;
     }
 
-    static async closeHouseholdVisit(id, dwellingOrder, householdOrder) {
+    static async closeHouseholdVisit(id, dwellingOrder, householdOrder, result) {
         const survey = await SurveysService.findById(id);
         const dwelling = getDwelling(survey, dwellingOrder);
         const household = getHousehold(dwelling, householdOrder);
         const lastVisit = last(household.visits);
         lastVisit.end = new Date();
+        Object.assign(lastVisit, result);
         return SurveysService.save(survey);
     }
 

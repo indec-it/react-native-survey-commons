@@ -12,6 +12,7 @@ import MembersList from './components/MembersList';
 import NavigationButtons from './components/NavigationButtons';
 import Section from './components/Section';
 import Sync from './components/Sync';
+import VisitResultEditor from './components/VisitResultEditor';
 
 export {AddressCard};
 export {AddressesList};
@@ -27,3 +28,4 @@ export {MembersList};
 export {NavigationButtons};
 export {Section};
 export {Sync};
+export {VisitResultEditor};

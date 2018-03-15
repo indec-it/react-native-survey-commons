@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
@@ -16,6 +16,7 @@ class MemberEditor extends Component {
     static propTypes = {
         requestMember: PropTypes.func.isRequired,
         requestSaveMember: PropTypes.func.isRequired,
+        onInterrupt: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -75,6 +76,11 @@ class MemberEditor extends Component {
         const section = getSection(member, chapter);
         return (
             <Fragment>
+                <Button
+                    primary
+                    title="Interrumpir survey"
+                    onPress={() => this.props.onInterrupt()}
+                />
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}

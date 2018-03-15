@@ -44,7 +44,7 @@ class HouseholdCloseVisit extends Component {
     }
 
     onSubmit() {
-        return this.props.requestCloseHouseholdVisit(
+        this.props.requestCloseHouseholdVisit(
             this.props.match.params.id,
             this.props.match.params.dwellingOrder,
             this.props.match.params.householdOrder,
@@ -82,7 +82,8 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, visitDetails) =>
-            dispatch(requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, visitDetails))
+        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, visitDetails) => dispatch(
+            requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, visitDetails)
+        )
     })
 )(HouseholdCloseVisit);

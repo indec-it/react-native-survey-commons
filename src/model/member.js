@@ -1,3 +1,5 @@
+import {cloneDeep} from 'lodash';
+
 export default class Member {
     order = 1;
     response = false;
@@ -6,7 +8,7 @@ export default class Member {
     characteristics = {};
 
     constructor(obj) {
-        Object.assign(this, obj);
+        Object.assign(this, cloneDeep(obj));
     }
 
     isHomeBoss() {

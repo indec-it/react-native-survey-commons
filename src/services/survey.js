@@ -107,6 +107,7 @@ export default class SurveysService {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
         if (dwelling.response === answers.NO) {
+            survey.surveyAddressState = surveyState.RESOLVED;
             dwelling.visits.push({
                 date: new Date(),
                 response: dwelling.response,

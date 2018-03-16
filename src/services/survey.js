@@ -14,7 +14,7 @@ const disableHouseholds = households => forEach(
 const getDwelling = (survey, dwellingOrder) => find(survey.dwellings, dwelling => dwelling.order === dwellingOrder);
 
 const getHousehold = (dwelling, householdOrder) => (
-    find(dwelling.households, household => household.order === householdOrder)
+    find(dwelling.households, household => household.order === householdOrder && !household.disabled)
 );
 
 export default class SurveysService {

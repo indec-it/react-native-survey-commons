@@ -8,6 +8,7 @@ export default class Dwelling {
     response = null;
     noResponseCause = null;
     id = Date.now();
+    visits = [];
 
     constructor(obj) {
         Object.assign(this, obj);

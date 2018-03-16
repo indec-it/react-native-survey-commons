@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
 
-import {requestDwelling, requestUpdateDwelling, requestSurvey} from '../../actions/survey';
+import {requestDwelling, requestUpdateDwelling} from '../../actions/survey';
 import {Dwelling, Survey} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -13,7 +13,6 @@ import Section from '../Section';
 
 class DwellingEditor extends Component {
     static propTypes = {
-        requestSurvey: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
         requestUpdateDwelling: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
@@ -46,9 +45,6 @@ class DwellingEditor extends Component {
         if (this.props.saving && !nextProps.saving) {
             this.props.onSubmit(nextProps.survey);
         }
-        if (nextProps.survey && !this.props.saving) {
-            this.props.onPrevious(nextProps.survey);
-        }
     }
 
     handleChange(answer) {
@@ -58,7 +54,7 @@ class DwellingEditor extends Component {
     }
 
     handlePrevious() {
-        this.props.requestSurvey(this.props.match.params.id);
+        this.props.onPrevious(this.props.dwelling);
     }
 
     handleSubmit() {
@@ -101,7 +97,6 @@ export default connect(
     }),
     dispatch => ({
         requestDwelling: (id, dwellingOrder) => dispatch(requestDwelling(id, dwellingOrder)),
-        requestUpdateDwelling: (id, dwelling) => dispatch(requestUpdateDwelling(id, dwelling)),
-        requestSurvey: id => dispatch(requestSurvey(id))
+        requestUpdateDwelling: (id, dwelling) => dispatch(requestUpdateDwelling(id, dwelling))
     })
 )(DwellingEditor);

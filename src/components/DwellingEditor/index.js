@@ -67,7 +67,11 @@ class DwellingEditor extends Component {
         const {id} = this.props.match.params;
         const {dwelling} = this.state;
         const section = getSection(dwelling, chapter);
-        return isModuleValid(section, chapter.rows)
+        Object.assign(
+            section,
+            {valid: isModuleValid(section, chapter.rows)}
+        );
+        return section.valid
             ? this.props.requestUpdateDwelling(id, dwelling)
             : Alert.alert(
                 'Atención',

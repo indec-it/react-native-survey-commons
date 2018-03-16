@@ -14,7 +14,7 @@ const disableHouseholds = households => forEach(
 const getDwelling = (survey, dwellingOrder) => find(survey.dwellings, dwelling => dwelling.order === dwellingOrder);
 
 const getHousehold = (dwelling, householdOrder) => (
-    find(dwelling.households, household => household.order === householdOrder)
+    find(dwelling.households, household => household.order === householdOrder && !household.disabled)
 );
 
 export default class SurveysService {
@@ -106,8 +106,16 @@ export default class SurveysService {
         ) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
-        if (dwelling.response === answers.NO && !isEmpty(dwelling.households)) {
-            disableHouseholds(dwelling.households);
+        if (dwelling.response === answers.NO) {
+            survey.surveyAddressState = surveyState.RESOLVED;
+            dwelling.visits.push({
+                date: new Date(),
+                response: dwelling.response,
+                notResponseCause: dwelling.notResponseCause
+            });
+            if (!isEmpty(dwelling.households)) {
+                disableHouseholds(dwelling.households);
+            }
         }
         survey.dwellingResponse = dwelling.response;
         await SurveysService.save(survey);
@@ -185,7 +193,8 @@ export default class SurveysService {
         const lastVisit = last(household.visits);
         lastVisit.end = new Date();
         Object.assign(lastVisit, result);
-        return SurveysService.save(survey);
+        await SurveysService.save(survey);
+        return household;
     }
 
     static async getMembers(id, dwellingOrder, householdOrder) {

@@ -1,3 +1,4 @@
+import {types} from '@indec/react-native-form-builder';
 import {forEach} from 'lodash';
 
 import {canAnswerQuestion, getQuestionsWithParents} from '.';
@@ -15,7 +16,11 @@ const cleanChildrenQuestions = (rows, chapter) => {
         question => {
             // We can't filter before the forEach because we need to clean the chain of questions dependency.
             if (!canAnswerQuestion(question, cleanedChapter)) {
-                delete cleanedChapter[question.name];
+                if (question.type === types.RADIO_TABLE) {
+                    forEach(question.questions, q => delete cleanedChapter[question.name + q.name]);
+                } else {
+                    delete cleanedChapter[question.name];
+                }
             }
         }
     );

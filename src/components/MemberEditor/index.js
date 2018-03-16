@@ -61,7 +61,11 @@ class MemberEditor extends Component {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
         const section = getSection(member, chapter);
-        return isModuleValid(section, chapter.rows)
+        Object.assign(
+            section,
+            {valid: isModuleValid(section, chapter.rows)}
+        );
+        return section.valid
             ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
             : Alert.alert(
                 'Atención',
@@ -78,7 +82,7 @@ class MemberEditor extends Component {
             <Fragment>
                 <Button
                     primary
-                    title="Interrumpir survey"
+                    title="Interrumpir encuesta"
                     onPress={() => this.props.onInterrupt()}
                 />
                 <Title>{chapter.title}</Title>

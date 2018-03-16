@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, filter, forEach, max, reject} from 'lodash';
+import {concat, every, find, filter, forEach, isNil, max, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -17,7 +17,7 @@ import isModuleValid from '../../util/isModuleValid';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 
-const alert = () => Alert.alert(
+const showMaxPersonsAlert = () => Alert.alert(
     'Atención no puede agregar más personas',
     'Superó máximo indicado.',
     [{
@@ -33,11 +33,10 @@ class MemberManager extends Component {
         requestSaveMembers: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onPreSave: PropTypes.func,
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
-        members: PropTypes.arrayOf(
-            PropTypes.instanceOf(Member)
-        ),
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         saving: PropTypes.bool,
         household: PropTypes.shape({
             situation: PropTypes.shape({
@@ -50,7 +49,8 @@ class MemberManager extends Component {
     static defaultProps = {
         members: [],
         household: null,
-        saving: false
+        saving: false,
+        onPreSave: null
     };
 
     constructor(props) {
@@ -60,7 +60,7 @@ class MemberManager extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestHousehold(id, dwellingOrder, householdOrder);
         this.props.requestMembers(id, dwellingOrder, householdOrder);
@@ -111,13 +111,9 @@ class MemberManager extends Component {
         const {members} = this.state;
         const membersSize = filter(members, m => !m.disabled).length;
         const {numberOfPersons, sharingFoodCostGroups} = this.props.household.situation;
-        if (numberOfPersons === 1 && membersSize >= 1) {
-            alert();
-        } else {
-            this.createMember();
-        }
-        if (numberOfPersons === 2 && membersSize >= sharingFoodCostGroups) {
-            alert();
+        if ((numberOfPersons === 1 && membersSize >= 1) ||
+            (numberOfPersons === 2 && membersSize >= sharingFoodCostGroups)) {
+            showMaxPersonsAlert();
         } else {
             this.createMember();
         }
@@ -153,13 +149,22 @@ class MemberManager extends Component {
     handleSubmit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {members} = this.state;
-        const isValid = every(
-            members.map(member => isModuleValid(
+        forEach(
+            members,
+            member => Object.assign(
                 member.characteristics,
-                member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
-            )),
-            status => status === true
+                {
+                    valid: isModuleValid(
+                        member.characteristics,
+                        member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
+                    )
+                }
+            )
         );
+        if (!isNil(this.props.onPreSave)) {
+            this.props.onPreSave(members, this.props.members);
+        }
+        const isValid = every(reject(members, member => member.disabled), member => member.characteristics.valid);
         return isValid
             ? this.props.requestSaveMembers(id, dwellingOrder, householdOrder, members)
             : Alert.alert(
@@ -182,18 +187,17 @@ class MemberManager extends Component {
                 <Title>Listado de Personas del Hogar</Title>
                 <ScrollView>
                     <List>
-                        {reject(members, member => member.disabled)
-                            .map(member => (
-                                <MemberCharacteristics
-                                    key={member.order}
-                                    onChange={(answer, rows) => this.handleChange(answer, rows)}
-                                    onRemove={({order}) => this.removeMember(order)}
-                                    onSelect={selected => this.selectMember(selected)}
-                                    chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
-                                    member={member}
-                                    isSelected={selectedMember && selectedMember.order === member.order}
-                                />
-                            ))}
+                        {reject(members, member => member.disabled).map(member => (
+                            <MemberCharacteristics
+                                key={member.order}
+                                onChange={(answer, rows) => this.handleChange(answer, rows)}
+                                onRemove={({order}) => this.removeMember(order)}
+                                onSelect={selected => this.selectMember(selected)}
+                                chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
+                                member={member}
+                                isSelected={selectedMember && selectedMember.order === member.order}
+                            />
+                        ))}
                     </List>
                 </ScrollView>
                 <NavigationButtons
@@ -213,7 +217,6 @@ class MemberManager extends Component {
 export default connect(
     state => ({
         members: state.survey.members,
-        household: state.survey.household,
         saving: state.survey.saving
     }),
     dispatch => ({

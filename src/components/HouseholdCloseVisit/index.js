@@ -7,7 +7,6 @@ import {requestCloseHouseholdVisit} from '../../actions/survey';
 import {Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
-import {handleChangeAnswer} from '../../util/section';
 import Form from '../Form';
 import NavigationButtons from '../NavigationButtons';
 
@@ -39,13 +38,11 @@ class HouseholdCloseVisit extends Component {
         }
     }
 
-    onChange(answer) {
-        this.setState(state => ({
-            visitDetails: handleChangeAnswer(state.visitDetails, this.props.chapter, answer)
-        }));
+    handleChange(answer) {
+        this.setState(state => ({visitDetails: Object.assign(state.visitDetails, answer)}));
     }
 
-    onSubmit() {
+    handleSubmit() {
         this.props.requestCloseHouseholdVisit(
             this.props.match.params.id,
             this.props.match.params.dwellingOrder,
@@ -63,11 +60,11 @@ class HouseholdCloseVisit extends Component {
                 <Form
                     rows={chapter.rows}
                     chapter={visitDetails}
-                    onChange={answer => this.onChange(answer)}
+                    onChange={answer => this.handleChange(answer)}
                 />
                 <NavigationButtons
                     onBack={() => this.props.onPrevious()}
-                    onSubmit={() => this.onSubmit()}
+                    onSubmit={() => this.handleSubmit()}
                     submitButtonText="Guardar y salir"
                 />
             </Fragment>

@@ -185,7 +185,8 @@ export default class SurveysService {
         const lastVisit = last(household.visits);
         lastVisit.end = new Date();
         Object.assign(lastVisit, result);
-        return SurveysService.save(survey);
+        await SurveysService.save(survey);
+        return household;
     }
 
     static async getMembers(id, dwellingOrder, householdOrder) {

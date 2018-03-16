@@ -82,7 +82,7 @@ class MemberEditor extends Component {
             <Fragment>
                 <Button
                     primary
-                    title="Interrumpir survey"
+                    title="Interrumpir encuesta"
                     onPress={() => this.props.onInterrupt()}
                 />
                 <Title>{chapter.title}</Title>

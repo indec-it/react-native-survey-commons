@@ -106,8 +106,15 @@ export default class SurveysService {
         ) {
             SurveysService.addHouseholdToDwelling(dwelling);
         }
-        if (dwelling.response === answers.NO && !isEmpty(dwelling.households)) {
-            disableHouseholds(dwelling.households);
+        if (dwelling.response === answers.NO) {
+            dwelling.visits.push({
+                date: new Date(),
+                response: dwelling.response,
+                notResponseCause: dwelling.notResponseCause
+            });
+            if (!isEmpty(dwelling.households)) {
+                disableHouseholds(dwelling.households);
+            }
         }
         survey.dwellingResponse = dwelling.response;
         await SurveysService.save(survey);

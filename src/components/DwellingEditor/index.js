@@ -2,14 +2,13 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import {Alert} from '@indec/react-native-commons/util';
 
 import {requestDwelling, requestUpdateDwelling, requestSurvey} from '../../actions/survey';
 import {Dwelling, Survey} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
-import isModuleValid from '../../util/isModuleValid';
-import {getSection, handleChangeAnswer} from '../../util/section';
+import alertIncompleteSection from '../../util/alertIncompleteSection';
+import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 
 class DwellingEditor extends Component {
@@ -35,7 +34,7 @@ class DwellingEditor extends Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {id, dwellingOrder} = this.props.match.params;
         this.props.requestDwelling(id, dwellingOrder);
     }
@@ -53,9 +52,9 @@ class DwellingEditor extends Component {
     }
 
     handleChange(answer) {
-        const {chapter} = this.props;
-        const {dwelling} = this.state;
-        this.setState({dwelling: handleChangeAnswer(dwelling, chapter, answer)});
+        this.setState(state => ({
+            dwelling: handleChangeAnswer(state.dwelling, this.props.chapter, answer)
+        }));
     }
 
     handlePrevious() {
@@ -66,18 +65,9 @@ class DwellingEditor extends Component {
         const {chapter} = this.props;
         const {id} = this.props.match.params;
         const {dwelling} = this.state;
-        const section = getSection(dwelling, chapter);
-        Object.assign(
-            section,
-            {valid: isModuleValid(section, chapter.rows)}
-        );
-        return section.valid
+        return setSectionValidity(dwelling, chapter)
             ? this.props.requestUpdateDwelling(id, dwelling)
-            : Alert.alert(
-                'Atención',
-                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
-                [{text: 'Aceptar'}]
-            );
+            : alertIncompleteSection();
     }
 
     renderContent() {

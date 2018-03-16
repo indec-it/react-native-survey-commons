@@ -97,7 +97,7 @@ class MembersList extends Component {
         }];
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }

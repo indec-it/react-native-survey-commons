@@ -27,9 +27,7 @@ class MemberManager extends Component {
         onPreSave: PropTypes.func,
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
-        members: PropTypes.arrayOf(
-            PropTypes.instanceOf(Member)
-        ),
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         saving: PropTypes.bool
     };
 
@@ -46,7 +44,7 @@ class MemberManager extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
@@ -137,7 +135,7 @@ class MemberManager extends Component {
         if (!isNil(this.props.onPreSave)) {
             this.props.onPreSave(members, this.props.members);
         }
-        const isValid = every(members, member => member.characteristics.valid);
+        const isValid = every(reject(members, member => member.disabled), member => member.characteristics.valid);
         return isValid
             ? this.props.requestSaveMembers(id, dwellingOrder, householdOrder, members)
             : Alert.alert(

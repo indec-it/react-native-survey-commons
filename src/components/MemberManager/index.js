@@ -82,7 +82,7 @@ class MemberManager extends Component {
 
     createMember() {
         this.setState(state => {
-            const maxOrder = max(state.members.map(member => member.order)) || 0;
+            const maxOrder = max(reject(state.members, member => member.disabled).map(member => member.order)) || 0;
             return ({
                 members: concat(state.members, new Member({order: maxOrder + 1})),
                 selectedMember: null

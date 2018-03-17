@@ -56,7 +56,7 @@ class HouseholdsList extends Component {
             label: 'Jefa/e',
             field: 'householdHead'
         }, {
-            id: 1,
+            id: 3,
             label: 'Estado',
             componentClass: TableIcon,
             icon: household => (
@@ -66,13 +66,13 @@ class HouseholdsList extends Component {
                 this.props.householdValidationState(household) ? 'green' : 'red'
             )
         }, {
-            id: 3,
+            id: 4,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
             onPress: household => this.props.onSelect(this.props.match.params.id, household)
         }, {
-            id: 4,
+            id: 5,
             componentClass: TableIcon,
             icon: 'trash',
             color: 'red',

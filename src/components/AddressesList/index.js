@@ -67,7 +67,7 @@ class AddressesList extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.handleChangeSurveyAddressState(surveyAddressStateEnum.OPENED);
     }
 

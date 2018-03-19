@@ -94,7 +94,7 @@ class HouseholdsList extends Component {
         }];
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {id, dwellingOrder} = this.props.match.params;
         this.props.requestDwelling(id, dwellingOrder);
         this.props.requestAddress(id);

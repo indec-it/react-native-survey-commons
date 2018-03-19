@@ -13,7 +13,8 @@ import {requestMembers, requestSaveMembers} from '../../actions/survey';
 import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import isMemberSelected from '../../util/isMemberSelected';
-import isModuleValid from '../../util/isModuleValid';
+import isSectionValid from '../../util/isSectionValid';
+import alertIncompleteSection from '../../util/alertIncompleteSection';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 
@@ -125,7 +126,7 @@ class MemberManager extends Component {
             member => Object.assign(
                 member.characteristics,
                 {
-                    valid: isModuleValid(
+                    valid: isSectionValid(
                         member.characteristics,
                         member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
                     )
@@ -138,11 +139,7 @@ class MemberManager extends Component {
         const isValid = every(reject(members, member => member.disabled), member => member.characteristics.valid);
         return isValid
             ? this.props.requestSaveMembers(id, dwellingOrder, householdOrder, members)
-            : Alert.alert(
-                'Atención',
-                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
-                [{text: 'Aceptar'}]
-            );
+            : alertIncompleteSection();
     }
 
     renderContent() {

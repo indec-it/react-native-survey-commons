@@ -2,14 +2,13 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
-import {Alert} from '@indec/react-native-commons/util';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import chapterPropTypes from '../../util/chapterPropTypes';
-import isModuleValid from '../../util/isModuleValid';
-import {getSection, handleChangeAnswer} from '../../util/section';
+import alertIncompleteSection from '../../util/alertIncompleteSection';
+import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 
 class MemberEditor extends Component {
@@ -34,7 +33,7 @@ class MemberEditor extends Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {
             id, dwellingOrder, householdOrder, memberOrder
         } = this.props.match.params;
@@ -50,28 +49,19 @@ class MemberEditor extends Component {
         }
     }
 
-    onChange(answer) {
-        const {chapter} = this.props;
-        const {member} = this.state;
-        this.setState({member: handleChangeAnswer(member, chapter, answer)});
+    handleChange(answer) {
+        this.setState(state => ({
+            member: handleChangeAnswer(state.member, this.props.chapter, answer)
+        }));
     }
 
-    onSubmit() {
+    handleSubmit() {
         const {chapter} = this.props;
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
-        const section = getSection(member, chapter);
-        Object.assign(
-            section,
-            {valid: isModuleValid(section, chapter.rows)}
-        );
-        return section.valid
+        return setSectionValidity(member, chapter)
             ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
-            : Alert.alert(
-                'Atención',
-                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
-                [{text: 'Aceptar'}]
-            );
+            : alertIncompleteSection();
     }
 
     renderContent() {
@@ -89,9 +79,9 @@ class MemberEditor extends Component {
                 <Section
                     section={section}
                     chapter={chapter.rows}
-                    onChange={answer => this.onChange(answer)}
+                    onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.props.onPrevious(member)}
-                    onSubmit={() => this.onSubmit()}
+                    onSubmit={() => this.handleSubmit()}
                 />
             </Fragment>
         );

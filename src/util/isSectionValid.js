@@ -3,7 +3,7 @@ import {every} from 'lodash';
 import validateQuestion from './validateQuestion';
 import isQuestionAnswered from './isQuestionAnswered';
 
-const isModuleValid = (section, rows) => every(
+const isSectionValid = (section, rows) => every(
     rows,
     row => every(
         row.questions,
@@ -11,4 +11,4 @@ const isModuleValid = (section, rows) => every(
     )
 );
 
-export default isModuleValid;
+export default isSectionValid;

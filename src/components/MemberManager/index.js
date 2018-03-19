@@ -99,7 +99,7 @@ class MemberManager extends Component {
 
     createMember() {
         this.setState(state => {
-            const maxOrder = max(state.members.map(member => member.order)) || 0;
+            const maxOrder = max(reject(state.members, member => member.disabled).map(member => member.order)) || 0;
             return ({
                 members: concat(state.members, new Member({order: maxOrder + 1})),
                 selectedMember: null
@@ -110,9 +110,8 @@ class MemberManager extends Component {
     addMember() {
         const {members} = this.state;
         const membersSize = filter(members, m => !m.disabled).length;
-        const {numberOfPersons, sharingFoodCostGroups} = this.props.household.situation;
-        if ((numberOfPersons === 1 && membersSize >= 1) ||
-            (numberOfPersons === 2 && membersSize >= sharingFoodCostGroups)) {
+        const {numberOfPersons} = this.props.household.situation;
+        if (numberOfPersons === 1 && membersSize >= 1) {
             showMaxPersonsAlert();
         } else {
             this.createMember();
@@ -217,6 +216,7 @@ class MemberManager extends Component {
 export default connect(
     state => ({
         members: state.survey.members,
+        household: state.survey.household,
         saving: state.survey.saving
     }),
     dispatch => ({

@@ -61,6 +61,10 @@ class HouseholdEditor extends Component {
             : alertIncompleteSection();
     }
 
+    handlePrevious() {
+        this.props.onPrevious(this.props.household);
+    }
+
     renderContent() {
         const {chapter} = this.props;
         const {household} = this.state;
@@ -72,7 +76,7 @@ class HouseholdEditor extends Component {
                     section={section}
                     chapter={chapter.rows}
                     onChange={answer => this.handleChange(answer)}
-                    onPrevious={() => this.props.onPrevious()}
+                    onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                 />
             </Fragment>

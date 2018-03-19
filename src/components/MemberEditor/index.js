@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
@@ -11,6 +12,7 @@ import chapterPropTypes from '../../util/chapterPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
+import styles from './styles';
 
 class MemberEditor extends Component {
     static propTypes = {
@@ -77,11 +79,14 @@ class MemberEditor extends Component {
         const section = getSection(member, chapter);
         return (
             <Fragment>
-                {isFunction(onInterrupt) && <Button
-                    primary
-                    title="Interrumpir encuesta"
-                    onPress={onInterrupt}
-                />}
+                {isFunction(onInterrupt) &&
+                <View style={styles.actionButtons}>
+                    <Button
+                        primary
+                        title="Interrumpir encuesta"
+                        onPress={onInterrupt}
+                    />
+                </View>}
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}

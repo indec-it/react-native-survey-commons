@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
+import {isFunction} from 'lodash';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
@@ -15,7 +16,7 @@ class MemberEditor extends Component {
     static propTypes = {
         requestMember: PropTypes.func.isRequired,
         requestSaveMember: PropTypes.func.isRequired,
-        onInterrupt: PropTypes.func.isRequired,
+        onInterrupt: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -25,6 +26,7 @@ class MemberEditor extends Component {
     };
 
     static defaultProps = {
+        onInterrupt: null,
         saving: false
     };
 
@@ -64,23 +66,28 @@ class MemberEditor extends Component {
             : alertIncompleteSection();
     }
 
+    handlePrevious() {
+        const {member} = this.props;
+        this.props.onPrevious(member);
+    }
+
     renderContent() {
-        const {chapter} = this.props;
+        const {chapter, onInterrupt} = this.props;
         const {member} = this.state;
         const section = getSection(member, chapter);
         return (
             <Fragment>
-                <Button
+                {isFunction(onInterrupt) && <Button
                     primary
                     title="Interrumpir encuesta"
-                    onPress={() => this.props.onInterrupt()}
-                />
+                    onPress={onInterrupt}
+                />}
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}
                     chapter={chapter.rows}
                     onChange={answer => this.handleChange(answer)}
-                    onPrevious={() => this.props.onPrevious(member)}
+                    onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                 />
             </Fragment>

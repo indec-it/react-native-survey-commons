@@ -71,7 +71,9 @@ export default class SurveysService {
                 surveyAddressState: survey.surveyAddressState,
                 surveyId: survey._id,
                 dwellingResponse: survey.dwellingResponse,
-                listNumber: survey.address.listNumber
+                listNumber: survey.address.listNumber,
+                side: survey.address.side,
+                block: survey.address.block
             })
         );
     }

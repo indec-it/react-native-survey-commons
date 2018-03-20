@@ -15,7 +15,6 @@ export default class Address {
     block = null;
     side = null;
     listNumber = null;
-    street = null;
     streetNumber = null;
     floor = null;
     room = null;

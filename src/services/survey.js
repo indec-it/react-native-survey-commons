@@ -199,7 +199,7 @@ export default class SurveysService {
         return household;
     }
 
-    static async getMembers(id, dwellingOrder, householdOrder) {
+    static async fetchMembers(id, dwellingOrder, householdOrder) {
         const households = await SurveysService.fetchHouseholds(id, dwellingOrder);
         return find(households, h => h.order === householdOrder).members;
     }
@@ -214,8 +214,8 @@ export default class SurveysService {
     }
 
     static async findMember(id, dwellingOrder, householdOrder, memberOrder) {
-        const members = await SurveysService.getMembers(id, dwellingOrder, householdOrder);
-        return find(members, member => member.order === memberOrder);
+        const members = await SurveysService.fetchMembers(id, dwellingOrder, householdOrder);
+        return find(members, member => !member.disabled && member.order === memberOrder);
     }
 
     static async saveMember(id, dwellingOrder, householdOrder, member) {

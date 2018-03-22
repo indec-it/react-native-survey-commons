@@ -5,31 +5,23 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, filter, forEach, isNil, max, reject} from 'lodash';
+import {concat, every, find, forEach, isNil, max, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
-import {requestHousehold, requestMembers, requestSaveMembers} from '../../actions/survey';
+import {requestMembers, requestSaveMembers} from '../../actions/survey';
 import cleanChildrenQuestions from '../../util/cleanChildrenQuestions';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import isMemberSelected from '../../util/isMemberSelected';
-import isModuleValid from '../../util/isModuleValid';
+import isSectionValid from '../../util/isSectionValid';
+import alertIncompleteSection from '../../util/alertIncompleteSection';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
-
-const showMaxPersonsAlert = () => Alert.alert(
-    'Atención no puede agregar más personas',
-    'Superó máximo indicado.',
-    [{
-        text: 'OK'
-    }]
-);
 
 class MemberManager extends Component {
     static propTypes = {
         match: matchParamsIdPropTypes.isRequired,
         requestMembers: PropTypes.func.isRequired,
-        requestHousehold: PropTypes.func.isRequired,
         requestSaveMembers: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -37,20 +29,15 @@ class MemberManager extends Component {
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
-        saving: PropTypes.bool,
-        household: PropTypes.shape({
-            situation: PropTypes.shape({
-                numberOfPersons: PropTypes.number,
-                sharingFoodCostGroups: PropTypes.number
-            })
-        })
+        maxMembers: PropTypes.bool,
+        saving: PropTypes.bool
     };
 
     static defaultProps = {
         members: [],
-        household: null,
         saving: false,
-        onPreSave: null
+        onPreSave: null,
+        maxMembers: false
     };
 
     constructor(props) {
@@ -62,7 +49,6 @@ class MemberManager extends Component {
 
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestHousehold(id, dwellingOrder, householdOrder);
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
 
@@ -99,23 +85,15 @@ class MemberManager extends Component {
 
     createMember() {
         this.setState(state => {
-            const maxOrder = max(reject(state.members, member => member.disabled).map(member => member.order)) || 0;
+            const maxOrder = max(
+                reject(
+                    state.members, member => member.disabled
+                ).map(member => member.order)) || 0;
             return ({
                 members: concat(state.members, new Member({order: maxOrder + 1})),
                 selectedMember: null
             });
         });
-    }
-
-    addMember() {
-        const {members} = this.state;
-        const membersSize = filter(members, m => !m.disabled).length;
-        const {numberOfPersons} = this.props.household.situation;
-        if (numberOfPersons === 1 && membersSize >= 1) {
-            showMaxPersonsAlert();
-        } else {
-            this.createMember();
-        }
     }
 
     removeMember(order) {
@@ -145,6 +123,19 @@ class MemberManager extends Component {
         this.props.onPrevious();
     }
 
+    async addMember() {
+        if (await this.props.maxMembers) {
+            return Alert.alert(
+                'Atención no puede agregar más personas',
+                'Superó máximo indicado.',
+                [{
+                    text: 'Aceptar'
+                }]
+            );
+        }
+        return this.createMember();
+    }
+
     handleSubmit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {members} = this.state;
@@ -153,7 +144,7 @@ class MemberManager extends Component {
             member => Object.assign(
                 member.characteristics,
                 {
-                    valid: isModuleValid(
+                    valid: isSectionValid(
                         member.characteristics,
                         member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
                     )
@@ -166,11 +157,7 @@ class MemberManager extends Component {
         const isValid = every(reject(members, member => member.disabled), member => member.characteristics.valid);
         return isValid
             ? this.props.requestSaveMembers(id, dwellingOrder, householdOrder, members)
-            : Alert.alert(
-                'Atención',
-                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
-                [{text: 'Aceptar'}]
-            );
+            : alertIncompleteSection();
     }
 
     renderContent() {
@@ -186,17 +173,18 @@ class MemberManager extends Component {
                 <Title>Listado de Personas del Hogar</Title>
                 <ScrollView>
                     <List>
-                        {reject(members, member => member.disabled).map(member => (
-                            <MemberCharacteristics
-                                key={member.order}
-                                onChange={(answer, rows) => this.handleChange(answer, rows)}
-                                onRemove={({order}) => this.removeMember(order)}
-                                onSelect={selected => this.selectMember(selected)}
-                                chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
-                                member={member}
-                                isSelected={selectedMember && selectedMember.order === member.order}
-                            />
-                        ))}
+                        {reject(members, member => member.disabled)
+                            .map(member => (
+                                <MemberCharacteristics
+                                    key={member.order}
+                                    onChange={(answer, rows) => this.handleChange(answer, rows)}
+                                    onRemove={({order}) => this.removeMember(order)}
+                                    onSelect={selected => this.selectMember(selected)}
+                                    chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
+                                    member={member}
+                                    isSelected={selectedMember && selectedMember.order === member.order}
+                                />
+                            ))}
                     </List>
                 </ScrollView>
                 <NavigationButtons
@@ -216,12 +204,9 @@ class MemberManager extends Component {
 export default connect(
     state => ({
         members: state.survey.members,
-        household: state.survey.household,
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestHousehold: (id, dwellingOrder, householdOrder) =>
-            dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
         requestMembers: (id, dwelling, household) => dispatch(requestMembers(id, dwelling, household)),
         requestSaveMembers: (id, dwelling, household, members) => dispatch(
             requestSaveMembers(id, dwelling, household, members)

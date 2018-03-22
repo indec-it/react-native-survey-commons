@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import {Alert} from '@indec/react-native-commons/util';
 
 import {
     requestHousehold,
@@ -13,8 +12,8 @@ import {
 import {Address, Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
-import isModuleValid from '../../util/isModuleValid';
-import {getSection, handleChangeAnswer} from '../../util/section';
+import alertIncompleteSection from '../../util/alertIncompleteSection';
+import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 import AddressCard from '../AddressCard';
 
@@ -42,7 +41,7 @@ class HouseholdResponse extends Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestHousehold(id, dwellingOrder, householdOrder);
         this.props.requestAddress(id);
@@ -57,29 +56,20 @@ class HouseholdResponse extends Component {
         }
     }
 
-    onChange(answer) {
-        const {chapter} = this.props;
-        const {household} = this.state;
-        this.setState({household: handleChangeAnswer(household, chapter, answer)});
+    handleChange(answer) {
+        this.setState(state => ({
+            household: handleChangeAnswer(state.household, this.props.chapter, answer)
+        }));
     }
 
-    async onSubmit() {
+    handleSubmit() {
         const {chapter} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {household} = this.state;
-        await this.props.requestCreateHouseholdVisit(household);
-        const section = getSection(household, chapter);
-        Object.assign(
-            section,
-            {valid: isModuleValid(section, chapter.rows)}
-        );
-        return section.valid
+        this.props.requestCreateHouseholdVisit(household);
+        return setSectionValidity(household, chapter)
             ? this.props.requestUpdateHousehold(id, dwellingOrder, household)
-            : Alert.alert(
-                'Atención',
-                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
-                [{text: 'Aceptar'}]
-            );
+            : alertIncompleteSection();
     }
 
     renderContent() {
@@ -93,9 +83,9 @@ class HouseholdResponse extends Component {
                 <Section
                     section={section}
                     chapter={chapter.rows}
-                    onChange={answer => this.onChange(answer)}
+                    onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.props.onPrevious()}
-                    onSubmit={() => this.onSubmit()}
+                    onSubmit={() => this.handleSubmit()}
                 />
             </Fragment>
         );

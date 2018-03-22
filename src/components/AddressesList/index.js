@@ -31,31 +31,41 @@ class AddressesList extends Component {
         super(props);
         this.columns = [{
             id: 1,
+            label: 'Manzana',
+            field: 'block',
+            style: styles.column
+        }, {
+            id: 2,
+            label: 'Lado manzana',
+            field: 'side',
+            style: styles.column
+        }, {
+            id: 3,
             label: 'Nombre de calle',
             field: 'street',
             style: styles.streetColumn
         }, {
-            id: 2,
+            id: 4,
             label: 'Puerta N°',
             field: 'streetNumber',
             style: styles.column
         }, {
-            id: 3,
+            id: 5,
             label: 'Piso N°',
             field: 'floor',
             style: styles.column
         }, {
-            id: 4,
+            id: 6,
             label: 'Depto/Pieza',
             field: 'room',
             style: styles.column
         }, {
-            id: 5,
+            id: 7,
             label: 'N° viv. list.',
             field: 'listNumber',
             style: styles.column
         }, {
-            id: 6,
+            id: 8,
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
@@ -67,7 +77,7 @@ class AddressesList extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.handleChangeSurveyAddressState(surveyAddressStateEnum.OPENED);
     }
 

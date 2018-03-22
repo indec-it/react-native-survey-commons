@@ -1,22 +1,24 @@
 import React, {Component, Fragment} from 'react';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
-import {Alert} from '@indec/react-native-commons/util';
+import {isFunction} from 'lodash';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import chapterPropTypes from '../../util/chapterPropTypes';
-import isModuleValid from '../../util/isModuleValid';
-import {getSection, handleChangeAnswer} from '../../util/section';
+import alertIncompleteSection from '../../util/alertIncompleteSection';
+import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
+import styles from './styles';
 
 class MemberEditor extends Component {
     static propTypes = {
         requestMember: PropTypes.func.isRequired,
         requestSaveMember: PropTypes.func.isRequired,
-        onInterrupt: PropTypes.func.isRequired,
+        onInterrupt: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -26,6 +28,7 @@ class MemberEditor extends Component {
     };
 
     static defaultProps = {
+        onInterrupt: null,
         saving: false
     };
 
@@ -34,7 +37,7 @@ class MemberEditor extends Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {
             id, dwellingOrder, householdOrder, memberOrder
         } = this.props.match.params;
@@ -50,48 +53,47 @@ class MemberEditor extends Component {
         }
     }
 
-    onChange(answer) {
-        const {chapter} = this.props;
-        const {member} = this.state;
-        this.setState({member: handleChangeAnswer(member, chapter, answer)});
+    handleChange(answer) {
+        this.setState(state => ({
+            member: handleChangeAnswer(state.member, this.props.chapter, answer)
+        }));
     }
 
-    onSubmit() {
+    handleSubmit() {
         const {chapter} = this.props;
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
-        const section = getSection(member, chapter);
-        Object.assign(
-            section,
-            {valid: isModuleValid(section, chapter.rows)}
-        );
-        return section.valid
+        return setSectionValidity(member, chapter)
             ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
-            : Alert.alert(
-                'Atención',
-                'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
-                [{text: 'Aceptar'}]
-            );
+            : alertIncompleteSection();
+    }
+
+    handlePrevious() {
+        const {member} = this.props;
+        this.props.onPrevious(member);
     }
 
     renderContent() {
-        const {chapter} = this.props;
+        const {chapter, onInterrupt} = this.props;
         const {member} = this.state;
         const section = getSection(member, chapter);
         return (
             <Fragment>
-                <Button
-                    primary
-                    title="Interrumpir encuesta"
-                    onPress={() => this.props.onInterrupt()}
-                />
+                {isFunction(onInterrupt) &&
+                <View style={styles.actionButtons}>
+                    <Button
+                        primary
+                        title="Interrumpir encuesta"
+                        onPress={onInterrupt}
+                    />
+                </View>}
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}
                     chapter={chapter.rows}
-                    onChange={answer => this.onChange(answer)}
-                    onPrevious={() => this.props.onPrevious(member)}
-                    onSubmit={() => this.onSubmit()}
+                    onChange={answer => this.handleChange(answer)}
+                    onPrevious={() => this.handlePrevious()}
+                    onSubmit={() => this.handleSubmit()}
                 />
             </Fragment>
         );

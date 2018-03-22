@@ -52,7 +52,7 @@ class MemberManager extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.members) {
-            this.state.members = nextProps.members.map(member => new Member(member));
+            this.setState({members: nextProps.members.map(member => new Member(member))});
         }
         if (this.props.saving && !nextProps.saving) {
             this.props.onSubmit();
@@ -134,7 +134,7 @@ class MemberManager extends Component {
             )
         );
         if (!isNil(this.props.onPreSave)) {
-            this.props.onPreSave(members, this.props.members);
+            this.props.onPreSave(members);
         }
         const isValid = every(reject(members, member => member.disabled), member => member.characteristics.valid);
         return isValid

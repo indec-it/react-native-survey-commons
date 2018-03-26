@@ -19,15 +19,12 @@ import {
     MEMBERS_SAVE_REQUESTED,
     MEMBERS_SAVE_SUCCEEDED,
     MEMBER_SAVE_REQUESTED,
-    MEMBER_SAVE_SUCCEEDED,
     SURVEY_CLOSE_REQUESTED,
     SURVEY_CLOSE_SUCCEEDED,
     SURVEY_FETCH_RECEIVED,
     SURVEY_FETCH_REQUESTED,
     SURVEY_SAVE_REQUESTED,
     SURVEY_SAVE_SUCCEEDED,
-    UPDATE_SURVEY_REQUESTED,
-    UPDATE_SURVEY_SUCCEEDED,
     HOUSEHOLD_FETCH_REQUESTED
 } from '../actions/survey';
 
@@ -62,15 +59,12 @@ export default function (state = {surveys: {}}, action) {
         case HOUSEHOLDS_FETCH_SUCCEEDED:
             return {...state, households: action.households};
         case MEMBER_FETCH_SUCCEEDED:
-        case MEMBER_SAVE_SUCCEEDED:
-            return {...state, member: action.member, saving: false};
         case SURVEY_FETCH_REQUESTED:
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:
             return {...state, survey: action.survey};
         case CLOSE_HOUSEHOLD_VISIT_SUCCEEDED:
         case MEMBERS_SAVE_SUCCEEDED:
-        case UPDATE_SURVEY_SUCCEEDED:
         case SURVEY_CLOSE_SUCCEEDED:
         case SURVEY_SAVE_SUCCEEDED:
             return {...state, saving: false};
@@ -79,7 +73,6 @@ export default function (state = {surveys: {}}, action) {
         case CLOSE_HOUSEHOLD_VISIT_REQUESTED:
         case HOUSEHOLD_UPDATE_REQUESTED:
         case MEMBER_SAVE_REQUESTED:
-        case UPDATE_SURVEY_REQUESTED:
         case SURVEY_CLOSE_REQUESTED:
         case SURVEY_SAVE_REQUESTED:
             return {...state, saving: true};

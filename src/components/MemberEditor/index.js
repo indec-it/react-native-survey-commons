@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
-import {isFunction} from 'lodash';
+import {isFunction, find, values} from 'lodash';
 
 import {requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
@@ -77,6 +77,7 @@ class MemberEditor extends Component {
         const {chapter, onInterrupt} = this.props;
         const {member} = this.state;
         const section = getSection(member, chapter);
+        const {name} = find(values(member), m => m && m.name);
         return (
             <Fragment>
                 {isFunction(onInterrupt) &&
@@ -90,7 +91,7 @@ class MemberEditor extends Component {
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}
-                    chapter={chapter.rows}
+                    chapter={isFunction(chapter) ? chapter(name).rows : chapter.rows}
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}

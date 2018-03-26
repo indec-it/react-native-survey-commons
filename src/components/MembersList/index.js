@@ -1,14 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Text, View} from 'react-native';
+import {Text, Switch, View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
-import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Col, Button, LoadingIndicator, Row, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 import {isEmpty, map, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import {requestMembers, requestRemoveMember} from '../../actions/survey';
+import {requestHousehold, requestRemoveMember, requestUpdateHousehold} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 import styles from './styles';
@@ -25,7 +25,8 @@ const getMembersCharacteristics = members => map(
 
 class MembersList extends Component {
     static propTypes = {
-        requestMembers: PropTypes.func.isRequired,
+        requestHousehold: PropTypes.func.isRequired,
+        requestUpdateHousehold: PropTypes.func.isRequired,
         requestRemoveMember: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -35,11 +36,14 @@ class MembersList extends Component {
         showCharacteristicsButton: PropTypes.func,
         validationState: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
+        household: PropTypes.shape({
+            isPaperSurvey: PropTypes.bool.isRequired,
+            members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
+        })
     };
 
     static defaultProps = {
-        members: null,
+        household: null,
         showCharacteristicsButton: true
     };
 
@@ -97,42 +101,55 @@ class MembersList extends Component {
         }];
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestMembers(id, dwellingOrder, householdOrder);
+        this.props.requestHousehold(id, dwellingOrder, householdOrder);
     }
 
     renderButtons() {
-        const {dwellingOrder, householdOrder} = this.props.match.params;
-        const {showCharacteristicsButton, members} = this.props;
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        const {showCharacteristicsButton, household} = this.props;
         return (
-            <View style={styles.actionButtons}>
-                {showCharacteristicsButton(members) && <Button
-                    onPress={
-                        () => this.props.onViewDetails(dwellingOrder, householdOrder)
-                    }
-                    primary
-                    title="Características habitacionales del hogar"
-                />}
-                <Button
-                    onPress={() => this.props.onAddMember()}
-                    primary
-                    title="Gestión de personas"
-                />
-                <Button
-                    buttonStyle={styles.marginTopButton}
-                    onPress={
-                        () => this.props.onViewDetection(dwellingOrder, householdOrder)
-                    }
-                    primary
-                    title="Situación de la vivienda"
-                />
-            </View>
+            <Col>
+                <Row>
+                    <Text style={styles.switchText}>Tablet o papel</Text>
+                    <Switch
+                        onValueChange={value => this.props.requestUpdateHousehold(
+                            id,
+                            dwellingOrder,
+                            Object.assign(household, {isPaperSurvey: value})
+                        )}
+                        value={this.props.household.isPaperSurvey}
+                    />
+                </Row>
+                <View style={styles.actionButtons}>
+                    {showCharacteristicsButton(household.members) && <Button
+                        onPress={
+                            () => this.props.onViewDetails(dwellingOrder, householdOrder)
+                        }
+                        primary
+                        title="Características habitacionales del hogar"
+                    />}
+                    <Button
+                        onPress={() => this.props.onAddMember()}
+                        primary
+                        title="Gestión de personas"
+                    />
+                    <Button
+                        buttonStyle={styles.marginTopButton}
+                        onPress={
+                            () => this.props.onViewDetection(dwellingOrder, householdOrder)
+                        }
+                        primary
+                        title="Situación de la vivienda"
+                    />
+                </View>
+            </Col>
         );
     }
 
     renderContent() {
-        const {members} = this.props;
+        const {members} = this.props.household;
         return (
             <Fragment>
                 {this.renderButtons()}
@@ -152,18 +169,21 @@ class MembersList extends Component {
     }
 
     render() {
-        return this.props.members ? this.renderContent() : <LoadingIndicator/>;
+        return this.props.household ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
 export default connect(
     state => ({
-        members: state.survey.members,
+        household: state.survey.household,
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestMembers: (id, dwellingOrder, householdOrder) => (
-            dispatch(requestMembers(id, dwellingOrder, householdOrder))
+        requestHousehold: (id, dwellingOrder, householdOrder) => (
+            dispatch(requestHousehold(id, dwellingOrder, householdOrder))
+        ),
+        requestUpdateHousehold: (id, dwellingOrder, household) => (
+            dispatch(requestUpdateHousehold(id, dwellingOrder, household))
         ),
         requestRemoveMember: (id, dwellingOrder, householdOrder, memberOrder) => dispatch(
             requestRemoveMember(id, dwellingOrder, householdOrder, memberOrder)

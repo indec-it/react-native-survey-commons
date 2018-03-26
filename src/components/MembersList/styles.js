@@ -18,5 +18,8 @@ export default StyleSheet.create({
     informationText: {
         color: '#ff0000',
         padding: 20
+    },
+    switchText: {
+        paddingRight: 15
     }
 });

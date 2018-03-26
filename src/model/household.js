@@ -10,6 +10,7 @@ export default class Household {
     disabled = false;
     id = Date.now();
     visits = [];
+    isPaperSurvey = false;
 
     constructor(obj) {
         Object.assign(this, obj);

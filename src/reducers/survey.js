@@ -59,6 +59,7 @@ export default function (state = {surveys: {}}, action) {
         case HOUSEHOLDS_FETCH_SUCCEEDED:
             return {...state, households: action.households};
         case MEMBER_FETCH_SUCCEEDED:
+            return {...state, member: action.member, saving: false};
         case SURVEY_FETCH_REQUESTED:
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:

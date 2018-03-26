@@ -1,5 +1,19 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {castArray, every, filter, find, findIndex, forEach, isEmpty, last, map, max, reject, uniqBy} from 'lodash';
+import {
+    castArray,
+    every,
+    filter,
+    find,
+    findIndex,
+    forEach,
+    isEmpty,
+    last,
+    map,
+    max,
+    reject,
+    uniqBy,
+    values
+} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
 import {Dwelling, Household, Member, Survey} from '../model';
@@ -209,6 +223,7 @@ export default class SurveysService {
         const dwelling = getDwelling(survey, dwellingOrder);
         const household = getHousehold(dwelling, householdOrder);
         household.members = members;
+        household.householdHead = find(values(members[0]), item => item && item.name).name;
         await SurveysService.save(survey);
         return survey;
     }

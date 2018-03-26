@@ -64,13 +64,12 @@ class MemberManager extends Component {
     handleChange(answer, rows) {
         this.setState(
             state => {
-                const characteristics = Object.assign(state.selectedMember.characteristics, answer);
-                return ({
-                    selectedMember: cleanChildrenQuestions(
-                        rows,
-                        Object.assign(state.selectedMember, characteristics)
-                    )
-                });
+                const {selectedMember} = state;
+                selectedMember.characteristics = cleanChildrenQuestions(
+                    rows,
+                    Object.assign(selectedMember.characteristics, answer)
+                );
+                return ({selectedMember});
             }
         );
     }

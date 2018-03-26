@@ -2,7 +2,7 @@ import {StorageService} from '@indec/react-native-commons/services';
 import {castArray, every, filter, find, findIndex, forEach, isEmpty, last, map, max, reject, uniqBy} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
-import {Dwelling, Household, Survey} from '../model';
+import {Dwelling, Household, Member, Survey} from '../model';
 
 const storage = new StorageService('survey');
 
@@ -199,7 +199,7 @@ export default class SurveysService {
         return household;
     }
 
-    static async getMembers(id, dwellingOrder, householdOrder) {
+    static async fetchMembers(id, dwellingOrder, householdOrder) {
         const households = await SurveysService.fetchHouseholds(id, dwellingOrder);
         return find(households, h => h.order === householdOrder).members;
     }
@@ -214,16 +214,16 @@ export default class SurveysService {
     }
 
     static async findMember(id, dwellingOrder, householdOrder, memberOrder) {
-        const members = await SurveysService.getMembers(id, dwellingOrder, householdOrder);
-        return find(members, member => member.order === memberOrder);
+        const members = await SurveysService.fetchMembers(id, dwellingOrder, householdOrder);
+        return find(members, member => !member.disabled && member.order === memberOrder);
     }
 
     static async saveMember(id, dwellingOrder, householdOrder, member) {
         const survey = await SurveysService.findById(id);
         const dwelling = getDwelling(survey, dwellingOrder);
         const household = getHousehold(dwelling, householdOrder);
-        const memberIndex = findIndex(household.members, m => m.order === member.order);
-        household.members[memberIndex] = member;
+        const memberIndex = findIndex(household.members, m => m.order === member.order && !m.disabled);
+        household.members[memberIndex] = new Member(member);
         await SurveysService.save(survey);
         return member;
     }

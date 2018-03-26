@@ -176,7 +176,7 @@ export function* closeHouseholdVisit({
 
 export function* fetchMembers({id, dwellingOrder, householdOrder}) {
     try {
-        const members = yield call(SurveysService.getMembers, id, toNumber(dwellingOrder), toNumber(householdOrder));
+        const members = yield call(SurveysService.fetchMembers, id, toNumber(dwellingOrder), toNumber(householdOrder));
         yield put(receiveMembers(members));
     } catch (err) {
         yield put(handleError(err));

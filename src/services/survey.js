@@ -51,7 +51,7 @@ export default class SurveysService {
                     localityName: survey.address.localityName
                 })
             ),
-            area => area.area
+            address => `${address.ups}:${address.area}`
         );
     }
 

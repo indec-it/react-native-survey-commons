@@ -26,6 +26,7 @@ const MemberCharacteristics = ({
                 rows={chapter.rows}
                 chapter={member.characteristics}
                 onChange={answer => onChange(answer, chapter.rows)}
+                entity={member}
             />
             <Divider style={styles.divider}/>
         </Fragment>}

@@ -1,5 +1,5 @@
 import {types} from '@indec/react-native-form-builder';
-import {isArray, isEmpty} from 'lodash';
+import {every, isArray, isEmpty} from 'lodash';
 
 import canAnswerQuestion from './canAnswerQuestion';
 
@@ -17,7 +17,7 @@ const isQuestionAnswered = (question, section) => {
         case types.TOTAL:
             return true;
         case types.RADIO_TABLE:
-            return question.questions.map(q => isAnswered(question, section, section[question.name + q.name]));
+            return isAnswered(question, section, every(question.questions, q => section[question.name + q.name]));
         default:
             return isAnswered(question, section, section[question.name]);
     }

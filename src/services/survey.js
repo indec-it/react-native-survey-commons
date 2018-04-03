@@ -162,6 +162,10 @@ export default class SurveysService {
         const survey = await SurveysService.findById(id);
         const dwelling = find(survey.dwellings, d => d.order === dwellingOrder);
         const householdIndex = findIndex(dwelling.households, h => !h.disabled && h.order === household.order);
+        const currentResponse = dwelling.households[householdIndex].response;
+        if (!currentResponse || household.response !== currentResponse || last(household.visits).end) {
+            SurveysService.createHouseholdVisit(household);
+        }
         dwelling.households[householdIndex] = household;
         await SurveysService.save(survey);
         return household;
@@ -184,7 +188,7 @@ export default class SurveysService {
     }
 
     static createHouseholdVisit(household) {
-        household.visits.push({start: new Date()});
+        household.visits.push({start: new Date(), response: household.response});
         return household;
     }
 

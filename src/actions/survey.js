@@ -201,6 +201,21 @@ export const receiveMembers = members => ({
     members
 });
 
+export const MEMBER_INTERRUPT_REQUESTED = 'MEMBER_INTERRUPT_REQUESTED';
+export const MEMBER_INTERRUPT_SUCCEEDED = 'MEMBER_INTERRUPT_SUCCEEDED';
+
+export const requestInterruptMember = (id, dwellingOrder, householdOrder, member) => ({
+    type: MEMBER_INTERRUPT_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder,
+    member
+});
+
+export const notifyInterruptMemberSucceeded = () => ({
+    type: MEMBER_INTERRUPT_SUCCEEDED
+});
+
 export const MEMBERS_SAVE_REQUESTED = 'MEMBERS_SAVE_REQUESTED';
 export const MEMBERS_SAVE_SUCCEEDED = 'MEMBERS_SAVE_SUCCEEDED';
 

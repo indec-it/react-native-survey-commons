@@ -9,6 +9,7 @@ import {
     receiveAreas,
     receiveDwelling,
     receiveHouseholds,
+    notifyInterruptMemberSucceeded,
     notifySaveMembersSucceeded,
     receiveMembers,
     receiveSurvey,
@@ -206,6 +207,17 @@ export function* findMember({
             toNumber(memberOrder)
         );
         yield put(receiveMember(member));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* interruptMember({
+    id, dwellingOrder, householdOrder, member
+}) {
+    try {
+        yield call(SurveysService.saveMember, id, toNumber(dwellingOrder), toNumber(householdOrder), member);
+        yield put(notifyInterruptMemberSucceeded());
     } catch (err) {
         yield put(handleError(err));
     }

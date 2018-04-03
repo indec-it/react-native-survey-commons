@@ -29,13 +29,15 @@ class MemberManager extends Component {
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+        maxMembers: PropTypes.bool,
         saving: PropTypes.bool
     };
 
     static defaultProps = {
         members: [],
         saving: false,
-        onPreSave: null
+        onPreSave: null,
+        maxMembers: false
     };
 
     constructor(props) {
@@ -82,7 +84,10 @@ class MemberManager extends Component {
 
     createMember() {
         this.setState(state => {
-            const maxOrder = max(reject(state.members, member => member.disabled).map(member => member.order)) || 0;
+            const maxOrder = max(
+                reject(
+                    state.members, member => member.disabled
+                ).map(member => member.order)) || 0;
             return ({
                 members: concat(state.members, new Member({order: maxOrder + 1})),
                 selectedMember: null
@@ -117,6 +122,19 @@ class MemberManager extends Component {
         this.props.onPrevious();
     }
 
+    async addMember() {
+        if (await this.props.maxMembers) {
+            return Alert.alert(
+                'Atención no puede agregar más personas',
+                'Superó máximo indicado.',
+                [{
+                    text: 'Aceptar'
+                }]
+            );
+        }
+        return this.createMember();
+    }
+
     handleSubmit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {members} = this.state;
@@ -147,24 +165,25 @@ class MemberManager extends Component {
             <Fragment>
                 <Button
                     title="Agregar una persona"
-                    onPress={() => this.createMember()}
+                    onPress={() => this.addMember()}
                     rounded
                     primary
                 />
                 <Title>Listado de Personas del Hogar</Title>
                 <ScrollView>
                     <List>
-                        {reject(members, member => member.disabled).map(member => (
-                            <MemberCharacteristics
-                                key={member.order}
-                                onChange={(answer, rows) => this.handleChange(answer, rows)}
-                                onRemove={({order}) => this.removeMember(order)}
-                                onSelect={selected => this.selectMember(selected)}
-                                chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
-                                member={member}
-                                isSelected={selectedMember && selectedMember.order === member.order}
-                            />
-                        ))}
+                        {reject(members, member => member.disabled)
+                            .map(member => (
+                                <MemberCharacteristics
+                                    key={member.order}
+                                    onChange={(answer, rows) => this.handleChange(answer, rows)}
+                                    onRemove={({order}) => this.removeMember(order)}
+                                    onSelect={selected => this.selectMember(selected)}
+                                    chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
+                                    member={member}
+                                    isSelected={selectedMember && selectedMember.order === member.order}
+                                />
+                            ))}
                     </List>
                 </ScrollView>
                 <NavigationButtons

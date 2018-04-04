@@ -143,7 +143,6 @@ class HouseholdsList extends Component {
                         onPress={() => this.props.onViewDwelling(dwellingOrder)}
                     />
                     <Button
-                        buttonStyle={styles.createButton}
                         primary
                         title="Agregar Hogar"
                         onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}

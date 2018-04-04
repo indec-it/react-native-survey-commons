@@ -35,12 +35,14 @@ class MembersList extends Component {
         showCharacteristicsButton: PropTypes.func,
         validationState: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+        detectionButtonLabel: PropTypes.string
     };
 
     static defaultProps = {
         members: null,
-        showCharacteristicsButton: true
+        showCharacteristicsButton: true,
+        detectionButtonLabel: 'Detección de viviendas y hogares'
     };
 
     constructor(props) {
@@ -104,7 +106,7 @@ class MembersList extends Component {
 
     renderButtons() {
         const {dwellingOrder, householdOrder} = this.props.match.params;
-        const {showCharacteristicsButton, members} = this.props;
+        const {showCharacteristicsButton, members, detectionButtonLabel} = this.props;
         return (
             <View style={styles.actionButtons}>
                 {showCharacteristicsButton(members) && <Button
@@ -125,7 +127,7 @@ class MembersList extends Component {
                         () => this.props.onViewDetection(dwellingOrder, householdOrder)
                     }
                     primary
-                    title="Situación de la vivienda"
+                    title={detectionButtonLabel}
                 />
             </View>
         );

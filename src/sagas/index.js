@@ -12,6 +12,7 @@ import {
     fetchAreas,
     fetchHouseholds,
     fetchMembers,
+    interruptMember,
     updateDwelling,
     removeHousehold,
     removeMember,
@@ -36,6 +37,7 @@ export {fetchAddress};
 export {fetchAreas};
 export {fetchHouseholds};
 export {fetchMembers};
+export {interruptMember};
 export {isConnected};
 export {ping};
 export {updateDwelling};

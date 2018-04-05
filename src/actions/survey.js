@@ -214,6 +214,20 @@ export const receiveHouseholdVisits = householdVisits => ({
     householdVisits
 });
 
+export const HOUSEHOLD_INTERRUPT_REQUESTED = 'HOUSEHOLD_INTERRUPT_REQUESTED';
+export const HOUSEHOLD_INTERRUPT_SUCCEEDED = 'HOUSEHOLD_INTERRUPT_SUCCEEDED';
+
+export const requestInterruptHousehold = (id, dwellingOrder, household) => ({
+    type: HOUSEHOLD_INTERRUPT_REQUESTED,
+    id,
+    dwellingOrder,
+    household
+});
+
+export const notifyInterruptHouseholdSucceeded = () => ({
+    type: HOUSEHOLD_INTERRUPT_SUCCEEDED
+});
+
 export const MEMBERS_FETCH_REQUESTED = 'MEMBERS_FETCH_REQUESTED';
 export const MEMBERS_FETCH_SUCCEEDED = 'MEMBERS_FETCH_SUCCEEDED';
 

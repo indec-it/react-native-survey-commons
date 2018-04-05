@@ -6,9 +6,11 @@ import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import {
     requestHousehold,
     requestUpdateHousehold,
-    requestAddress
+    requestAddress,
+    requestInterruptHousehold
 } from '../../actions/survey';
 import {Address, Household} from '../../model';
+import {InterruptButton} from '../..';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
@@ -19,19 +21,24 @@ import AddressCard from '../AddressCard';
 class HouseholdResponse extends Component {
     static propTypes = {
         requestAddress: PropTypes.func.isRequired,
+        requestInterruptHousehold: PropTypes.func.isRequired,
         requestHousehold: PropTypes.func.isRequired,
         requestUpdateHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onInterrupt: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
         address: PropTypes.instanceOf(Address).isRequired,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        interrupting: PropTypes.bool
     };
 
     static defaultProps = {
-        saving: false
+        saving: false,
+        interrupting: false,
+        onInterrupt: null
     };
 
     constructor(props) {
@@ -49,6 +56,9 @@ class HouseholdResponse extends Component {
         if (nextProps.household) {
             this.state.household = new Household(nextProps.household);
         }
+        if (!this.props.interrupting && nextProps.interrupting) {
+            this.props.onInterrupt();
+        }
         if (this.props.saving && !nextProps.saving) {
             this.props.onSubmit(nextProps.household);
         }
@@ -58,6 +68,11 @@ class HouseholdResponse extends Component {
         this.setState(state => ({
             household: handleChangeAnswer(state.household, this.props.chapter, answer)
         }));
+    }
+
+    handleInterrupt() {
+        const {id, dwellingOrder} = this.props.match.params;
+        this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
     }
 
     handleSubmit() {
@@ -70,11 +85,12 @@ class HouseholdResponse extends Component {
     }
 
     renderContent() {
-        const {address, chapter} = this.props;
+        const {address, chapter, onInterrupt} = this.props;
         const {household} = this.state;
         const section = getSection(household, chapter);
         return (
             <Fragment>
+                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
                 <AddressCard address={address}/>
                 <Title>{chapter.title}</Title>
                 <Section
@@ -97,13 +113,17 @@ export default connect(
     state => ({
         household: state.survey.household,
         address: state.survey.address,
-        saving: state.survey.saving
+        saving: state.survey.saving,
+        interrupting: state.survey.interrupting
     }),
     dispatch => ({
         requestHousehold: (id, dwellingOrder, householdOrder) =>
             dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
         requestUpdateHousehold: (id, dwellingOrder, household) =>
             dispatch(requestUpdateHousehold(id, dwellingOrder, household)),
-        requestAddress: id => dispatch(requestAddress(id))
+        requestAddress: id => dispatch(requestAddress(id)),
+        requestInterruptHousehold: (id, dwellingOrder, household) => dispatch(
+            requestInterruptHousehold(id, dwellingOrder, household)
+        )
     })
 )(HouseholdResponse);

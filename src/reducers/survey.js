@@ -11,6 +11,8 @@ import {
     CLOSE_HOUSEHOLD_VISIT_REQUESTED,
     CLOSE_HOUSEHOLD_VISIT_SUCCEEDED,
     HOUSEHOLD_FETCH_SUCCEEDED,
+    HOUSEHOLD_INTERRUPT_REQUESTED,
+    HOUSEHOLD_INTERRUPT_SUCCEEDED,
     HOUSEHOLD_UPDATE_REQUESTED,
     HOUSEHOLD_UPDATE_SUCCEEDED,
     HOUSEHOLD_VISITS_REQUESTED,
@@ -54,6 +56,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, saving: false, survey: action.survey};
         case HOUSEHOLD_FETCH_REQUESTED:
             return {...state, members: []};
+        case HOUSEHOLD_INTERRUPT_REQUESTED:
+            return {...state, household: action.household, interrupting: false};
+        case HOUSEHOLD_INTERRUPT_SUCCEEDED:
+            return {...state, interrupting: true};
         case MEMBERS_FETCH_SUCCEEDED:
             return {...state, members: action.members};
         case HOUSEHOLD_FETCH_SUCCEEDED:

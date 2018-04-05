@@ -14,6 +14,7 @@ import {
     fetchHouseholdVisits,
     fetchHouseholds,
     fetchMembers,
+    interruptHousehold,
     interruptMember,
     updateDwelling,
     removeHousehold,
@@ -41,6 +42,7 @@ export {fetchDwellings};
 export {fetchHouseholdVisits};
 export {fetchHouseholds};
 export {fetchMembers};
+export {interruptHousehold};
 export {interruptMember};
 export {isConnected};
 export {ping};

@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
@@ -9,6 +9,7 @@ import {requestInterruptMember, requestMember, requestSaveMember} from '../../ac
 import {Member} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import chapterPropTypes from '../../util/chapterPropTypes';
+import getMemberName from '../../util/getMemberName';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
@@ -90,6 +91,9 @@ class MemberEditor extends Component {
         const section = getSection(member, chapter);
         return (
             <Fragment>
+                <View style={styles.nameContainer}>
+                    <Text style={styles.nameText}>Nombre de la persona: {getMemberName(member)}</Text>
+                </View>
                 {isFunction(onInterrupt) &&
                 <View style={styles.actionButtons}>
                     <Button

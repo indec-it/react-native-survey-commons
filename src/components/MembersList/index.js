@@ -5,6 +5,7 @@ import {Text, View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
+import {columnPropType} from '@indec/react-native-table/util';
 import {isEmpty, map, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
@@ -36,13 +37,15 @@ class MembersList extends Component {
         validationState: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+        columns: columnPropType,
         detectionButtonLabel: PropTypes.string
     };
 
     static defaultProps = {
         members: null,
         showCharacteristicsButton: true,
-        detectionButtonLabel: 'Detección de viviendas y hogares'
+        detectionButtonLabel: 'Detección de viviendas y hogares',
+        columns: null
     };
 
     constructor(props) {
@@ -134,13 +137,17 @@ class MembersList extends Component {
     }
 
     renderContent() {
-        const {members} = this.props;
+        const {columns, members} = this.props;
         return (
             <Fragment>
                 {this.renderButtons()}
                 <Title>Listado de Personas del Hogar</Title>
                 {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
-                {!isEmpty(members) && <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
+                {!isEmpty(members) &&
+                <Table
+                    columns={columns || this.columns}
+                    data={getMembersCharacteristics(members)}
+                />}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}
                     iconRight={{

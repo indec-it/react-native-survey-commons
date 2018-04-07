@@ -10,6 +10,7 @@ import {
     findSurvey,
     fetchAddress,
     fetchAreas,
+    fetchDwellings,
     fetchHouseholds,
     fetchMembers,
     interruptMember,
@@ -35,6 +36,7 @@ export {findMember};
 export {findSurvey};
 export {fetchAddress};
 export {fetchAreas};
+export {fetchDwellings};
 export {fetchHouseholds};
 export {fetchMembers};
 export {interruptMember};

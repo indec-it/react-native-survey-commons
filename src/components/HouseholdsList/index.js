@@ -5,6 +5,7 @@ import {View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
+import {columnPropType} from '@indec/react-native-table/util';
 
 import NavigationButtons from '../NavigationButtons';
 import {
@@ -16,8 +17,8 @@ import {
 } from '../../actions/survey';
 import {Address, Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
-import styles from './styles';
 import AddressCard from '../AddressCard';
+import styles from './styles';
 
 class HouseholdsList extends Component {
     static propTypes = {
@@ -27,21 +28,23 @@ class HouseholdsList extends Component {
         requestRemoveHousehold: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
         onViewDwelling: PropTypes.func.isRequired,
-        match: matchParamsIdPropTypes.isRequired,
-        dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
-        address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
         onPrevious: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         dwellingValidationState: PropTypes.func.isRequired,
         householdValidationState: PropTypes.func.isRequired,
+        match: matchParamsIdPropTypes.isRequired,
+        dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
+        address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
+        columns: columnPropType,
         saving: PropTypes.bool
     };
 
     static defaultProps = {
         dwelling: null,
         address: null,
-        saving: false
+        saving: false,
+        columns: null
     };
 
     constructor(props) {
@@ -130,7 +133,7 @@ class HouseholdsList extends Component {
     }
 
     renderContent() {
-        const {address} = this.props;
+        const {address, columns} = this.props;
         const {dwelling} = this.state;
         const {id, dwellingOrder} = this.props.match.params;
         return (
@@ -149,7 +152,7 @@ class HouseholdsList extends Component {
                     />
                 </View>
                 <Title>Listado de hogares</Title>
-                <Table columns={this.columns} data={dwelling.getHouseholds()}/>
+                <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
                 <NavigationButtons
                     onBack={() => this.props.onPrevious(dwelling)}
                     onSubmit={() => this.closeDwelling()}

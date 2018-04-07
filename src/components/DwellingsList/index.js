@@ -3,25 +3,24 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import Table, {TableIcon} from '@indec/react-native-table';
+import {columnPropType} from '@indec/react-native-table/util';
 
-import {requestSurvey} from '../../actions/survey';
-import {Address} from '../../model';
-import AddressCard from '../AddressCard';
+import {requestDwellings} from '../../actions/survey';
+import {Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 
 class DwellingsList extends Component {
     static propTypes = {
-        requestSurvey: PropTypes.func.isRequired,
+        requestDwellings: PropTypes.func.isRequired,
+        onSelect: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        survey: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            address: PropTypes.instanceOf(Address).isRequired
-        }),
-        onSelect: PropTypes.func.isRequired
+        dwellings: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
+        columns: columnPropType
     };
 
     static defaultProps = {
-        survey: null
+        dwellings: [],
+        columns: null
     };
 
     constructor(props) {
@@ -39,37 +38,33 @@ class DwellingsList extends Component {
             componentClass: TableIcon,
             icon: 'arrow-right',
             color: '#0295cf',
-            onPress: dwelling => this.props.onSelect(this.props.survey._id, dwelling.order)
+            onPress: dwelling => this.props.onSelect(dwelling)
         }];
     }
 
     componentDidMount() {
         const {id} = this.props.match.params;
-        this.props.requestSurvey(id);
+        this.props.requestDwellings(id);
     }
 
     renderContent() {
-        const {survey} = this.props;
-        if (!survey) {
-            return null;
-        }
+        const {columns, dwellings} = this.props;
         return (
             <Fragment>
-                <AddressCard address={survey.address}/>
                 <Title>Listado de viviendas</Title>
-                <Table columns={this.columns} data={survey.dwellings}/>
+                <Table columns={columns || this.columns} data={dwellings}/>
             </Fragment>
         );
     }
 
     render() {
-        return this.state.survey ? this.renderContent() : <LoadingIndicator/>;
+        return this.props.dwellings ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
 export default connect(
-    state => ({survey: state.survey.survey}),
+    state => ({dwellings: state.survey.dwellings}),
     dispatch => ({
-        requestSurvey: id => dispatch(requestSurvey(id))
+        requestDwellings: id => dispatch(requestDwellings(id))
     })
 )(DwellingsList);

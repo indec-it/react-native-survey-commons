@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import {connect} from 'react-redux';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {TabNavigator} from '@indec/react-native-commons';
+import {columnPropType} from '@indec/react-native-table/util';
 
 import {requestAddressesBySurveyState} from '../../actions/survey';
 import {Address} from '../../model';
@@ -13,6 +14,7 @@ import styles from './styles';
 class AddressesList extends Component {
     static propTypes = {
         requestAddressesBySurveyState: PropTypes.func.isRequired,
+        onSelect: PropTypes.func.isRequired,
         addresses: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
         match: PropTypes.shape({
             params: PropTypes.shape({
@@ -20,11 +22,12 @@ class AddressesList extends Component {
                 ups: PropTypes.string.isRequired
             })
         }).isRequired,
-        onSelect: PropTypes.func.isRequired
+        columns: columnPropType
     };
 
     static defaultProps = {
-        addresses: []
+        addresses: [],
+        columns: null
     };
 
     constructor(props) {
@@ -89,7 +92,7 @@ class AddressesList extends Component {
 
     render() {
         const {surveyAddressState} = this.state;
-        const {addresses} = this.props;
+        const {addresses, columns} = this.props;
         return (
             <View style={styles.container}>
                 <TabNavigator
@@ -97,7 +100,7 @@ class AddressesList extends Component {
                     idSelected={surveyAddressState}
                     onChange={state => this.handleChangeSurveyAddressState(state)}
                 />
-                <Table columns={this.columns} data={addresses}/>
+                <Table columns={columns || this.columns} data={addresses}/>
             </View>
         );
     }

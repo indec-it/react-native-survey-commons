@@ -540,7 +540,7 @@
 
 "@indec/react-native-table@indec-it/react-native-table":
   version "0.1.2"
-  resolved "https://codeload.github.com/indec-it/react-native-table/tar.gz/bc13cd8d32282e7517e7fee69b5780d62df12cee"
+  resolved "https://codeload.github.com/indec-it/react-native-table/tar.gz/6ce8683752da8fc11d9b73676da65e07609f74b3"
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
@@ -2915,8 +2915,10 @@ husky@^0.14.3:
     strip-indent "^2.0.0"
 
 iconv-lite@^0.4.17, iconv-lite@~0.4.13:
-  version "0.4.19"
-  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
+  version "0.4.21"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.21.tgz#c47f8733d02171189ebc4a400f3218d348094798"
+  dependencies:
+    safer-buffer "^2.1.0"
 
 ignore@^3.3.3:
   version "3.3.7"
@@ -4517,8 +4519,8 @@ react-native-datepicker@^1.6.0:
     moment "2.x.x"
 
 react-native-elements@^0.19.0:
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.19.0.tgz#737c5198bf7487f9986e2023826cd0bd7a500366"
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.19.1.tgz#f92b69d864a150215d01f81fe3c52a9cada83e45"
   dependencies:
     lodash.isempty "^4.4.0"
     lodash.times "^4.3.2"
@@ -4948,6 +4950,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
   dependencies:
     ret "~0.1.10"
+
+safer-buffer@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.0.tgz#d9f653a55538c8d7829cb1a92e90bbcbc5ff5d3b"
 
 sane@^2.0.0:
   version "2.5.0"

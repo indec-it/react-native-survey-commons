@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Table, {TableIcon} from '@indec/react-native-table';
+import {columnPropType} from '@indec/react-native-table/util';
 import {Title} from '@indec/react-native-commons';
 
 import {requestAreas} from '../../actions/survey';
@@ -9,6 +10,7 @@ import {requestAreas} from '../../actions/survey';
 class AreasList extends Component {
     static propTypes = {
         requestAreas: PropTypes.func.isRequired,
+        onSelect: PropTypes.func.isRequired,
         areas: PropTypes.arrayOf(
             PropTypes.shape({
                 ups: PropTypes.number,
@@ -16,11 +18,12 @@ class AreasList extends Component {
                 localityName: PropTypes.string
             })
         ),
-        onSelect: PropTypes.func.isRequired
+        columns: columnPropType
     };
 
     static defaultProps = {
-        areas: []
+        areas: [],
+        columns: null
     };
 
     constructor(props) {
@@ -51,11 +54,11 @@ class AreasList extends Component {
     }
 
     render() {
-        const {areas} = this.props;
+        const {areas, columns} = this.props;
         return (
             <Fragment>
                 <Title>Listado de áreas</Title>
-                <Table columns={this.columns} data={areas}/>
+                <Table columns={columns || this.columns} data={areas}/>
             </Fragment>
         );
     }

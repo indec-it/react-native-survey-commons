@@ -91,6 +91,11 @@ export default class SurveysService {
         return address;
     }
 
+    static async fetchDwellings(id) {
+        const survey = await SurveysService.findById(id);
+        return reject(survey.dwellings, dwelling => dwelling.disabled);
+    }
+
     static async findDwelling(id, order) {
         const survey = await SurveysService.findById(id);
         return find(survey.dwellings, dwelling => dwelling.order === order);

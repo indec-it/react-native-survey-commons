@@ -75,6 +75,19 @@ export const notifyCloseSucceeded = () => ({
     type: SURVEY_CLOSE_SUCCEEDED
 });
 
+export const DWELLINGS_FETCH_REQUESTED = 'DWELLINGS_FETCH_REQUESTED';
+export const DWELLINGS_FETCH_SUCCEEDED = 'DWELLINGS_FETCH_SUCCEEDED';
+
+export const requestDwellings = id => ({
+    type: DWELLINGS_FETCH_REQUESTED,
+    id
+});
+
+export const receiveDwellings = dwellings => ({
+    type: DWELLINGS_FETCH_SUCCEEDED,
+    dwellings
+});
+
 export const DWELLING_FETCH_REQUESTED = 'DWELLING_FETCH_REQUESTED';
 export const DWELLING_FETCH_SUCCEEDED = 'DWELLING_FETCH_SUCCEEDED';
 

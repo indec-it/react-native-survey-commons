@@ -111,6 +111,7 @@ export default class SurveysService {
                 isEmpty(dwelling.households) || every(dwelling.households, household => household.disabled)
             )
         ) {
+            survey.surveyAddressState = surveyState.IN_PROGRESS;
             SurveysService.addHouseholdToDwelling(dwelling);
         }
         if (dwelling.response === answers.NO) {

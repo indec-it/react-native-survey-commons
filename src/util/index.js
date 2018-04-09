@@ -1,6 +1,7 @@
 import canAnswerQuestion from './canAnswerQuestion';
 import chapterPropTypes from './chapterPropTypes';
 import cleanChildrenQuestions from './cleanChildrenQuestions';
+import getHouseholdHeadName from './getHouseholdHeadName';
 import getQuestions from './getQuestions';
 import getQuestionsWithParents from './getQuestionsWithParents';
 import historyPropTypes from './historyPropTypes';
@@ -15,6 +16,7 @@ import validateQuestion from './validateQuestion';
 export {canAnswerQuestion};
 export {chapterPropTypes};
 export {cleanChildrenQuestions};
+export {getHouseholdHeadName};
 export {getQuestions};
 export {getQuestionsWithParents};
 export {getSection};

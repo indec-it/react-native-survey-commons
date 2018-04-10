@@ -6,7 +6,6 @@ import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import {
     requestHousehold,
     requestUpdateHousehold,
-    requestCreateHouseholdVisit,
     requestAddress
 } from '../../actions/survey';
 import {Address, Household} from '../../model';
@@ -20,7 +19,6 @@ import AddressCard from '../AddressCard';
 class HouseholdResponse extends Component {
     static propTypes = {
         requestAddress: PropTypes.func.isRequired,
-        requestCreateHouseholdVisit: PropTypes.func.isRequired,
         requestHousehold: PropTypes.func.isRequired,
         requestUpdateHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
@@ -66,7 +64,6 @@ class HouseholdResponse extends Component {
         const {chapter} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {household} = this.state;
-        this.props.requestCreateHouseholdVisit(household);
         return setSectionValidity(household, chapter)
             ? this.props.requestUpdateHousehold(id, dwellingOrder, household)
             : alertIncompleteSection();
@@ -107,7 +104,6 @@ export default connect(
             dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
         requestUpdateHousehold: (id, dwellingOrder, household) =>
             dispatch(requestUpdateHousehold(id, dwellingOrder, household)),
-        requestCreateHouseholdVisit: household => dispatch(requestCreateHouseholdVisit(household)),
         requestAddress: id => dispatch(requestAddress(id))
     })
 )(HouseholdResponse);

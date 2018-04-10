@@ -16,6 +16,8 @@ import {
     HOUSEHOLDS_FETCH_SUCCEEDED,
     MEMBER_FETCH_SUCCEEDED,
     MEMBERS_FETCH_SUCCEEDED,
+    MEMBER_INTERRUPT_REQUESTED,
+    MEMBER_INTERRUPT_SUCCEEDED,
     MEMBERS_SAVE_REQUESTED,
     MEMBERS_SAVE_SUCCEEDED,
     MEMBER_SAVE_REQUESTED,
@@ -60,6 +62,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, households: action.households};
         case MEMBER_FETCH_SUCCEEDED:
             return {...state, member: action.member, saving: false};
+        case MEMBER_INTERRUPT_REQUESTED:
+            return {...state, member: action.member, interrupting: false};
+        case MEMBER_INTERRUPT_SUCCEEDED:
+            return {...state, interrupting: true};
         case SURVEY_FETCH_REQUESTED:
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:

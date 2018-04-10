@@ -5,6 +5,7 @@ import {Text, View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
+import {columnPropType} from '@indec/react-native-table/util';
 import {isEmpty, map, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
@@ -35,12 +36,16 @@ class MembersList extends Component {
         showCharacteristicsButton: PropTypes.func,
         validationState: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
+        members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+        columns: columnPropType,
+        detectionButtonLabel: PropTypes.string
     };
 
     static defaultProps = {
         members: null,
-        showCharacteristicsButton: true
+        showCharacteristicsButton: true,
+        detectionButtonLabel: 'Detección de viviendas y hogares',
+        columns: null
     };
 
     constructor(props) {
@@ -104,7 +109,7 @@ class MembersList extends Component {
 
     renderButtons() {
         const {dwellingOrder, householdOrder} = this.props.match.params;
-        const {showCharacteristicsButton, members} = this.props;
+        const {showCharacteristicsButton, members, detectionButtonLabel} = this.props;
         return (
             <View style={styles.actionButtons}>
                 {showCharacteristicsButton(members) && <Button
@@ -125,20 +130,24 @@ class MembersList extends Component {
                         () => this.props.onViewDetection(dwellingOrder, householdOrder)
                     }
                     primary
-                    title="Situación de la vivienda"
+                    title={detectionButtonLabel}
                 />
             </View>
         );
     }
 
     renderContent() {
-        const {members} = this.props;
+        const {columns, members} = this.props;
         return (
             <Fragment>
                 {this.renderButtons()}
                 <Title>Listado de Personas del Hogar</Title>
                 {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
-                {!isEmpty(members) && <Table columns={this.columns} data={getMembersCharacteristics(members)}/>}
+                {!isEmpty(members) &&
+                <Table
+                    columns={columns || this.columns}
+                    data={getMembersCharacteristics(members)}
+                />}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}
                     iconRight={{

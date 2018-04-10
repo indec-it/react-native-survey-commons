@@ -9,6 +9,7 @@ import {
     receiveAreas,
     receiveDwelling,
     receiveHouseholds,
+    notifyInterruptMemberSucceeded,
     notifySaveMembersSucceeded,
     receiveMembers,
     receiveSurvey,
@@ -18,7 +19,7 @@ import {
     receiveHouseholdUpdated,
     receiveHousehold,
     receiveMember,
-    notifyCloseHouseholdVisit
+    notifyCloseHouseholdVisit, receiveDwellings
 } from '../actions/survey';
 
 export function* fetchAreas() {
@@ -70,6 +71,15 @@ export function* closeSurvey({id}) {
     try {
         yield call(SurveysService.closeSurvey, id);
         yield put(notifyCloseSucceeded());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchDwellings({id}) {
+    try {
+        const dwellings = yield call(SurveysService.fetchDwellings, id);
+        yield put(receiveDwellings(dwellings));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -206,6 +216,17 @@ export function* findMember({
             toNumber(memberOrder)
         );
         yield put(receiveMember(member));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* interruptMember({
+    id, dwellingOrder, householdOrder, member
+}) {
+    try {
+        yield call(SurveysService.saveMember, id, toNumber(dwellingOrder), toNumber(householdOrder), member);
+        yield put(notifyInterruptMemberSucceeded());
     } catch (err) {
         yield put(handleError(err));
     }

@@ -75,6 +75,19 @@ export const notifyCloseSucceeded = () => ({
     type: SURVEY_CLOSE_SUCCEEDED
 });
 
+export const DWELLINGS_FETCH_REQUESTED = 'DWELLINGS_FETCH_REQUESTED';
+export const DWELLINGS_FETCH_SUCCEEDED = 'DWELLINGS_FETCH_SUCCEEDED';
+
+export const requestDwellings = id => ({
+    type: DWELLINGS_FETCH_REQUESTED,
+    id
+});
+
+export const receiveDwellings = dwellings => ({
+    type: DWELLINGS_FETCH_SUCCEEDED,
+    dwellings
+});
+
 export const DWELLING_FETCH_REQUESTED = 'DWELLING_FETCH_REQUESTED';
 export const DWELLING_FETCH_SUCCEEDED = 'DWELLING_FETCH_SUCCEEDED';
 
@@ -199,6 +212,21 @@ export const requestMembers = (id, dwellingOrder, householdOrder) => ({
 export const receiveMembers = members => ({
     type: MEMBERS_FETCH_SUCCEEDED,
     members
+});
+
+export const MEMBER_INTERRUPT_REQUESTED = 'MEMBER_INTERRUPT_REQUESTED';
+export const MEMBER_INTERRUPT_SUCCEEDED = 'MEMBER_INTERRUPT_SUCCEEDED';
+
+export const requestInterruptMember = (id, dwellingOrder, householdOrder, member) => ({
+    type: MEMBER_INTERRUPT_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder,
+    member
+});
+
+export const notifyInterruptMemberSucceeded = () => ({
+    type: MEMBER_INTERRUPT_SUCCEEDED
 });
 
 export const MEMBERS_SAVE_REQUESTED = 'MEMBERS_SAVE_REQUESTED';

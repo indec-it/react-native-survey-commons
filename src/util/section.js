@@ -23,7 +23,7 @@ const setSectionValidity = (entity, chapter) => {
     const section = getSection(entity, chapter);
     Object.assign(
         section,
-        {valid: isSectionValid(section, chapter.rows)}
+        {valid: isSectionValid(section, chapter.rows, entity)}
     );
     return section.valid;
 };

@@ -8,13 +8,14 @@ import NavigationButtons from '../NavigationButtons';
 import styles from './styles';
 
 const Section = ({
-    chapter, onChange, onPrevious, onSubmit, section
+    chapter, onChange, onPrevious, onSubmit, section, entity
 }) => (
     <View style={styles.container}>
         <Form
             rows={chapter}
             chapter={section}
             onChange={answer => onChange(answer)}
+            entity={entity}
         />
         <NavigationButtons
             onBack={() => onPrevious()}
@@ -28,7 +29,12 @@ Section.propTypes = {
     section: PropTypes.shape({}).isRequired,
     onChange: PropTypes.func.isRequired,
     onPrevious: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    entity: PropTypes.shape({})
+};
+
+Section.defaultProps = {
+    entity: {}
 };
 
 export default Section;

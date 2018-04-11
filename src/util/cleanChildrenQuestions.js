@@ -5,7 +5,7 @@ import {canAnswerQuestion, getQuestionsWithParents} from '.';
 
 /**
  * Clean children questions when the parent condition is false
- * @param {Array<object>} rows An rows array where questions come from..
+ * @param {Array<object>} rows Rows where questions come from.
  * @param {object} chapter A chapter to be cleaned.
  * @returns {object} Returns a cleaned chapter of invalid children answers.
  */

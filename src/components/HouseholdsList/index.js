@@ -16,6 +16,7 @@ import {
     requestRemoveHousehold
 } from '../../actions/survey';
 import {Address, Dwelling} from '../../model';
+import getHouseholdHeadName from '../../util/getHouseholdHeadName';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import AddressCard from '../AddressCard';
 import styles from './styles';
@@ -57,7 +58,7 @@ class HouseholdsList extends Component {
         }, {
             id: 2,
             label: 'Jefa/e',
-            field: 'householdHead'
+            field: household => getHouseholdHeadName(household) || '[Sin nombre]'
         }, {
             id: 3,
             label: 'Estado',

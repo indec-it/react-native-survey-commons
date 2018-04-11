@@ -6,7 +6,7 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 import {columnPropType} from '@indec/react-native-table/util';
-import {isEmpty, map, reject} from 'lodash';
+import {isEmpty, find, map, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
 import {requestMembers, requestRemoveMember} from '../../actions/survey';
@@ -14,12 +14,12 @@ import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 import styles from './styles';
 
-const getMembersCharacteristics = members => map(
+const getMembersCharacteristics = (members, relationships) => map(
     reject(members, member => member.disabled),
     member => ({
         ...member,
         name: member.characteristics.name,
-        relationship: member.characteristics.relationship,
+        relationship: find(relationships, item => item.value === member.characteristics.relationship).label,
         isHomeBoss: member.isHomeBoss()
     })
 );
@@ -28,6 +28,12 @@ class MembersList extends Component {
     static propTypes = {
         requestMembers: PropTypes.func.isRequired,
         requestRemoveMember: PropTypes.func.isRequired,
+        relationships: PropTypes.arrayOf(
+            PropTypes.shape({
+                value: PropTypes.string.isRequired,
+                label: PropTypes.string.isRequired
+            })
+        ),
         onSelect: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onViewDetection: PropTypes.func.isRequired,
@@ -43,6 +49,18 @@ class MembersList extends Component {
 
     static defaultProps = {
         members: null,
+        relationships: [
+            {value: 1, label: 'jefe de hogar'},
+            {value: 2, label: 'Cónyuge/Pareja'},
+            {value: 3, label: 'Hijo/a Hijastro/a'},
+            {value: 4, label: 'Padre/Madre'},
+            {value: 5, label: 'Hermano/a'},
+            {value: 6, label: 'Suegro/a'},
+            {value: 7, label: 'Yerno/Nuera'},
+            {value: 8, label: 'Nieto/a'},
+            {value: 9, label: 'Otro familiar'},
+            {value: 10, label: 'Otro no familiar'}
+        ],
         showCharacteristicsButton: true,
         detectionButtonLabel: 'Detección de viviendas y hogares',
         columns: null
@@ -60,7 +78,7 @@ class MembersList extends Component {
             field: 'name'
         }, {
             id: 4,
-            label: 'Relación',
+            label: 'Relación con el jefe del hogar',
             field: 'relationship'
         }, {
             id: 1,
@@ -137,7 +155,7 @@ class MembersList extends Component {
     }
 
     renderContent() {
-        const {columns, members} = this.props;
+        const {columns, members, relationships} = this.props;
         return (
             <Fragment>
                 {this.renderButtons()}
@@ -146,7 +164,7 @@ class MembersList extends Component {
                 {!isEmpty(members) &&
                 <Table
                     columns={columns || this.columns}
-                    data={getMembersCharacteristics(members)}
+                    data={getMembersCharacteristics(members, relationships)}
                 />}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}

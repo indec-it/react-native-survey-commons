@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import {call, put} from 'redux-saga/effects';
 
-import {handleErrorSync, receiveSyncData, sendSyncData, completeSync} from '../actions/sync';
+import {handleErrorSync, handleSessionExpired, receiveSyncData, sendSyncData, completeSync} from '../actions/sync';
 import {SyncService, SurveysService} from '../services';
 
 export function* sync({endpoint}) {
@@ -10,7 +10,12 @@ export function* sync({endpoint}) {
 
         yield put(sendSyncData(surveys));
 
-        const {surveyAddresses} = yield call(SyncService.sync, surveys, endpoint);
+        const {surveyAddresses, tokenExpired} = yield call(SyncService.sync, surveys, endpoint);
+
+        if (tokenExpired) {
+            yield put(handleSessionExpired());
+            return;
+        }
 
         yield put(receiveSyncData(surveyAddresses));
 

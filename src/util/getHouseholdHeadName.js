@@ -1,10 +1,11 @@
-import {find, get, values} from 'lodash';
+import {head} from 'lodash';
 
-const getHouseholdHeadName = household => get(
-    find(
-        values(household.members[0]),
-        item => item && item.name
-    ), 'name'
-);
+import getMemberName from './getMemberName';
 
+/**
+ * Gets the name of the head member
+ * @param {object} household A household to lookup for head member.
+ * @returns {string} Returns the name of the head member.
+ */
+const getHouseholdHeadName = household => getMemberName(head(household.members));
 export default getHouseholdHeadName;

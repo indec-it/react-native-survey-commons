@@ -9,7 +9,8 @@ const getMemberName = member => get(
     find(
         values(member),
         section => section && section.name
-    )
+    ),
+    'name'
 );
 
 export default getMemberName;

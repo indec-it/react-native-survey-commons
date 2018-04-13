@@ -8,6 +8,7 @@ node_js:
   - "8"
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"`git log --format=%B --no-merges -n 1`\""
+  - rm -rf node_modules yarn.lock
 install:
   - yarn install
 script:

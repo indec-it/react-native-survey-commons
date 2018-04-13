@@ -199,6 +199,21 @@ export const notifyCloseHouseholdVisit = () => ({
     type: CLOSE_HOUSEHOLD_VISIT_SUCCEEDED
 });
 
+export const HOUSEHOLD_VISITS_REQUESTED = 'HOUSEHOLD_VISITS_REQUESTED';
+export const HOUSEHOLD_VISITS_SUCCEEDED = 'HOUSEHOLD_VISITS_SUCCEEDED';
+
+export const requestHouseholdVisits = (id, dwellingOrder, householdOrder) => ({
+    type: HOUSEHOLD_VISITS_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder
+});
+
+export const receiveHouseholdVisits = householdVisits => ({
+    type: HOUSEHOLD_VISITS_SUCCEEDED,
+    householdVisits
+});
+
 export const MEMBERS_FETCH_REQUESTED = 'MEMBERS_FETCH_REQUESTED';
 export const MEMBERS_FETCH_SUCCEEDED = 'MEMBERS_FETCH_SUCCEEDED';
 

@@ -13,6 +13,8 @@ import {
     HOUSEHOLD_FETCH_SUCCEEDED,
     HOUSEHOLD_UPDATE_REQUESTED,
     HOUSEHOLD_UPDATE_SUCCEEDED,
+    HOUSEHOLD_VISITS_REQUESTED,
+    HOUSEHOLD_VISITS_SUCCEEDED,
     HOUSEHOLDS_FETCH_SUCCEEDED,
     MEMBER_FETCH_SUCCEEDED,
     MEMBERS_FETCH_SUCCEEDED,
@@ -58,6 +60,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, household: action.household};
         case HOUSEHOLD_UPDATE_SUCCEEDED:
             return {...state, saving: false, household: action.household};
+        case HOUSEHOLD_VISITS_REQUESTED:
+            return {...state, householdVisits: []};
+        case HOUSEHOLD_VISITS_SUCCEEDED:
+            return {...state, householdVisits: action.householdVisits};
         case HOUSEHOLDS_FETCH_SUCCEEDED:
             return {...state, households: action.households};
         case MEMBER_FETCH_SUCCEEDED:

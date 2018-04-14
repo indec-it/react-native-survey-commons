@@ -73,7 +73,8 @@ export default class SurveysService {
                 dwellingResponse: survey.dwellingResponse,
                 listNumber: survey.address.listNumber,
                 side: survey.address.side,
-                block: survey.address.block
+                block: survey.address.block,
+                subSample: survey.address.subSample
             })
         );
     }

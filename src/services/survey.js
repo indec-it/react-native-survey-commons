@@ -194,7 +194,10 @@ export default class SurveysService {
     }
 
     static createHouseholdVisit(household) {
-        household.visits.push({start: new Date(), response: household.response});
+        household.visits.push({
+            start: new Date(),
+            response: household.response
+        });
         return household;
     }
 
@@ -207,6 +210,14 @@ export default class SurveysService {
         Object.assign(lastVisit, result);
         await SurveysService.save(survey);
         return household;
+    }
+
+    static async fetchHouseholdVisits(id, dwellingOrder, householdOrder) {
+        const household = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
+        return map(household.visits, (visit, index) => ({
+            order: index + 1,
+            ...visit
+        }));
     }
 
     static async fetchMembers(id, dwellingOrder, householdOrder) {

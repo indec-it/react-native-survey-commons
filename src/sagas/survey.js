@@ -19,7 +19,7 @@ import {
     receiveHouseholdUpdated,
     receiveHousehold,
     receiveMember,
-    notifyCloseHouseholdVisit, receiveDwellings
+    notifyCloseHouseholdVisit, receiveDwellings, receiveHouseholdVisits
 } from '../actions/survey';
 
 export function* fetchAreas() {
@@ -179,6 +179,20 @@ export function* closeHouseholdVisit({
             result
         );
         yield put(notifyCloseHouseholdVisit());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchHouseholdVisits({id, dwellingOrder, householdOrder}) {
+    try {
+        const households = yield call(
+            SurveysService.fetchHouseholdVisits,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder)
+        );
+        yield put(receiveHouseholdVisits(households));
     } catch (err) {
         yield put(handleError(err));
     }

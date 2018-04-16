@@ -4,6 +4,7 @@ export const SYNC_DATA_SENT = 'SYNC_DATA_SENT';
 export const SYNC_DATA_RECEIVED = 'SYNC_DATA_RECEIVED';
 export const SYNC_SUCCEEDED = 'SYNC_SUCCEEDED';
 export const SYNC_FAILED = 'SYNC_FAILED';
+export const SYNC_SESSION_EXPIRED = 'SYNC_SESSION_EXPIRED';
 export const SYNC_CLEAR_DATA = 'SYNC_CLEAR_DATA';
 
 export const cleanSyncStatus = () => ({
@@ -35,4 +36,8 @@ export const completeSync = () => ({
 export const handleErrorSync = err => ({
     type: SYNC_FAILED,
     err: err.message
+});
+
+export const handleSessionExpired = () => ({
+    type: SYNC_SESSION_EXPIRED
 });

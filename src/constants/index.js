@@ -11,13 +11,17 @@ const syncStatus = {
     SENDING_DATA: 'sendingData',
     SAVING_DATA: 'savingData',
     COMPLETED: 'completed',
+    SESSION_EXPIRED: 'sessionExpired',
     HAS_ERROR: 'hasError'
 };
 
-const addressesListTabs = [
-    {id: surveyAddressState.OPENED, label: 'Pendientes'},
-    {id: surveyAddressState.CLOSED, label: 'Cerradas'}
-];
+const addressesListTabs = [{
+    id: surveyAddressState.OPENED,
+    label: 'Pendientes'
+}, {
+    id: surveyAddressState.CLOSED,
+    label: 'Cerradas'
+}];
 
 const answers = {
     YES: 1,

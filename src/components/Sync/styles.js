@@ -21,12 +21,12 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     surveyCount: {
-        fontSize: 30
+        fontSize: 22,
+        color: '#004e84'
     },
     syncStatusRow: {
-        padding: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-around'
+        paddingRight: 10,
+        flexDirection: 'row'
     },
     syncStatusText: {
         padding: 8,
@@ -36,15 +36,13 @@ export default StyleSheet.create({
     network: {
         flex: 1,
         padding: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        flexDirection: 'column'
     },
     networkConnection: {
-        flexDirection: 'row',
-        padding: 10
+        flexDirection: 'row'
     },
     networkText: {
-        padding: 6
+        paddingRight: 10
     },
     buttonContainer: {
         marginLeft: 15,

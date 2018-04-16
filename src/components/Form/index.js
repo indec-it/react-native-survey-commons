@@ -12,7 +12,7 @@ import rowsPropTypes from '../../util/rowsPropTypes';
 const registry = new ComponentsRegistry();
 
 const Form = ({
-    chapter, onChange, rows, style, questionStyles
+    chapter, onChange, rows, style, questionStyles, entity
 }) => (
     <ScrollView style={style.container}>
         {rows.map(row => (
@@ -36,7 +36,8 @@ const Form = ({
                             {renderQuestionErrors(
                                 question,
                                 questionAnswer,
-                                message => <TextError key={message}>{message}</TextError>
+                                message => <TextError key={message}>{message}</TextError>,
+                                entity
                             )}
                         </Col>
                     );
@@ -51,13 +52,15 @@ Form.propTypes = {
     chapter: PropTypes.shape({}),
     onChange: PropTypes.func.isRequired,
     questionStyles: PropTypes.shape({}),
-    style: stylePropType
+    style: stylePropType,
+    entity: PropTypes.shape({})
 };
 
 Form.defaultProps = {
     chapter: {},
     style: {},
-    questionStyles: {}
+    questionStyles: {},
+    entity: {}
 };
 
 export default Form;

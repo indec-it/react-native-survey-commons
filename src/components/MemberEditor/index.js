@@ -109,6 +109,7 @@ class MemberEditor extends Component {
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
+                    entity={member}
                 />
             </Fragment>
         );

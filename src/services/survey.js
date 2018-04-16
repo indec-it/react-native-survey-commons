@@ -71,6 +71,7 @@ export default class SurveysService {
                 surveyAddressState: survey.surveyAddressState,
                 surveyId: survey._id,
                 dwellingResponse: survey.dwellingResponse,
+                dwellingResponseCause: survey.dwellings && survey.dwellings[0] ? survey.dwellings[0].responseCause : null,
                 listNumber: survey.address.listNumber,
                 side: survey.address.side,
                 block: survey.address.block

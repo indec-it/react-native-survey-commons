@@ -14,12 +14,12 @@ import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
 import styles from './styles';
 
-const getMembersCharacteristics = members => map(
+const getMembersCharacteristics = (members, getRelationLabel) => map(
     reject(members, member => member.disabled),
     member => ({
         ...member,
         name: member.characteristics.name,
-        relationship: member.characteristics.relationship,
+        relationship: getRelationLabel(member),
         isHomeBoss: member.isHomeBoss()
     })
 );
@@ -38,7 +38,8 @@ class MembersList extends Component {
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         columns: columnPropType,
-        detectionButtonLabel: PropTypes.string
+        detectionButtonLabel: PropTypes.string,
+        getRelationLabel: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -60,7 +61,7 @@ class MembersList extends Component {
             field: 'name'
         }, {
             id: 4,
-            label: 'Relación',
+            label: 'Relación con el jefe del hogar',
             field: 'relationship'
         }, {
             id: 1,
@@ -137,7 +138,7 @@ class MembersList extends Component {
     }
 
     renderContent() {
-        const {columns, members} = this.props;
+        const {columns, getRelationLabel, members} = this.props;
         return (
             <Fragment>
                 {this.renderButtons()}
@@ -146,7 +147,7 @@ class MembersList extends Component {
                 {!isEmpty(members) &&
                 <Table
                     columns={columns || this.columns}
-                    data={getMembersCharacteristics(members)}
+                    data={getMembersCharacteristics(members, getRelationLabel)}
                 />}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}

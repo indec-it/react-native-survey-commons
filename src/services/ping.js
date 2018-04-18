@@ -7,7 +7,7 @@ export default class PingService {
     }
 
     static async ping(endpoint) {
-        const {version} = await http.get(`${endpoint}/ping`);
+        const {version} = await http.get(endpoint);
         return !!version;
     }
 }

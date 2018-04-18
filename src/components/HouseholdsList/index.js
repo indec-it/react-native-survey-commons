@@ -38,14 +38,16 @@ class HouseholdsList extends Component {
         dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
         address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
         columns: columnPropType,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        backButtonText: PropTypes.string
     };
 
     static defaultProps = {
         dwelling: null,
         address: null,
         saving: false,
-        columns: null
+        columns: null,
+        backButtonText: 'Anterior'
     };
 
     constructor(props) {
@@ -134,7 +136,7 @@ class HouseholdsList extends Component {
     }
 
     renderContent() {
-        const {address, columns} = this.props;
+        const {address, columns, backButtonText} = this.props;
         const {dwelling} = this.state;
         const {id, dwellingOrder} = this.props.match.params;
         return (
@@ -156,6 +158,7 @@ class HouseholdsList extends Component {
                 <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
                 <NavigationButtons
                     onBack={() => this.props.onPrevious(dwelling)}
+                    backButtonText={backButtonText}
                     onSubmit={() => this.closeDwelling()}
                     submitButtonText="Cerrar vivienda"
                 />

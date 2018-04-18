@@ -7,7 +7,7 @@ import {getFontAwesome} from '@indec/react-native-commons/util';
 import styles from './styles';
 
 const NavigatorButtons = ({
-    onBack, submitButtonText, onSubmit, iconLeft, iconRight
+    onBack, backButtonText, submitButtonText, onSubmit, iconLeft, iconRight
 }) => (
     <View style={styles.container}>
         <Row>
@@ -15,7 +15,7 @@ const NavigatorButtons = ({
             <Col>
                 <Button
                     icon={getFontAwesome(iconLeft.name, iconLeft.color)}
-                    title="Anterior"
+                    title={backButtonText}
                     onPress={onBack}
                     rounded
                 />
@@ -37,6 +37,7 @@ NavigatorButtons.propTypes = {
     onBack: PropTypes.func,
     onSubmit: PropTypes.func,
     submitButtonText: PropTypes.string,
+    backButtonText: PropTypes.string,
     iconLeft: PropTypes.shape({
         name: PropTypes.string.isRequired,
         color: PropTypes.string.isRequired
@@ -49,6 +50,7 @@ NavigatorButtons.propTypes = {
 
 NavigatorButtons.defaultProps = {
     submitButtonText: 'Siguiente',
+    backButtonText: 'Anterior',
     onBack: null,
     onSubmit: null,
     iconLeft: {

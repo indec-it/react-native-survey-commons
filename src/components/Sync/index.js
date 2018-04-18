@@ -22,7 +22,8 @@ class Sync extends Component {
         isPinging: PropTypes.bool,
         isConnected: PropTypes.bool.isRequired,
         surveys: PropTypes.number,
-        endpoint: PropTypes.string.isRequired,
+        pingEndpoint: PropTypes.string.isRequired,
+        syncEndpoint: PropTypes.string.isRequired,
         pong: PropTypes.bool,
         syncStatus: PropTypes.string.isRequired
     };
@@ -41,16 +42,16 @@ class Sync extends Component {
     }
 
     componentDidMount() {
-        const {endpoint} = this.props;
-        this.props.requestPing(endpoint);
+        const {pingEndpoint} = this.props;
+        this.props.requestPing(pingEndpoint);
         this.props.requestNetworkStatus();
         this.props.cleanSyncStatus();
     }
 
     handleSync() {
-        const {endpoint} = this.props;
+        const {syncEndpoint} = this.props;
         this.setState({syncPressed: true});
-        this.props.requestSync(endpoint);
+        this.props.requestSync(syncEndpoint);
     }
 
     render() {

@@ -1,5 +1,5 @@
 import {call, put} from 'redux-saga/effects';
-import {handleError} from '@indec/react-native-commons/sagas';
+import {handleError} from '@indec/react-native-commons/actions';
 import {toNumber} from 'lodash';
 
 import {SurveysService} from '../services';
@@ -19,7 +19,9 @@ import {
     receiveHouseholdUpdated,
     receiveHousehold,
     receiveMember,
-    notifyCloseHouseholdVisit, receiveDwellings, receiveHouseholdVisits
+    notifyCloseHouseholdVisit,
+    receiveDwellings,
+    receiveHouseholdVisits
 } from '../actions/survey';
 
 export function* fetchAreas() {

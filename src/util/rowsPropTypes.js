@@ -20,6 +20,7 @@ export default PropTypes.arrayOf(PropTypes.shape({
                 PropTypes.string,
                 PropTypes.bool
             ])
-        }))
+        })),
+        required: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
     }))
 }));

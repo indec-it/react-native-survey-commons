@@ -127,7 +127,8 @@ class MemberManager extends Component {
                 {
                     valid: isSectionValid(
                         member.characteristics,
-                        member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows
+                        member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows,
+                        member
                     )
                 }
             )

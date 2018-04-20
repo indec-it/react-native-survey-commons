@@ -2,8 +2,9 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {reject} from 'lodash';
 
-import {requestHousehold, requestUpdateHousehold} from '../../actions/survey';
+import {requestHousehold, requestHouseholds, requestUpdateHousehold} from '../../actions/survey';
 import {Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -14,12 +15,14 @@ import Section from '../Section';
 class HouseholdEditor extends Component {
     static propTypes = {
         requestHousehold: PropTypes.func.isRequired,
+        requestHouseholds: PropTypes.func.isRequired,
         requestUpdateHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
+        households: PropTypes.arrayOf(Household).isRequired,
         saving: PropTypes.bool
     };
 
@@ -34,6 +37,7 @@ class HouseholdEditor extends Component {
 
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        this.props.requestHouseholds(id, dwellingOrder);
         this.props.requestHousehold(id, dwellingOrder, householdOrder);
     }
 
@@ -66,8 +70,9 @@ class HouseholdEditor extends Component {
     }
 
     renderContent() {
-        const {chapter} = this.props;
+        const {chapter, households} = this.props;
         const {household} = this.state;
+
         const section = getSection(household, chapter);
         return (
             <Fragment>
@@ -79,6 +84,7 @@ class HouseholdEditor extends Component {
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     entity={household}
+                    otherEntity={reject(households, item => item.disabled)}
                 />
             </Fragment>
         );
@@ -92,11 +98,14 @@ class HouseholdEditor extends Component {
 export default connect(
     state => ({
         household: state.survey.household,
+        households: state.survey.households,
         saving: state.survey.saving
     }),
     dispatch => ({
         requestHousehold: (id, dwellingOrder, householdOrder) =>
             dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
+        requestHouseholds: (id, dwellingOrder) =>
+            dispatch(requestHouseholds(id, dwellingOrder)),
         requestUpdateHousehold: (id, dwellingOrder, household) =>
             dispatch(requestUpdateHousehold(id, dwellingOrder, household))
     })

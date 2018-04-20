@@ -128,7 +128,8 @@ class MemberManager extends Component {
                     valid: isSectionValid(
                         member.characteristics,
                         member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows,
-                        member
+                        member,
+                        reject(members, item => item.disabled)
                     )
                 }
             )
@@ -162,6 +163,7 @@ class MemberManager extends Component {
                                 onRemove={({order}) => this.removeMember(order)}
                                 onSelect={selected => this.selectMember(selected)}
                                 chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
+                                members={reject(members, item => item.disabled)}
                                 member={member}
                                 isSelected={selectedMember && selectedMember.order === member.order}
                             />

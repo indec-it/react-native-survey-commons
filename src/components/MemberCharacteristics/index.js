@@ -9,7 +9,7 @@ import {chapterPropTypes} from '../../util';
 import styles from './styles';
 
 const MemberCharacteristics = ({
-    member, chapter, onSelect, onRemove, onChange, isSelected
+    member, chapter, onSelect, onRemove, onChange, isSelected, members
 }) => (
     <Fragment>
         <ListItem
@@ -27,6 +27,7 @@ const MemberCharacteristics = ({
                 chapter={member.characteristics}
                 onChange={answer => onChange(answer, chapter.rows)}
                 entity={member}
+                otherEntity={members}
             />
             <Divider style={styles.divider}/>
         </Fragment>}
@@ -39,6 +40,7 @@ MemberCharacteristics.propTypes = {
     onChange: PropTypes.func.isRequired,
     chapter: chapterPropTypes.isRequired,
     member: PropTypes.instanceOf(Member).isRequired,
+    members: PropTypes.arrayOf(Member).isRequired,
     isSelected: PropTypes.bool
 };
 

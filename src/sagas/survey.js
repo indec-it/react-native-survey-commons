@@ -13,6 +13,7 @@ import {
     notifySaveMembersSucceeded,
     receiveMembers,
     receiveSurvey,
+    notifyInterruptHouseholdSucceeded,
     notifySaveSucceeded,
     notifyCloseSucceeded,
     receiveUpdatedDwelling,
@@ -195,6 +196,17 @@ export function* fetchHouseholdVisits({id, dwellingOrder, householdOrder}) {
             toNumber(householdOrder)
         );
         yield put(receiveHouseholdVisits(households));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* interruptHousehold({
+    id, dwellingOrder, household
+}) {
+    try {
+        yield call(SurveysService.saveHousehold, id, toNumber(dwellingOrder), household);
+        yield put(notifyInterruptHouseholdSucceeded());
     } catch (err) {
         yield put(handleError(err));
     }

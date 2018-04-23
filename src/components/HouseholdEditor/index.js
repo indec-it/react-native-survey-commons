@@ -4,30 +4,41 @@ import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import {reject} from 'lodash';
 
-import {requestHousehold, requestHouseholds, requestUpdateHousehold} from '../../actions/survey';
+import {
+    requestHousehold,
+    requestHouseholds,
+    requestUpdateHousehold,
+    requestInterruptHousehold
+} from '../../actions/survey';
 import {Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
+import InterruptButton from '../InterruptButton';
 
 class HouseholdEditor extends Component {
     static propTypes = {
         requestHousehold: PropTypes.func.isRequired,
         requestHouseholds: PropTypes.func.isRequired,
+        requestInterruptHousehold: PropTypes.func.isRequired,
         requestUpdateHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onInterrupt: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
         households: PropTypes.arrayOf(Household).isRequired,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        interrupting: PropTypes.bool
     };
 
     static defaultProps = {
-        saving: false
+        saving: false,
+        interrupting: false,
+        onInterrupt: null
     };
 
     constructor(props) {
@@ -44,6 +55,9 @@ class HouseholdEditor extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.household) {
             this.state.household = new Household(nextProps.household);
+        }
+        if (!this.props.interrupting && nextProps.interrupting) {
+            this.props.onInterrupt();
         }
         if (this.props.saving && !nextProps.saving) {
             this.props.onSubmit(nextProps.household);
@@ -65,17 +79,22 @@ class HouseholdEditor extends Component {
             : alertIncompleteSection();
     }
 
+    handleInterrupt() {
+        const {id, dwellingOrder} = this.props.match.params;
+        this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
+    }
+
     handlePrevious() {
         this.props.onPrevious(this.props.household);
     }
 
     renderContent() {
-        const {chapter, households} = this.props;
+        const {chapter, households, onInterrupt} = this.props;
         const {household} = this.state;
-
         const section = getSection(household, chapter);
         return (
             <Fragment>
+                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}
@@ -99,7 +118,8 @@ export default connect(
     state => ({
         household: state.survey.household,
         households: state.survey.households,
-        saving: state.survey.saving
+        saving: state.survey.saving,
+        interrupting: state.survey.interrupting
     }),
     dispatch => ({
         requestHousehold: (id, dwellingOrder, householdOrder) =>
@@ -107,6 +127,9 @@ export default connect(
         requestHouseholds: (id, dwellingOrder) =>
             dispatch(requestHouseholds(id, dwellingOrder)),
         requestUpdateHousehold: (id, dwellingOrder, household) =>
-            dispatch(requestUpdateHousehold(id, dwellingOrder, household))
+            dispatch(requestUpdateHousehold(id, dwellingOrder, household)),
+        requestInterruptHousehold: (id, dwellingOrder, household) => dispatch(
+            requestInterruptHousehold(id, dwellingOrder, household)
+        )
     })
 )(HouseholdEditor);

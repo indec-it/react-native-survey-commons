@@ -1,5 +1,19 @@
 import {StorageService} from '@indec/react-native-commons/services';
-import {castArray, every, filter, find, findIndex, forEach, isEmpty, last, map, max, reject, uniqBy} from 'lodash';
+import {
+    castArray,
+    every,
+    filter,
+    find,
+    findIndex,
+    forEach,
+    isEmpty,
+    last,
+    map,
+    max,
+    reject,
+    sortBy,
+    uniqBy
+} from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
 import {Dwelling, Household, Member, Survey} from '../model';
@@ -58,22 +72,18 @@ export default class SurveysService {
     static async fetchAddresses(ups, area) {
         const surveys = await SurveysService.findAll();
         return map(
-            filter(
-                surveys,
-                survey => survey.address.ups === ups && survey.address.area === area
+            sortBy(
+                filter(
+                    surveys,
+                    survey => survey.address.ups === ups && survey.address.area === area
+                ),
+                survey => survey.address.order
             ),
             survey => ({
-                street: survey.address.street,
-                streetNumber: survey.address.streetNumber,
-                floor: survey.address.floor,
-                room: survey.address.room,
-                localityName: survey.address.localityName,
+                ...survey.address,
                 surveyAddressState: survey.surveyAddressState,
                 surveyId: survey._id,
-                dwellingResponse: survey.dwellingResponse,
-                listNumber: survey.address.listNumber,
-                side: survey.address.side,
-                block: survey.address.block
+                dwellingResponse: survey.dwellingResponse
             })
         );
     }

@@ -26,6 +26,7 @@ class MemberManager extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onPreSave: PropTypes.func,
+        confirmRemoveText: PropTypes.func,
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
@@ -35,7 +36,8 @@ class MemberManager extends Component {
     static defaultProps = {
         members: [],
         saving: false,
-        onPreSave: null
+        onPreSave: null,
+        confirmRemoveText: null
     };
 
     constructor(props) {
@@ -91,9 +93,12 @@ class MemberManager extends Component {
     }
 
     removeMember(order) {
+        const {confirmRemoveText} = this.props;
         Alert.alert(
             'Atención',
-            `¿Desea eliminar la persona N° ${order}, recuerde que esto es permanente?`,
+            confirmRemoveText
+                ? confirmRemoveText(order, this.props.members, this.state.members)
+                : `¿Desea eliminar la persona N° ${order}, recuerde que esto es permanente?`,
             [{
                 text: 'Cancelar'
             }, {
@@ -128,8 +133,7 @@ class MemberManager extends Component {
                     valid: isSectionValid(
                         member.characteristics,
                         member.isHomeBoss() ? this.props.homeBossChapter.rows : this.props.chapter.rows,
-                        member,
-                        reject(members, item => item.disabled)
+                        member
                     )
                 }
             )
@@ -163,7 +167,6 @@ class MemberManager extends Component {
                                 onRemove={({order}) => this.removeMember(order)}
                                 onSelect={selected => this.selectMember(selected)}
                                 chapter={member.isHomeBoss() ? this.props.homeBossChapter : this.props.chapter}
-                                members={reject(members, item => item.disabled)}
                                 member={member}
                                 isSelected={selectedMember && selectedMember.order === member.order}
                             />

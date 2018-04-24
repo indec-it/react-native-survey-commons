@@ -2,7 +2,8 @@ import React, {Component, Fragment} from 'react';
 import {Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
+import {isFunction} from 'lodash';
 
 import {requestInterruptMember, requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
@@ -12,7 +13,6 @@ import getMemberName from '../../util/getMemberName';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
-import {InterruptButton} from '../..';
 import styles from './styles';
 
 class MemberEditor extends Component {
@@ -23,6 +23,7 @@ class MemberEditor extends Component {
         onInterrupt: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        handlePreSave: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         member: PropTypes.instanceOf(Member).isRequired,
@@ -33,6 +34,7 @@ class MemberEditor extends Component {
     static defaultProps = {
         onInterrupt: null,
         interrupting: false,
+        handlePreSave: null,
         saving: false
     };
 
@@ -75,6 +77,9 @@ class MemberEditor extends Component {
         const {chapter} = this.props;
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
+        if (this.props.handlePreSave) {
+            this.props.handlePreSave(member, this.props.member);
+        }
         return setSectionValidity(member, chapter)
             ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
             : alertIncompleteSection();
@@ -94,7 +99,14 @@ class MemberEditor extends Component {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameText}>Nombre de la persona: {getMemberName(member)}</Text>
                 </View>
-                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
+                {isFunction(onInterrupt) &&
+                <View style={styles.actionButtons}>
+                    <Button
+                        primary
+                        title="Interrumpir encuesta"
+                        onPress={() => this.handleInterrupt()}
+                    />
+                </View>}
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}

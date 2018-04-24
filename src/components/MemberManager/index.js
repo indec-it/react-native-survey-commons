@@ -92,12 +92,12 @@ class MemberManager extends Component {
         });
     }
 
-    removeMember(order) {
+    async removeMember(order) {
         const {confirmRemoveText} = this.props;
         Alert.alert(
             'Atención',
             confirmRemoveText
-                ? confirmRemoveText(order, this.props.members, this.state.members)
+                ? await confirmRemoveText(order, this.props.members, this.state.members)
                 : `¿Desea eliminar la persona N° ${order}, recuerde que esto es permanente?`,
             [{
                 text: 'Cancelar'

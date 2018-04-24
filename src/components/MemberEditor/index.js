@@ -21,6 +21,7 @@ class MemberEditor extends Component {
         requestMember: PropTypes.func.isRequired,
         requestSaveMember: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
+        onPreSave: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -33,6 +34,7 @@ class MemberEditor extends Component {
     static defaultProps = {
         onInterrupt: null,
         interrupting: false,
+        onPreSave: null,
         saving: false
     };
 
@@ -72,9 +74,12 @@ class MemberEditor extends Component {
     }
 
     handleSubmit() {
-        const {chapter} = this.props;
+        const {chapter, onPreSave} = this.props;
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
+        if (onPreSave) {
+            onPreSave(member, this.props.member);
+        }
         return setSectionValidity(member, chapter)
             ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
             : alertIncompleteSection();

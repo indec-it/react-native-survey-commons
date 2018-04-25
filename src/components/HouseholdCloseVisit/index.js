@@ -2,8 +2,9 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {last, isEmpty} from 'lodash';
 
-import {requestCloseHouseholdVisit} from '../../actions/survey';
+import {requestHouseholdVisits, requestCloseHouseholdVisit} from '../../actions/survey';
 import {Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -13,33 +14,47 @@ import NavigationButtons from '../NavigationButtons';
 class HouseholdCloseVisit extends Component {
     static propTypes = {
         requestCloseHouseholdVisit: PropTypes.func.isRequired,
+        requestHouseholdVisits: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
+        householdVisits: PropTypes.arrayOf(
+            PropTypes.shape({})
+        ),
         saving: PropTypes.bool
     };
 
     static defaultProps = {
-        saving: false
+        saving: false,
+        householdVisits: []
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            visitDetails: {}
+            currentVisit: null
         };
     }
 
+    componentWillMount() {
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        this.props.requestHouseholdVisits(id, dwellingOrder, householdOrder);
+    }
+
     componentWillReceiveProps(nextProps) {
-        if (this.props.saving && !nextProps.saving) {
-            this.props.onSubmit(nextProps.household);
+        const {saving, household, householdVisits} = nextProps;
+        if (!isEmpty(householdVisits)) {
+            this.state.currentVisit = last(householdVisits);
+        }
+        if (this.props.saving && !saving) {
+            this.props.onSubmit(household);
         }
     }
 
     handleChange(answer) {
-        this.setState(state => ({visitDetails: Object.assign(state.visitDetails, answer)}));
+        this.setState(state => ({currentVisit: Object.assign(state.currentVisit, answer)}));
     }
 
     handleSubmit() {
@@ -47,19 +62,19 @@ class HouseholdCloseVisit extends Component {
             this.props.match.params.id,
             this.props.match.params.dwellingOrder,
             this.props.match.params.householdOrder,
-            this.state.visitDetails
+            this.state.currentVisit
         );
     }
 
     renderContent() {
         const {chapter} = this.props;
-        const {visitDetails} = this.state;
+        const {currentVisit} = this.state;
         return (
             <Fragment>
                 <Title>{chapter.title}</Title>
                 <Form
                     rows={chapter.rows}
-                    chapter={visitDetails}
+                    chapter={currentVisit}
                     onChange={answer => this.handleChange(answer)}
                 />
                 <NavigationButtons
@@ -72,17 +87,21 @@ class HouseholdCloseVisit extends Component {
     }
 
     render() {
-        return !this.props.saving ? this.renderContent() : <LoadingIndicator/>;
+        return this.state.currentVisit ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
 export default connect(
     state => ({
-        saving: state.survey.saving
+        saving: state.survey.saving,
+        householdVisits: state.survey.householdVisits
     }),
     dispatch => ({
-        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, visitDetails) => dispatch(
-            requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, visitDetails)
+        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, currentVisit) => dispatch(
+            requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, currentVisit)
+        ),
+        requestHouseholdVisits: (id, dwellingOrder, householdOrder) => dispatch(
+            requestHouseholdVisits(id, dwellingOrder, householdOrder)
         )
     })
 )(HouseholdCloseVisit);

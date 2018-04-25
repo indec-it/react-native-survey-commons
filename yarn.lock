@@ -611,7 +611,7 @@
 
 "@indec/react-native-form-builder@indec-it/react-native-form-builder":
   version "0.2.3"
-  resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/f8d4c2a477b82a26c4198202299d67eea8d609e3"
+  resolved "https://codeload.github.com/indec-it/react-native-form-builder/tar.gz/9798c2050ccbcdece9897dd645b7e630cc67eff2"
   dependencies:
     "@indec/react-native-commons" "^0.1.7"
     "@indec/react-native-md-textinput" "^3.1.1"
@@ -3449,8 +3449,8 @@ locate-path@^2.0.0:
     path-exists "^3.0.0"
 
 lodash-es@^4.17.5:
-  version "4.17.8"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.8.tgz#6fa8c8c5d337481df0bdf1c0d899d42473121e45"
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
 
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
@@ -3538,8 +3538,8 @@ lodash@^3.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
 lodash@^4.14.0, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
-  version "4.17.5"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
   version "1.3.1"

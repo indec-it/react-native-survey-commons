@@ -19,7 +19,7 @@ const isQuestionAnswered = (question, section) => {
         case types.RADIO_TABLE:
             return isAnswered(question, section, every(question.questions, q => section[question.name + q.name]));
         case types.DECIMAL_INPUT:
-            return isNumber(section[question.name]);
+            return isNumber(section[question.name]) || !canAnswerQuestion(question, section);
         default:
             return isAnswered(question, section, section[question.name]);
     }

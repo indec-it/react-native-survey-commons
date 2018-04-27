@@ -64,6 +64,12 @@ class VisitResultEditor extends Component {
                     onBack={() => this.props.onPrevious()}
                     onSubmit={() => this.handleSubmit()}
                     submitButtonText="Guardar y salir"
+                    iconRight={{name: 'floppy-o', color: 'red'}}
+                    styleRightButton={{
+                        primary: false,
+                        danger: true,
+                        rounded: true
+                    }}
                 />
             </Fragment>
         );

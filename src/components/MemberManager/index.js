@@ -179,6 +179,12 @@ class MemberManager extends Component {
                     onBack={() => this.handleBack()}
                     onSubmit={() => this.handleSubmit()}
                     submitButtonText="Guardar y salir"
+                    iconRight={{name: 'floppy-o', color: 'red'}}
+                    styleRightButton={{
+                        primary: false,
+                        danger: true,
+                        rounded: true
+                    }}
                 />
             </Fragment>
         );

@@ -4,29 +4,32 @@ import {View} from 'react-native';
 import {Button, Col, Row} from '@indec/react-native-commons';
 import {getFontAwesome} from '@indec/react-native-commons/util';
 
+import buttonStyleDefaultProps from '../../util/buttonStyleDefaultProps';
+import buttonStylePropTypes from '../../util/buttonStylePropTypes';
+import iconPropTypes from '../../util/iconPropTypes';
 import styles from './styles';
 
 const NavigatorButtons = ({
-    onBack, backButtonText, submitButtonText, onSubmit, iconLeft, iconRight
+    onBack, backButtonText, submitButtonText, onSubmit, iconLeft, iconRight, styleRightButton, styleLeftButton
 }) => (
     <View style={styles.container}>
         <Row>
             {onBack &&
             <Col>
                 <Button
+                    {...styleLeftButton}
                     icon={getFontAwesome(iconLeft.name, iconLeft.color)}
                     title={backButtonText}
                     onPress={onBack}
-                    rounded
                 />
             </Col>}
             {onSubmit &&
             <Col>
                 <Button
+                    {...styleRightButton}
                     iconRight={getFontAwesome(iconRight.name, iconRight.color)}
                     title={submitButtonText}
                     onPress={onSubmit}
-                    rounded
                 />
             </Col>}
         </Row>
@@ -38,14 +41,10 @@ NavigatorButtons.propTypes = {
     onSubmit: PropTypes.func,
     submitButtonText: PropTypes.string,
     backButtonText: PropTypes.string,
-    iconLeft: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired
-    }),
-    iconRight: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired
-    })
+    iconLeft: iconPropTypes,
+    iconRight: iconPropTypes,
+    styleRightButton: buttonStylePropTypes,
+    styleLeftButton: buttonStylePropTypes
 };
 
 NavigatorButtons.defaultProps = {
@@ -60,7 +59,9 @@ NavigatorButtons.defaultProps = {
     iconRight: {
         name: 'chevron-right',
         color: '#333'
-    }
+    },
+    styleRightButton: buttonStyleDefaultProps,
+    styleLeftButton: buttonStyleDefaultProps
 };
 
 export default NavigatorButtons;

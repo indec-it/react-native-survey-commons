@@ -161,6 +161,12 @@ class HouseholdsList extends Component {
                     backButtonText={backButtonText}
                     onSubmit={() => this.closeDwelling()}
                     submitButtonText="Cerrar vivienda"
+                    iconRight={{name: 'lock', color: 'red'}}
+                    styleRightButton={{
+                        primary: false,
+                        danger: true,
+                        rounded: true
+                    }}
                 />
             </Fragment>
         );

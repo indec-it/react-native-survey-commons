@@ -39,6 +39,8 @@ class MembersList extends Component {
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         columns: columnPropType,
         detectionButtonLabel: PropTypes.string,
+        householdCharacteristicsLabel: PropTypes.string,
+        membersManagerLabel: PropTypes.string,
         getRelationLabel: PropTypes.func.isRequired
     };
 
@@ -46,6 +48,8 @@ class MembersList extends Component {
         members: null,
         showCharacteristicsButton: true,
         detectionButtonLabel: 'Detección de viviendas y hogares',
+        householdCharacteristicsLabel: 'Características del hogar',
+        membersManagerLabel: 'Componentes del hogar',
         columns: null
     };
 
@@ -110,7 +114,13 @@ class MembersList extends Component {
 
     renderButtons() {
         const {dwellingOrder, householdOrder} = this.props.match.params;
-        const {showCharacteristicsButton, members, detectionButtonLabel} = this.props;
+        const {
+            showCharacteristicsButton,
+            members,
+            detectionButtonLabel,
+            householdCharacteristicsLabel,
+            membersManagerLabel
+        } = this.props;
         return (
             <View style={styles.actionButtons}>
                 {showCharacteristicsButton(members) && <Button
@@ -118,12 +128,12 @@ class MembersList extends Component {
                         () => this.props.onViewDetails(dwellingOrder, householdOrder)
                     }
                     primary
-                    title="Características habitacionales del hogar"
+                    title={householdCharacteristicsLabel}
                 />}
                 <Button
                     onPress={() => this.props.onAddMember()}
                     primary
-                    title="Gestión de personas"
+                    title={membersManagerLabel}
                 />
                 <Button
                     buttonStyle={styles.marginTopButton}

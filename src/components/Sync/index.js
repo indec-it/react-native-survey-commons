@@ -10,18 +10,19 @@ import NetworkStatus from './NetworkStatus';
 import SyncStatus from './SyncStatus';
 import {requestNetworkStatus, requestPing} from '../../actions/network';
 import {cleanSyncStatus, requestSync} from '../../actions/sync';
-
+import {requestSurveysQuantity} from '../../actions/survey';
 import styles from './styles';
 
 class Sync extends Component {
     static propTypes = {
         cleanSyncStatus: PropTypes.func.isRequired,
         requestPing: PropTypes.func.isRequired,
+        requestSurveysQuantity: PropTypes.func.isRequired,
         requestNetworkStatus: PropTypes.func.isRequired,
         requestSync: PropTypes.func.isRequired,
         isPinging: PropTypes.bool,
         isConnected: PropTypes.bool.isRequired,
-        surveys: PropTypes.number,
+        quantity: PropTypes.number.isRequired,
         pingEndpoint: PropTypes.string.isRequired,
         syncEndpoint: PropTypes.string.isRequired,
         pong: PropTypes.bool,
@@ -30,7 +31,6 @@ class Sync extends Component {
 
     static defaultProps = {
         isPinging: false,
-        surveys: 0,
         pong: false
     };
 
@@ -46,6 +46,7 @@ class Sync extends Component {
         this.props.requestPing(pingEndpoint);
         this.props.requestNetworkStatus();
         this.props.cleanSyncStatus();
+        this.props.requestSurveysQuantity();
     }
 
     handleSync() {
@@ -59,7 +60,7 @@ class Sync extends Component {
             isConnected,
             isPinging,
             pong,
-            surveys,
+            quantity,
             syncStatus
         } = this.props;
         return (
@@ -70,7 +71,7 @@ class Sync extends Component {
                     </View>
                     <View style={styles.syncRow}>
                         <Text style={styles.surveyCount}>
-                            {surveys} encuesta(s) para enviar.
+                            {quantity} encuesta(s) para enviar.
                         </Text>
                     </View>
                     <View style={styles.syncRow}>
@@ -95,12 +96,14 @@ export default connect(
         isPinging: state.network.isPinging,
         pong: state.network.pong,
         isConnected: state.network.isConnected,
-        syncStatus: state.sync.status
+        syncStatus: state.sync.status,
+        quantity: state.survey.quantity
     }),
     dispatch => ({
         cleanSyncStatus: () => dispatch(cleanSyncStatus()),
         requestPing: endpoint => dispatch(requestPing(endpoint)),
         requestNetworkStatus: () => dispatch(requestNetworkStatus()),
-        requestSync: endpoint => dispatch(requestSync(endpoint))
+        requestSync: endpoint => dispatch(requestSync(endpoint)),
+        requestSurveysQuantity: () => dispatch(requestSurveysQuantity())
     })
 )(Sync);

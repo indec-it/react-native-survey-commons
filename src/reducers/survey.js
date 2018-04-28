@@ -31,6 +31,8 @@ import {
     SURVEY_FETCH_REQUESTED,
     SURVEY_SAVE_REQUESTED,
     SURVEY_SAVE_SUCCEEDED,
+    SURVEYS_QUANTITY_REQUESTED,
+    SURVEYS_QUANTITY_SUCCEEDED,
     HOUSEHOLD_FETCH_REQUESTED
 } from '../actions/survey';
 
@@ -95,6 +97,10 @@ export default function (state = {surveys: {}}, action) {
         case SURVEY_CLOSE_REQUESTED:
         case SURVEY_SAVE_REQUESTED:
             return {...state, saving: true};
+        case SURVEYS_QUANTITY_REQUESTED:
+            return {...state, quantity: 0};
+        case SURVEYS_QUANTITY_SUCCEEDED:
+            return {...state, quantity: action.quantity};
         default:
             return state;
     }

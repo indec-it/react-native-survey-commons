@@ -1,6 +1,6 @@
 import {call, put} from 'redux-saga/effects';
 import {handleError} from '@indec/react-native-commons/actions';
-import {toNumber} from 'lodash';
+import {toNumber, size} from 'lodash';
 
 import {SurveysService} from '../services';
 import {
@@ -22,7 +22,8 @@ import {
     receiveMember,
     notifyCloseHouseholdVisit,
     receiveDwellings,
-    receiveHouseholdVisits
+    receiveHouseholdVisits,
+    receiveSurveysQuantity
 } from '../actions/survey';
 
 export function* fetchAreas() {
@@ -47,6 +48,15 @@ export function* fetchAddressesByState({ups, area, state}) {
     try {
         const addresses = yield call(SurveysService.fetchAddressesBySurveyState, toNumber(ups), toNumber(area), state);
         yield put(receiveAddresses(addresses));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchSurveysQuantity() {
+    try {
+        const surveys = yield call(SurveysService.findAll);
+        yield put(receiveSurveysQuantity(size(surveys)));
     } catch (err) {
         yield put(handleError(err));
     }

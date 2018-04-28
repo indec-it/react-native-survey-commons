@@ -14,6 +14,7 @@ import {
     fetchHouseholdVisits,
     fetchHouseholds,
     fetchMembers,
+    fetchSurveysQuantity,
     interruptHousehold,
     interruptMember,
     updateDwelling,
@@ -42,6 +43,7 @@ export {fetchDwellings};
 export {fetchHouseholdVisits};
 export {fetchHouseholds};
 export {fetchMembers};
+export {fetchSurveysQuantity};
 export {interruptHousehold};
 export {interruptMember};
 export {isConnected};

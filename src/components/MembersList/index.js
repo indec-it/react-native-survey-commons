@@ -161,11 +161,13 @@ class MembersList extends Component {
                 />}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}
-                    iconRight={{
-                        name: 'lock',
-                        color: '#333'
-                    }}
                     submitButtonText="Cerrar visita"
+                    iconRight={{name: 'lock', color: 'red'}}
+                    styleRightButton={{
+                        primary: false,
+                        danger: true,
+                        rounded: true
+                    }}
                 />
             </Fragment>
         );

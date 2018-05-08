@@ -1,9 +1,12 @@
 import {types} from '@indec/react-native-form-builder';
-import {every, isArray, isEmpty, isNumber} from 'lodash';
+import {every, isArray, isEmpty, isNil, isNumber} from 'lodash';
 
-import canAnswerQuestion from './canAnswerQuestion';
+import {callFunc, canAnswerQuestion} from '.';
 
 const isAnswered = (question, section, answer) => {
+    if (!isNil(question.required) && !callFunc(question.required, section)) {
+        return true;
+    }
     if (isArray(answer) && isEmpty(answer)) {
         return false;
     }

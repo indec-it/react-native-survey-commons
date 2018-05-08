@@ -5,8 +5,7 @@ import {Col, Row, TextError} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
 
-import canAnswerQuestion from '../../util/canAnswerQuestion';
-import renderQuestionErrors from '../../util/renderQuestionErrors';
+import {callFunc, canAnswerQuestion, renderQuestionErrors} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
 
 const registry = new ComponentsRegistry();
@@ -28,6 +27,9 @@ const Form = ({
                                 question={question}
                                 section={chapter}
                                 answer={questionAnswer}
+                                required={
+                                    question.required && callFunc(question.required, chapter)
+                                }
                                 onChange={answer => onChange(answer)}
                                 disabled={!canAnswerQuestion(question, chapter)}
                                 style={questionStyle.style}

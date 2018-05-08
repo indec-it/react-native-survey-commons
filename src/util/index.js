@@ -1,5 +1,6 @@
 import buttonStyleDefaultProps from './buttonStyleDefaultProps';
 import buttonStylePropTypes from './buttonStylePropTypes';
+import callFunc from './callFunc';
 import canAnswerQuestion from './canAnswerQuestion';
 import chapterPropTypes from './chapterPropTypes';
 import cleanChildrenQuestions from './cleanChildrenQuestions';
@@ -19,6 +20,7 @@ import validateQuestion from './validateQuestion';
 
 export {buttonStyleDefaultProps};
 export {buttonStylePropTypes};
+export {callFunc};
 export {canAnswerQuestion};
 export {chapterPropTypes};
 export {cleanChildrenQuestions};

@@ -15,6 +15,7 @@ const isAnswered = (question, section, answer) => {
 
 const isQuestionAnswered = (question, section) => {
     switch (question.type) {
+        case types.CALC:
         case types.TEXT_WITH_BADGE:
         case types.TITLE:
         case types.SUM:

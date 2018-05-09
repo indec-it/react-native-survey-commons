@@ -37,6 +37,7 @@ const Form = ({
                             />
                             {renderQuestionErrors(
                                 question,
+                                chapter,
                                 questionAnswer,
                                 message => <TextError key={message}>{message}</TextError>,
                                 entity,

@@ -122,7 +122,7 @@ class MemberManager extends Component {
         this.props.onPrevious();
     }
 
-    handleSubmit() {
+    async handleSubmit() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {members} = this.state;
         forEach(
@@ -140,7 +140,7 @@ class MemberManager extends Component {
             )
         );
         if (!isNil(this.props.onPreSave)) {
-            this.props.onPreSave(members, this.props.members);
+            await this.props.onPreSave(members, this.props.members);
         }
         const isValid = every(reject(members, member => member.disabled), member => member.characteristics.valid);
         return isValid

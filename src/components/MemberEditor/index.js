@@ -1,19 +1,17 @@
 import React, {Component, Fragment} from 'react';
-import {Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
 
 import {requestInterruptMember, requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
+import MemberData from '../MemberData';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import chapterPropTypes from '../../util/chapterPropTypes';
-import getMemberName from '../../util/getMemberName';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 import {InterruptButton} from '../..';
-import styles from './styles';
 
 class MemberEditor extends Component {
     static propTypes = {
@@ -96,9 +94,7 @@ class MemberEditor extends Component {
         const section = getSection(member, chapter);
         return (
             <Fragment>
-                <View style={styles.nameContainer}>
-                    <Text style={styles.nameText}>Nombre de la persona: {getMemberName(member)}</Text>
-                </View>
+                <MemberData member={member}/>
                 <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
                 <Title>{chapter.title}</Title>
                 <Section

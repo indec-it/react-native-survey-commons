@@ -1,9 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-    actionButtons: {
-        marginTop: 20
-    },
     nameContainer: {
         height: 30,
         paddingRight: 10,

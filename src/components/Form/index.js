@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView} from 'react-native';
-import {Col, Row, TextError} from '@indec/react-native-commons';
+import {ScrollView, View} from 'react-native';
+import {Alert, Col, Row} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
 
 import {callFunc, canAnswerQuestion, renderQuestionErrors} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
+import styles from './styles';
 
 const registry = new ComponentsRegistry();
 
@@ -39,7 +40,11 @@ const Form = ({
                                 question,
                                 chapter,
                                 questionAnswer,
-                                message => <TextError key={message}>{message}</TextError>,
+                                message => (
+                                    <View style={styles.alertContainer}>
+                                        <Alert key={message}>{message}</Alert>
+                                    </View>
+                                ),
                                 entity,
                                 otherEntity
                             )}

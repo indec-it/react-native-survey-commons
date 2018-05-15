@@ -40,9 +40,18 @@ const Form = ({
                                 question,
                                 chapter,
                                 questionAnswer,
-                                message => (
+                                validationResult => (
                                     <View style={styles.alertContainer}>
-                                        <Alert key={message}>{message}</Alert>
+                                        <Alert
+                                            success={validationResult.hasPassed}
+                                            danger={validationResult.hasFailed}
+                                            warning={validationResult.hasIssuedWarning}
+                                            alertStyle={validationResult.alertStyle}
+                                            style={validationResult.messageStyle}
+                                            key={validationResult.message}
+                                        >
+                                            {validationResult.message}
+                                        </Alert>
                                     </View>
                                 ),
                                 entity,

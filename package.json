@@ -14,7 +14,7 @@
     "@commitlint/cli": "^6.1.3",
     "@commitlint/travis-cli": "^6.1.3",
     "@indec/heimdall": "0.2.5",
-    "@indec/react-native-commons": "indec-it/react-native-commons",
+    "@indec/react-native-commons": "indec-it/react-native-commons#style/warningInAlerts",
     "@indec/react-native-form-builder": "indec-it/react-native-form-builder",
     "@indec/react-native-md-textinput": "^3.1.1",
     "@indec/react-native-table": "indec-it/react-native-table",

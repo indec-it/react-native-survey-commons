@@ -10,7 +10,7 @@ const renderQuestionErrors = (question, section, answer, renderErrorMessage, ent
             question.validators,
             validator => validator.forThis(entity).against(otherEntity).isValid(answer)
         ),
-        validator => renderErrorMessage(validator.errorMessage())
+        validator => renderErrorMessage(validator.getValidationResult())
     );
 };
 

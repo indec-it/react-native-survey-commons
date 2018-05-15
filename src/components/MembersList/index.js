@@ -6,9 +6,10 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 import {columnPropType} from '@indec/react-native-table/util';
-import {isEmpty, map, reject} from 'lodash';
+import {isEmpty, map, noop, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
+import Validations from '../Validations';
 import {requestMembers, requestRemoveMember} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
@@ -35,13 +36,14 @@ class MembersList extends Component {
         onAddMember: PropTypes.func.isRequired,
         showCharacteristicsButton: PropTypes.func,
         validationState: PropTypes.func.isRequired,
+        validator: PropTypes.func,
+        getRelationLabel: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
         columns: columnPropType,
         detectionButtonLabel: PropTypes.string,
         householdCharacteristicsLabel: PropTypes.string,
-        membersManagerLabel: PropTypes.string,
-        getRelationLabel: PropTypes.func.isRequired
+        membersManagerLabel: PropTypes.string
     };
 
     static defaultProps = {
@@ -50,7 +52,8 @@ class MembersList extends Component {
         detectionButtonLabel: 'Detección de viviendas y hogares',
         householdCharacteristicsLabel: 'Características del hogar',
         membersManagerLabel: 'Componentes del hogar',
-        columns: null
+        columns: null,
+        validator: noop
     };
 
     constructor(props) {
@@ -148,7 +151,9 @@ class MembersList extends Component {
     }
 
     renderContent() {
-        const {columns, getRelationLabel, members} = this.props;
+        const {
+            columns, getRelationLabel, members, validator
+        } = this.props;
         return (
             <Fragment>
                 {this.renderButtons()}
@@ -159,6 +164,7 @@ class MembersList extends Component {
                     columns={columns || this.columns}
                     data={getMembersCharacteristics(members, getRelationLabel)}
                 />}
+                {validator && <Validations validationResults={validator(members)}/>}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}
                     submitButtonText="Cerrar visita"

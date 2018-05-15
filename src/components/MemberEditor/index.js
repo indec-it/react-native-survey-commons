@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {noop} from 'lodash';
 
 import {requestInterruptMember, requestMember, requestSaveMember} from '../../actions/survey';
 import {Member} from '../../model';
@@ -22,6 +23,7 @@ class MemberEditor extends Component {
         onPreSave: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        validator: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         member: PropTypes.instanceOf(Member).isRequired,
@@ -33,7 +35,8 @@ class MemberEditor extends Component {
         onInterrupt: null,
         interrupting: false,
         onPreSave: null,
-        saving: false
+        saving: false,
+        validator: noop
     };
 
     constructor(props) {
@@ -89,7 +92,7 @@ class MemberEditor extends Component {
     }
 
     renderContent() {
-        const {chapter, onInterrupt} = this.props;
+        const {chapter, onInterrupt, validator} = this.props;
         const {member} = this.state;
         const section = getSection(member, chapter);
         return (
@@ -104,6 +107,7 @@ class MemberEditor extends Component {
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     entity={member}
+                    validationResults={validator(section)}
                 />
             </Fragment>
         );

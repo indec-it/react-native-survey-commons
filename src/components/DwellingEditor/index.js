@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {noop} from 'lodash';
 
 import {requestDwelling, requestUpdateDwelling} from '../../actions/survey';
 import {Dwelling, Survey} from '../../model';
@@ -17,6 +18,7 @@ class DwellingEditor extends Component {
         requestUpdateDwelling: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        validator: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
@@ -25,7 +27,8 @@ class DwellingEditor extends Component {
     };
 
     static defaultProps = {
-        saving: false
+        saving: false,
+        validator: noop
     };
 
     constructor(props) {
@@ -67,7 +70,7 @@ class DwellingEditor extends Component {
     }
 
     renderContent() {
-        const {chapter} = this.props;
+        const {chapter, validator} = this.props;
         const {dwelling} = this.state;
         const section = getSection(dwelling, chapter);
         return (
@@ -79,6 +82,7 @@ class DwellingEditor extends Component {
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
+                    validationResults={validator(section)}
                 />
             </Fragment>
         );

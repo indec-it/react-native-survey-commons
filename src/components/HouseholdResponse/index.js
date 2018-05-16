@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {noop} from 'lodash';
 
 import {
     requestHousehold,
@@ -27,6 +28,7 @@ class HouseholdResponse extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
+        validator: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
@@ -38,7 +40,8 @@ class HouseholdResponse extends Component {
     static defaultProps = {
         saving: false,
         interrupting: false,
-        onInterrupt: null
+        onInterrupt: null,
+        validator: noop
     };
 
     constructor(props) {
@@ -85,7 +88,9 @@ class HouseholdResponse extends Component {
     }
 
     renderContent() {
-        const {address, chapter, onInterrupt} = this.props;
+        const {
+            address, chapter, onInterrupt, validator
+        } = this.props;
         const {household} = this.state;
         const section = getSection(household, chapter);
         return (
@@ -99,6 +104,7 @@ class HouseholdResponse extends Component {
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.props.onPrevious()}
                     onSubmit={() => this.handleSubmit()}
+                    validationResults={validator(section)}
                 />
             </Fragment>
         );

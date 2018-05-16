@@ -6,6 +6,7 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 import {columnPropType} from '@indec/react-native-table/util';
+import {noop} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
 import {
@@ -19,6 +20,7 @@ import {Address, Dwelling} from '../../model';
 import getHouseholdHeadName from '../../util/getHouseholdHeadName';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import AddressCard from '../AddressCard';
+import Validations from '../Validations';
 import styles from './styles';
 
 class HouseholdsList extends Component {
@@ -34,6 +36,7 @@ class HouseholdsList extends Component {
         onSubmit: PropTypes.func.isRequired,
         dwellingValidationState: PropTypes.func.isRequired,
         householdValidationState: PropTypes.func.isRequired,
+        validator: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
         address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
@@ -47,7 +50,8 @@ class HouseholdsList extends Component {
         address: null,
         saving: false,
         columns: null,
-        backButtonText: 'Anterior'
+        backButtonText: 'Anterior',
+        validator: noop
     };
 
     constructor(props) {
@@ -136,7 +140,9 @@ class HouseholdsList extends Component {
     }
 
     renderContent() {
-        const {address, columns, backButtonText} = this.props;
+        const {
+            address, columns, backButtonText, validator
+        } = this.props;
         const {dwelling} = this.state;
         const {id, dwellingOrder} = this.props.match.params;
         return (
@@ -156,6 +162,7 @@ class HouseholdsList extends Component {
                 </View>
                 <Title>Listado de hogares</Title>
                 <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
+                {validator && <Validations validationResults={validator(dwelling)}/>}
                 <NavigationButtons
                     onBack={() => this.props.onPrevious(dwelling)}
                     backButtonText={backButtonText}

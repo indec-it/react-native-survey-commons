@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, forEach, isNil, max, reject} from 'lodash';
+import {concat, every, find, forEach, isNil, max, noop, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -17,6 +17,7 @@ import isSectionValid from '../../util/isSectionValid';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
+import Validations from '../Validations';
 
 class MemberManager extends Component {
     static propTypes = {
@@ -27,6 +28,7 @@ class MemberManager extends Component {
         onSubmit: PropTypes.func.isRequired,
         onPreSave: PropTypes.func,
         confirmRemoveText: PropTypes.func,
+        validator: PropTypes.func,
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
@@ -37,7 +39,8 @@ class MemberManager extends Component {
         members: [],
         saving: false,
         onPreSave: null,
-        confirmRemoveText: null
+        confirmRemoveText: null,
+        validator: noop
     };
 
     constructor(props) {
@@ -149,6 +152,7 @@ class MemberManager extends Component {
     }
 
     renderContent() {
+        const {validator} = this.props;
         const {members, selectedMember} = this.state;
         return (
             <Fragment>
@@ -175,6 +179,7 @@ class MemberManager extends Component {
                         ))}
                     </List>
                 </ScrollView>
+                {validator && <Validations validationResults={validator(members)}/>}
                 <NavigationButtons
                     onBack={() => this.handleBack()}
                     onSubmit={() => this.handleSubmit()}

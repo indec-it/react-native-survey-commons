@@ -1,12 +1,13 @@
-import {map, reject} from 'lodash';
+import {isEmpty, isNil, map, reject} from 'lodash';
 
-const renderQuestionErrors = ({validators}, answer, renderErrorMessage, entity, otherEntity) => {
-    if (!validators || !answer) {
+const renderQuestionErrors = (question, section, answer, renderErrorMessage, entity, otherEntity) => {
+    if (!question.validators || (!question.allowZero && isEmpty(answer)) || (question.allowZero && isNil(answer))) {
         return true;
     }
+
     return map(
         reject(
-            validators,
+            question.validators,
             validator => validator.forThis(entity).against(otherEntity).isValid(answer)
         ),
         validator => renderErrorMessage(validator.errorMessage())

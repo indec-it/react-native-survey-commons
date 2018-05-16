@@ -1,10 +1,14 @@
-import {every} from 'lodash';
+import {every, isNil} from 'lodash';
 
-const validateQuestion = ({validators}, answer, entity, otherEntity) => {
-    if (!validators || !answer) {
+const validateQuestion = (question, answer, entity, otherEntity) => {
+    if (!question.validators || (!question.allowZero && isNil(answer)) || !answer) {
         return true;
     }
-    return every(validators, validator => !validator.forThis(entity).against(otherEntity).hasBlockerState(answer));
+
+    return every(
+        question.validators,
+        validator => !validator.forThis(entity).against(otherEntity).hasBlockerState(answer)
+    );
 };
 
 export default validateQuestion;

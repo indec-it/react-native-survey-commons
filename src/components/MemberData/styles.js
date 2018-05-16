@@ -2,13 +2,15 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     nameContainer: {
-        height: 30,
-        paddingRight: 10,
-        paddingLeft: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor: '#ebeff0'
+        margin: 10,
+        paddingTop: 20,
+        paddingBottom: 20,
+        backgroundColor: '#d5e8e8',
+        textAlign: 'center',
+        borderStyle: 'solid',
+        borderColor: '#000000',
+        borderRadius: 10,
+        borderWidth: 2
     },
     nameText: {
         fontSize: 14

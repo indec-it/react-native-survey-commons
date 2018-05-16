@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView, View} from 'react-native';
-import {Alert, Col, Row} from '@indec/react-native-commons';
+import {ScrollView} from 'react-native';
+import {Col, Row} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
+import ValidationsList from '../ValidationsList';
 
 import {callFunc, canAnswerQuestion, renderQuestionErrors} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
-import styles from './styles';
 
 const registry = new ComponentsRegistry();
 
@@ -40,20 +40,7 @@ const Form = ({
                                 question,
                                 chapter,
                                 questionAnswer,
-                                validationResult => (
-                                    <View style={styles.alertContainer}>
-                                        <Alert
-                                            success={validationResult.hasPassed}
-                                            danger={validationResult.hasFailed}
-                                            warning={validationResult.hasIssuedWarning}
-                                            alertStyle={validationResult.alertStyle}
-                                            style={validationResult.messageStyle}
-                                            key={validationResult.message}
-                                        >
-                                            {validationResult.message}
-                                        </Alert>
-                                    </View>
-                                ),
+                                validationResult => (<ValidationsList validationResults={validationResult}/>),
                                 entity,
                                 otherEntity
                             )}

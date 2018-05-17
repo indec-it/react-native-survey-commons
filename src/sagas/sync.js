@@ -1,7 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import {call, put} from 'redux-saga/effects';
+import {size} from 'lodash';
 
 import {handleErrorSync, handleSessionExpired, receiveSyncData, sendSyncData, completeSync} from '../actions/sync';
+import {receiveSurveysQuantity} from '../actions/survey';
 import {SyncService, SurveysService} from '../services';
 
 export function* sync({endpoint}) {
@@ -24,6 +26,8 @@ export function* sync({endpoint}) {
         yield call(SurveysService.save, surveyAddresses);
 
         yield put(completeSync());
+
+        yield put(receiveSurveysQuantity(size(surveyAddresses)));
     } catch (e) {
         yield put(handleErrorSync(e));
     }

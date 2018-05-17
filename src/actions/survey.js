@@ -38,6 +38,19 @@ export const receiveAddresses = addresses => ({
     addresses
 });
 
+export const SURVEYS_QUANTITY_REQUESTED = 'SURVEYS_QUANTITY_REQUESTED';
+
+export const requestSurveysQuantity = () => ({
+    type: SURVEYS_QUANTITY_REQUESTED
+});
+
+export const SURVEYS_QUANTITY_SUCCEEDED = 'SURVEYS_QUANTITY_SUCCEEDED';
+
+export const receiveSurveysQuantity = quantity => ({
+    type: SURVEYS_QUANTITY_SUCCEEDED,
+    quantity
+});
+
 export const SURVEY_FETCH_REQUESTED = 'SURVEY_FETCH_REQUESTED';
 export const SURVEY_FETCH_RECEIVED = 'SURVEY_FETCH_RECEIVED';
 

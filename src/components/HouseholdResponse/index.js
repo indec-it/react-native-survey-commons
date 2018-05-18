@@ -28,7 +28,7 @@ class HouseholdResponse extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
@@ -41,7 +41,7 @@ class HouseholdResponse extends Component {
         saving: false,
         interrupting: false,
         onInterrupt: null,
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -89,7 +89,7 @@ class HouseholdResponse extends Component {
 
     renderContent() {
         const {
-            address, chapter, onInterrupt, validator
+            address, chapter, onInterrupt, validate
         } = this.props;
         const {household} = this.state;
         const section = getSection(household, chapter);
@@ -104,7 +104,7 @@ class HouseholdResponse extends Component {
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.props.onPrevious()}
                     onSubmit={() => this.handleSubmit()}
-                    validationResults={validator(section)}
+                    validationResults={validate(section)}
                 />
             </Fragment>
         );

@@ -18,7 +18,7 @@ class DwellingEditor extends Component {
         requestUpdateDwelling: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
@@ -28,7 +28,7 @@ class DwellingEditor extends Component {
 
     static defaultProps = {
         saving: false,
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -70,7 +70,7 @@ class DwellingEditor extends Component {
     }
 
     renderContent() {
-        const {chapter, validator} = this.props;
+        const {chapter, validate} = this.props;
         const {dwelling} = this.state;
         const section = getSection(dwelling, chapter);
         return (
@@ -82,7 +82,7 @@ class DwellingEditor extends Component {
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
-                    validationResults={validator(section)}
+                    validationResults={validate(section)}
                 />
             </Fragment>
         );

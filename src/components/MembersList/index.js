@@ -9,7 +9,7 @@ import {columnPropType} from '@indec/react-native-table/util';
 import {isEmpty, map, noop, reject} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
-import Validations from '../Validations';
+import ValidationsList from '../ValidationsList';
 import {requestMembers, requestRemoveMember} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
@@ -36,7 +36,7 @@ class MembersList extends Component {
         onAddMember: PropTypes.func.isRequired,
         showCharacteristicsButton: PropTypes.func,
         validationState: PropTypes.func.isRequired,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         getRelationLabel: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
@@ -53,7 +53,7 @@ class MembersList extends Component {
         householdCharacteristicsLabel: 'Características del hogar',
         membersManagerLabel: 'Componentes del hogar',
         columns: null,
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -152,7 +152,7 @@ class MembersList extends Component {
 
     renderContent() {
         const {
-            columns, getRelationLabel, members, validator
+            columns, getRelationLabel, members, validate
         } = this.props;
         return (
             <Fragment>
@@ -164,7 +164,7 @@ class MembersList extends Component {
                     columns={columns || this.columns}
                     data={getMembersCharacteristics(members, getRelationLabel)}
                 />}
-                {validator && <Validations validationResults={validator(members)}/>}
+                {validate && <ValidationsList validationResults={validate(members)}/>}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}
                     submitButtonText="Cerrar visita"

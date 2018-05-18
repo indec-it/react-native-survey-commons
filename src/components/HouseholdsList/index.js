@@ -20,7 +20,7 @@ import {Address, Dwelling} from '../../model';
 import getHouseholdHeadName from '../../util/getHouseholdHeadName';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import AddressCard from '../AddressCard';
-import Validations from '../Validations';
+import ValidationsList from '../ValidationsList';
 import styles from './styles';
 
 class HouseholdsList extends Component {
@@ -36,7 +36,7 @@ class HouseholdsList extends Component {
         onSubmit: PropTypes.func.isRequired,
         dwellingValidationState: PropTypes.func.isRequired,
         householdValidationState: PropTypes.func.isRequired,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
         address: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
@@ -51,7 +51,7 @@ class HouseholdsList extends Component {
         saving: false,
         columns: null,
         backButtonText: 'Anterior',
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -141,7 +141,7 @@ class HouseholdsList extends Component {
 
     renderContent() {
         const {
-            address, columns, backButtonText, validator
+            address, columns, backButtonText, validate
         } = this.props;
         const {dwelling} = this.state;
         const {id, dwellingOrder} = this.props.match.params;
@@ -162,7 +162,7 @@ class HouseholdsList extends Component {
                 </View>
                 <Title>Listado de hogares</Title>
                 <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
-                {validator && <Validations validationResults={validator(dwelling)}/>}
+                {validate && <ValidationsList validationResults={validate(dwelling)}/>}
                 <NavigationButtons
                     onBack={() => this.props.onPrevious(dwelling)}
                     backButtonText={backButtonText}

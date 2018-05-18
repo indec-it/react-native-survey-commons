@@ -6,7 +6,7 @@ import {castArray, isNil, map} from 'lodash';
 import validationResultsPropTypes from '../../util/validationResultsPropTypes';
 import styles from './styles';
 
-const Validations = ({validationResults}) => (
+const ValidationsList = ({validationResults}) => (
     !isNil(validationResults) &&
     <View style={styles.container}>
         {map(castArray(validationResults), result => (
@@ -17,12 +17,12 @@ const Validations = ({validationResults}) => (
     </View>
 );
 
-Validations.propTypes = {
+ValidationsList.propTypes = {
     validationResults: validationResultsPropTypes
 };
 
-Validations.defaultProps = {
+ValidationsList.defaultProps = {
     validationResults: []
 };
 
-export default Validations;
+export default ValidationsList;

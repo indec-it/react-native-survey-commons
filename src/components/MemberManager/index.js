@@ -17,7 +17,7 @@ import isSectionValid from '../../util/isSectionValid';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import {Member} from '../../model';
-import Validations from '../Validations';
+import ValidationsList from '../ValidationsList';
 
 class MemberManager extends Component {
     static propTypes = {
@@ -28,7 +28,7 @@ class MemberManager extends Component {
         onSubmit: PropTypes.func.isRequired,
         onPreSave: PropTypes.func,
         confirmRemoveText: PropTypes.func,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
@@ -40,7 +40,7 @@ class MemberManager extends Component {
         saving: false,
         onPreSave: null,
         confirmRemoveText: null,
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -152,7 +152,7 @@ class MemberManager extends Component {
     }
 
     renderContent() {
-        const {validator} = this.props;
+        const {validate} = this.props;
         const {members, selectedMember} = this.state;
         return (
             <Fragment>
@@ -179,7 +179,7 @@ class MemberManager extends Component {
                         ))}
                     </List>
                 </ScrollView>
-                {validator && <Validations validationResults={validator(members)}/>}
+                {validate && <ValidationsList validationResults={validate(members)}/>}
                 <NavigationButtons
                     onBack={() => this.handleBack()}
                     onSubmit={() => this.handleSubmit()}

@@ -5,7 +5,7 @@ import {View} from 'react-native';
 import Form from '../Form';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import NavigationButtons from '../NavigationButtons';
-import Validations from '../Validations';
+import ValidationsList from '../ValidationsList';
 import validationResultsPropTypes from '../../util/validationResultsPropTypes';
 import styles from './styles';
 
@@ -20,7 +20,7 @@ const Section = ({
             entity={entity}
             otherEntity={otherEntity}
         />
-        <Validations validationResults={validationResults}/>
+        <ValidationsList validationResults={validationResults}/>
         <NavigationButtons
             onBack={() => onPrevious()}
             onSubmit={() => onSubmit()}

@@ -23,7 +23,7 @@ class MemberEditor extends Component {
         onPreSave: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         member: PropTypes.instanceOf(Member).isRequired,
@@ -36,7 +36,7 @@ class MemberEditor extends Component {
         interrupting: false,
         onPreSave: null,
         saving: false,
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -92,7 +92,7 @@ class MemberEditor extends Component {
     }
 
     renderContent() {
-        const {chapter, onInterrupt, validator} = this.props;
+        const {chapter, onInterrupt, validate} = this.props;
         const {member} = this.state;
         const section = getSection(member, chapter);
         return (
@@ -107,7 +107,7 @@ class MemberEditor extends Component {
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     entity={member}
-                    validationResults={validator(section)}
+                    validationResults={validate(section)}
                 />
             </Fragment>
         );

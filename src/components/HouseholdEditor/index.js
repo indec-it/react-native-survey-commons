@@ -27,7 +27,7 @@ class HouseholdEditor extends Component {
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
-        validator: PropTypes.func,
+        validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
@@ -40,7 +40,7 @@ class HouseholdEditor extends Component {
         saving: false,
         interrupting: false,
         onInterrupt: null,
-        validator: noop
+        validate: noop
     };
 
     constructor(props) {
@@ -92,7 +92,7 @@ class HouseholdEditor extends Component {
 
     renderContent() {
         const {
-            chapter, households, onInterrupt, validator
+            chapter, households, onInterrupt, validate
         } = this.props;
         const {household} = this.state;
         const section = getSection(household, chapter);
@@ -108,7 +108,7 @@ class HouseholdEditor extends Component {
                     onSubmit={() => this.handleSubmit()}
                     entity={household}
                     otherEntity={reject(households, item => item.disabled)}
-                    validationResults={validator(section)}
+                    validationResults={validate(section)}
                 />
             </Fragment>
         );

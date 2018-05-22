@@ -1,7 +1,7 @@
 import {every, isNil} from 'lodash';
 
 const validateQuestion = (question, answer, entity, otherEntity) => {
-    if (!question.validators || (!question.allowZero && isNil(answer)) || !answer) {
+    if (!question.validators || (!question.allowZero && !answer) || (question.allowZero && isNil(answer))) {
         return true;
     }
 

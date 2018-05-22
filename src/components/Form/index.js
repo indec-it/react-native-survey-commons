@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
-import {Col, Row, TextError} from '@indec/react-native-commons';
+import {Col, Row} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
+import ValidationsList from '../ValidationsList';
 
 import {callFunc, canAnswerQuestion, renderQuestionErrors} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
@@ -39,7 +40,7 @@ const Form = ({
                                 question,
                                 chapter,
                                 questionAnswer,
-                                message => <TextError key={message}>{message}</TextError>,
+                                validationResult => (<ValidationsList validationResults={validationResult}/>),
                                 entity,
                                 otherEntity
                             )}

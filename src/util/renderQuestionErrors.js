@@ -1,7 +1,7 @@
-import {isEmpty, isNil, map, reject} from 'lodash';
+import {isNil, map, reject} from 'lodash';
 
 const renderQuestionErrors = (question, section, answer, renderErrorMessage, entity, otherEntity) => {
-    if (!question.validators || (!question.allowZero && isEmpty(answer)) || (question.allowZero && isNil(answer))) {
+    if (!question.validators || (!question.allowZero && !answer) || (question.allowZero && isNil(answer))) {
         return true;
     }
 
@@ -10,7 +10,7 @@ const renderQuestionErrors = (question, section, answer, renderErrorMessage, ent
             question.validators,
             validator => validator.forThis(entity).against(otherEntity).isValid(answer)
         ),
-        validator => renderErrorMessage(validator.errorMessage())
+        validator => renderErrorMessage(validator.getValidationResult())
     );
 };
 

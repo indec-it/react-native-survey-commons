@@ -4,9 +4,9 @@ import {ScrollView} from 'react-native';
 import {Col, Row} from '@indec/react-native-commons';
 import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
-import ValidationsList from '../ValidationsList';
 
-import {callFunc, canAnswerQuestion, renderQuestionErrors} from '../../util';
+import QuestionValidation from '../QuestionValidation';
+import {callFunc, canAnswerQuestion} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
 
 const registry = new ComponentsRegistry();
@@ -22,9 +22,8 @@ const Form = ({
                     const questionStyle = questionStyles[question.type] || {};
                     const questionAnswer = chapter[question.name];
                     return (
-                        <Col>
+                        <Col key={question.id}>
                             <QuestionComponent
-                                key={question.number}
                                 question={question}
                                 section={chapter}
                                 answer={questionAnswer}
@@ -36,14 +35,12 @@ const Form = ({
                                 style={questionStyle.style}
                                 textWithBadgeStyle={questionStyle.textWithBadgeStyle}
                             />
-                            {renderQuestionErrors(
-                                question,
-                                chapter,
-                                questionAnswer,
-                                validationResult => (<ValidationsList validationResults={validationResult}/>),
-                                entity,
-                                otherEntity
-                            )}
+                            <QuestionValidation
+                                question={question}
+                                answer={questionAnswer}
+                                entity={entity}
+                                otherEntity={otherEntity}
+                            />
                         </Col>
                     );
                 })}
@@ -59,7 +56,9 @@ Form.propTypes = {
     questionStyles: PropTypes.shape({}),
     style: stylePropType,
     entity: PropTypes.shape({}),
-    otherEntity: PropTypes.shape({})
+    otherEntity: PropTypes.arrayOf(
+        PropTypes.shape({})
+    )
 };
 
 Form.defaultProps = {

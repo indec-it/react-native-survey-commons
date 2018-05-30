@@ -16,13 +16,14 @@ import {
     fetchMembers,
     interruptHousehold,
     interruptMember,
-    updateDwelling,
+    removeAllSurveys,
     removeHousehold,
     removeMember,
-    saveMembers,
-    updateHousehold,
     saveMember,
-    saveSurvey
+    saveMembers,
+    saveSurvey,
+    updateDwelling,
+    updateHousehold
 } from './survey';
 import {isConnected, ping} from './network';
 import {sync} from './sync';
@@ -46,11 +47,12 @@ export {interruptHousehold};
 export {interruptMember};
 export {isConnected};
 export {ping};
-export {updateDwelling};
+export {removeAllSurveys};
 export {removeHousehold};
 export {removeMember};
-export {saveMembers};
-export {updateHousehold};
 export {saveMember};
+export {saveMembers};
 export {saveSurvey};
 export {sync};
+export {updateDwelling};
+export {updateHousehold};

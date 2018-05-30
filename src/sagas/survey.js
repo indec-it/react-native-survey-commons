@@ -1,5 +1,5 @@
 import {call, put} from 'redux-saga/effects';
-import {handleError} from '@indec/react-native-commons/actions';
+import {notifyDataCleared, handleError} from '@indec/react-native-commons/actions';
 import {toNumber} from 'lodash';
 
 import {SurveysService} from '../services';
@@ -8,21 +8,21 @@ import {
     receiveAddresses,
     receiveAreas,
     receiveDwelling,
+    receiveDwellings,
+    receiveHousehold,
+    receiveHouseholdUpdated,
+    receiveHouseholdVisits,
     receiveHouseholds,
-    notifyInterruptMemberSucceeded,
-    notifySaveMembersSucceeded,
+    receiveMember,
     receiveMembers,
     receiveSurvey,
-    notifyInterruptHouseholdSucceeded,
-    notifySaveSucceeded,
-    notifyCloseSucceeded,
     receiveUpdatedDwelling,
-    receiveHouseholdUpdated,
-    receiveHousehold,
-    receiveMember,
     notifyCloseHouseholdVisit,
-    receiveDwellings,
-    receiveHouseholdVisits
+    notifyCloseSucceeded,
+    notifyInterruptHouseholdSucceeded,
+    notifyInterruptMemberSucceeded,
+    notifySaveMembersSucceeded,
+    notifySaveSucceeded
 } from '../actions/survey';
 
 export function* fetchAreas() {
@@ -74,6 +74,15 @@ export function* closeSurvey({id}) {
     try {
         yield call(SurveysService.closeSurvey, id);
         yield put(notifyCloseSucceeded());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* removeAllSurveys() {
+    try {
+        yield call(SurveysService.removeAll);
+        yield put(notifyDataCleared());
     } catch (err) {
         yield put(handleError(err));
     }

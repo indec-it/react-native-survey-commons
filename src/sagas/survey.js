@@ -8,6 +8,7 @@ import {
     receiveAddresses,
     receiveAreas,
     receiveDwelling,
+    receiveDwellingVisits,
     receiveDwellings,
     receiveHousehold,
     receiveHouseholdUpdated,
@@ -83,6 +84,15 @@ export function* removeAllSurveys() {
     try {
         yield call(SurveysService.removeAll);
         yield put(notifyDataCleared());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchDwellingVisits({id, dwellingOrder}) {
+    try {
+        const dwellingVisits = yield call(SurveysService.fetchDwellingVisits, id, toNumber(dwellingOrder));
+        yield put(receiveDwellingVisits(dwellingVisits));
     } catch (err) {
         yield put(handleError(err));
     }

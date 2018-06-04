@@ -10,6 +10,7 @@ import {
     findSurvey,
     fetchAddress,
     fetchAreas,
+    fetchDwellingVisits,
     fetchDwellings,
     fetchHouseholdVisits,
     fetchHouseholds,
@@ -39,6 +40,7 @@ export {findMember};
 export {findSurvey};
 export {fetchAddress};
 export {fetchAreas};
+export {fetchDwellingVisits};
 export {fetchDwellings};
 export {fetchHouseholdVisits};
 export {fetchHouseholds};

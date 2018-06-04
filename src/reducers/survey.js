@@ -10,6 +10,8 @@ import {
     DWELLING_UPDATE_SUCCEEDED,
     CLOSE_HOUSEHOLD_VISIT_REQUESTED,
     CLOSE_HOUSEHOLD_VISIT_SUCCEEDED,
+    FETCH_DWELLING_VISITS_REQUESTED,
+    FETCH_DWELLING_VISITS_SUCCEEDED,
     HOUSEHOLD_FETCH_SUCCEEDED,
     HOUSEHOLD_INTERRUPT_REQUESTED,
     HOUSEHOLD_INTERRUPT_SUCCEEDED,
@@ -54,6 +56,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, dwelling: action.dwelling};
         case DWELLING_UPDATE_SUCCEEDED:
             return {...state, saving: false, survey: action.survey};
+        case FETCH_DWELLING_VISITS_REQUESTED:
+            return {...state, dwellingVisits: null};
+        case FETCH_DWELLING_VISITS_SUCCEEDED:
+            return {...state, dwellingVisits: action.dwellingVisits};
         case HOUSEHOLD_FETCH_REQUESTED:
             return {...state, members: []};
         case HOUSEHOLD_INTERRUPT_REQUESTED:

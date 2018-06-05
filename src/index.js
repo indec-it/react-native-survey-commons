@@ -1,6 +1,7 @@
 import AddressCard from './components/AddressCard';
 import AddressesList from './components/AddressesList';
 import AreasList from './components/AreasList';
+import DwellingCloseVisit from './components/DwellingCloseVisit';
 import DwellingEditor from './components/DwellingEditor';
 import DwellingVisits from './components/DwellingVisits';
 import DwellingsList from './components/DwellingsList';
@@ -22,6 +23,7 @@ import VisitResultEditor from './components/VisitResultEditor';
 export {AddressCard};
 export {AddressesList};
 export {AreasList};
+export {DwellingCloseVisit};
 export {DwellingEditor};
 export {DwellingVisits};
 export {DwellingsList};

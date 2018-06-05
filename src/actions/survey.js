@@ -130,6 +130,29 @@ export const receiveUpdatedDwelling = survey => ({
     survey
 });
 
+export const CLOSE_DWELLING_VISIT_REQUESTED = 'CLOSE_DWELLING_VISIT_REQUESTED';
+export const CLOSE_DWELLING_VISIT_SUCCEEDED = 'CLOSE_DWELLING_VISIT_SUCCEEDED';
+
+export const requestCloseDwellingVisit = (id, dwellingOrder, result) => ({
+    type: CLOSE_DWELLING_VISIT_REQUESTED,
+    id,
+    dwellingOrder,
+    result
+});
+
+export const notifyCloseDwellingVisit = () => ({
+    type: CLOSE_DWELLING_VISIT_SUCCEEDED
+});
+
+export const DWELLING_VISITS_REQUESTED = 'DWELLING_VISITS_REQUESTED';
+export const DWELLING_VISITS_SUCCEEDED = 'DWELLING_VISITS_SUCCEEDED';
+
+export const requestDwellingVisits = (id, dwellingOrder) => ({
+    type: DWELLING_VISITS_REQUESTED,
+    id,
+    dwellingOrder
+});
+
 export const HOUSEHOLDS_FETCH_REQUESTED = 'HOUSEHOLDS_FETCH_REQUESTED';
 export const HOUSEHOLDS_FETCH_SUCCEEDED = 'HOUSEHOLDS_FETCH_SUCCEEDED';
 

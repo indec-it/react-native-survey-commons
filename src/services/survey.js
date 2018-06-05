@@ -101,15 +101,6 @@ export default class SurveysService {
         return address;
     }
 
-    static async fetchDwellingVisits(id, dwellingOrder) {
-        const {dwellings} = await SurveysService.findById(id);
-        const {visits} = find(dwellings, dwelling => dwelling.order === dwellingOrder);
-        return map(visits, (visit, index) => ({
-            ...visit,
-            order: index + 1
-        }));
-    }
-
     static async fetchDwellings(id) {
         const survey = await SurveysService.findById(id);
         return reject(survey.dwellings, dwelling => dwelling.disabled);
@@ -148,6 +139,24 @@ export default class SurveysService {
         survey.dwellingResponse = dwelling.response;
         await SurveysService.save(survey);
         return survey;
+    }
+
+    static async fetchDwellingVisits(id, dwellingOrder) {
+        const dwelling = await SurveysService.findDwelling(id, dwellingOrder);
+        return map(dwelling.visits, (visit, index) => ({
+            order: index + 1,
+            ...visit
+        }));
+    }
+
+    static async closeDwellingVisit(id, dwellingOrder, result) {
+        const survey = await SurveysService.findById(id);
+        const dwelling = getDwelling(survey, dwellingOrder);
+        const lastVisit = last(dwelling.visits);
+        lastVisit.end = new Date();
+        Object.assign(lastVisit, result);
+        await SurveysService.save(survey);
+        return dwelling;
     }
 
     /**

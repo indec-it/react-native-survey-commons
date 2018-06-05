@@ -18,6 +18,7 @@ import {
     receiveMembers,
     receiveSurvey,
     receiveUpdatedDwelling,
+    notifyCloseDwellingVisit,
     notifyCloseHouseholdVisit,
     notifyCloseSucceeded,
     notifyInterruptHouseholdSucceeded,
@@ -125,6 +126,22 @@ export function* updateDwelling({id, dwelling}) {
     }
 }
 
+export function* closeDwellingVisit({
+    id, dwellingOrder, result
+}) {
+    try {
+        yield call(
+            SurveysService.closeDwellingVisit,
+            id,
+            toNumber(dwellingOrder),
+            result
+        );
+        yield put(notifyCloseDwellingVisit());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
 export function* fetchHouseholds({id, dwellingOrder}) {
     try {
         const households = yield call(SurveysService.fetchHouseholds, id, toNumber(dwellingOrder));
@@ -208,13 +225,13 @@ export function* closeHouseholdVisit({
 
 export function* fetchHouseholdVisits({id, dwellingOrder, householdOrder}) {
     try {
-        const households = yield call(
+        const visits = yield call(
             SurveysService.fetchHouseholdVisits,
             id,
             toNumber(dwellingOrder),
             toNumber(householdOrder)
         );
-        yield put(receiveHouseholdVisits(households));
+        yield put(receiveHouseholdVisits(visits));
     } catch (err) {
         yield put(handleError(err));
     }

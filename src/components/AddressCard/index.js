@@ -11,6 +11,10 @@ const AddressCard = ({address}) => (
             <Col size={2}>
                 <Text>Manzana: {address.block}</Text>
                 <Text>Lado de manzana: {address.side}</Text>
+                {address.description &&
+                <Text>
+                    Descripción: {address.description}
+                </Text>}
             </Col>
             <Col size={2}>
                 <Text>Calle: {address.street}</Text>
@@ -35,7 +39,8 @@ AddressCard.propTypes = {
         department: PropTypes.string,
         room: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         side: PropTypes.number,
-        block: PropTypes.number
+        block: PropTypes.number,
+        description: PropTypes.string
     }).isRequired
 };
 

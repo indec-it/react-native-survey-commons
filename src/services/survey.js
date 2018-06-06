@@ -101,6 +101,15 @@ export default class SurveysService {
         return address;
     }
 
+    static async fetchDwellingVisits(id, dwellingOrder) {
+        const {dwellings} = await SurveysService.findById(id);
+        const {visits} = find(dwellings, dwelling => dwelling.order === dwellingOrder);
+        return map(visits, (visit, index) => ({
+            ...visit,
+            order: index + 1
+        }));
+    }
+
     static async fetchDwellings(id) {
         const survey = await SurveysService.findById(id);
         return reject(survey.dwellings, dwelling => dwelling.disabled);
@@ -129,7 +138,8 @@ export default class SurveysService {
             dwelling.visits.push({
                 date: new Date(),
                 response: dwelling.response,
-                notResponseCause: dwelling.notResponseCause
+                notResponseCause: dwelling.notResponseCause,
+                comment: dwelling.comment
             });
             if (!isEmpty(dwelling.households)) {
                 disableHouseholds(dwelling.households);

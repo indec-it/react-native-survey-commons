@@ -75,6 +75,20 @@ export const notifyCloseSucceeded = () => ({
     type: SURVEY_CLOSE_SUCCEEDED
 });
 
+export const FETCH_DWELLING_VISITS_REQUESTED = 'FETCH_DWELLING_VISITS_REQUESTED';
+export const FETCH_DWELLING_VISITS_SUCCEEDED = 'FETCH_DWELLING_VISITS_SUCCEEDED';
+
+export const requestFetchDwellingVisits = (id, dwellingOrder) => ({
+    type: FETCH_DWELLING_VISITS_REQUESTED,
+    id,
+    dwellingOrder
+});
+
+export const receiveDwellingVisits = dwellingVisits => ({
+    type: FETCH_DWELLING_VISITS_SUCCEEDED,
+    dwellingVisits
+});
+
 export const DWELLINGS_FETCH_REQUESTED = 'DWELLINGS_FETCH_REQUESTED';
 export const DWELLINGS_FETCH_SUCCEEDED = 'DWELLINGS_FETCH_SUCCEEDED';
 

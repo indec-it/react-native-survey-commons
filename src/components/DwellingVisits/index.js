@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
 import Table from '@indec/react-native-table';
 import {columnPropType} from '@indec/react-native-table/util';
-import {Title} from '@indec/react-native-commons';
 import {DateUtilsService} from '@indec/react-native-commons/services';
 
 import {requestFetchDwellingVisits} from '../../actions/survey';
@@ -52,10 +50,7 @@ class DwellingVisits extends Component {
     render() {
         const {columns, dwellingVisits} = this.props;
         return (
-            <View>
-                <Title>Visitas registradas a la vivienda</Title>
-                <Table columns={columns || this.columns} data={dwellingVisits}/>
-            </View>
+            <Table columns={columns || this.columns} data={dwellingVisits}/>
         );
     }
 }

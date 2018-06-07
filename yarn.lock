@@ -617,7 +617,7 @@
 
 "@indec/react-native-commons@indec-it/react-native-commons":
   version "0.1.8"
-  resolved "https://codeload.github.com/indec-it/react-native-commons/tar.gz/c6a82606d9981bbc5218848723827083d1563036"
+  resolved "https://codeload.github.com/indec-it/react-native-commons/tar.gz/c007f75f033f6413d44ccb633644f6474b63990e"
 
 "@indec/react-native-form-builder@indec-it/react-native-form-builder":
   version "0.2.3"
@@ -4128,8 +4128,8 @@ p-finally@^1.0.0:
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
 
 p-limit@^1.1.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-1.2.0.tgz#0e92b6bedcb59f022c13d0f1949dc82d15909f1c"
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-1.3.0.tgz#b86bd5f0c25690911c7590fcbfc2010d54b3ccb8"
   dependencies:
     p-try "^1.0.0"
 

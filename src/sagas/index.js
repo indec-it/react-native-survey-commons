@@ -1,4 +1,5 @@
 import {
+    closeDwellingVisit,
     closeHouseholdVisit,
     closeSurvey,
     createHousehold,
@@ -29,6 +30,7 @@ import {
 import {isConnected, ping} from './network';
 import {sync} from './sync';
 
+export {closeDwellingVisit};
 export {closeHouseholdVisit};
 export {closeSurvey};
 export {createHousehold};

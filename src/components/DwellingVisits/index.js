@@ -9,22 +9,19 @@ import {DateUtilsService} from '@indec/react-native-commons/services';
 
 import {requestFetchDwellingVisits} from '../../actions/survey';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import dwellingVisitPropTypes from '../../util/dwellingVisitPropTypes';
 
 class DwellingVisits extends Component {
     static propTypes = {
         requestFetchDwellingVisits: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        dwellingVisits: PropTypes.shape({
-            order: PropTypes.number.isRequired,
-            date: PropTypes.date,
-            comment: PropTypes.string
-        }).isRequired,
-        columns: columnPropType
-    }
+        dwellingVisits: PropTypes.arrayOf(dwellingVisitPropTypes).isRequired,
+        columns: PropTypes.arrayOf(columnPropType)
+    };
 
     static defaultProps = {
         columns: null
-    }
+    };
 
     constructor(props) {
         super(props);

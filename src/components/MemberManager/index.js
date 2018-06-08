@@ -179,7 +179,7 @@ class MemberManager extends Component {
                         ))}
                     </List>
                 </ScrollView>
-                {validate && <ValidationsList validationResults={validate(members)}/>}
+                {validate && <ValidationsList validationResults={validate(members, this.props.members)}/>}
                 <NavigationButtons
                     onBack={() => this.handleBack()}
                     onSubmit={() => this.handleSubmit()}

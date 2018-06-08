@@ -15,12 +15,25 @@ const syncStatus = {
     HAS_ERROR: 'hasError'
 };
 
+const surveyDetailsTabs = {
+    DWELLING_VISITS: 'dwellingVisits',
+    HOUSEHOLDS_LIST: 'householdsList'
+};
+
 const addressesListTabs = [{
     id: surveyAddressState.OPENED,
     label: 'Pendientes'
 }, {
     id: surveyAddressState.CLOSED,
     label: 'Cerradas'
+}];
+
+const surveyDetailsListTabs = [{
+    id: surveyDetailsTabs.DWELLING_VISITS,
+    label: 'Visitas vivienda'
+}, {
+    id: surveyDetailsTabs.HOUSEHOLDS_LIST,
+    label: 'Lista de hogares'
 }];
 
 const answers = {
@@ -32,3 +45,5 @@ export {addressesListTabs};
 export {answers};
 export {surveyAddressState};
 export {syncStatus};
+export {surveyDetailsListTabs};
+export {surveyDetailsTabs};

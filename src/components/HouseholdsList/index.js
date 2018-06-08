@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import Table, {TableIcon} from '@indec/react-native-table';
-import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
+import {Button, LoadingIndicator} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 import {columnPropType} from '@indec/react-native-table/util';
 import {noop} from 'lodash';
@@ -105,7 +105,6 @@ class HouseholdsList extends Component {
         const {id, dwellingOrder} = this.props.match.params;
         return (
             <Fragment>
-                <Title>Listado de hogares</Title>
                 <View style={styles.buttonContainer}>
                     <Button
                         primary
@@ -113,9 +112,7 @@ class HouseholdsList extends Component {
                         onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
                     />
                 </View>
-                <View>
-                    <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
-                </View>
+                <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
                 {validate && <ValidationsList validationResults={validate(dwelling)}/>}
             </Fragment>
         );

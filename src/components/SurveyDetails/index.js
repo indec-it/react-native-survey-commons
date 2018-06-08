@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import {Button, LoadingIndicator} from '@indec/react-native-commons';
+import {Button, LoadingIndicator, TabNavigator} from '@indec/react-native-commons';
 import {columnPropType} from '@indec/react-native-table/util';
 import {Alert} from '@indec/react-native-commons/util';
 
@@ -14,6 +14,7 @@ import {requestAddress, requestCloseSurvey} from '../../actions/survey';
 import {Address, Dwelling} from '../../model';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from './styles';
+import {surveyDetailsListTabs, surveyDetailsTabs} from '../../constants';
 
 class SurveyDetails extends Component {
     static propTypes = {
@@ -40,6 +41,13 @@ class SurveyDetails extends Component {
         householdsListColumns: null,
         backButtonText: 'Anterior',
         saving: false
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            tabSelected: surveyDetailsTabs.DWELLING_VISITS
+        };
     }
 
     componentDidMount() {
@@ -97,14 +105,20 @@ class SurveyDetails extends Component {
                         onPress={() => onViewDwelling(dwellingOrder)}
                     />
                 </View>
-                <DwellingVisits match={match}/>
+                <TabNavigator
+                    tabs={surveyDetailsListTabs}
+                    idSelected={this.state.tabSelected}
+                    onChange={state => this.setState(() => ({tabSelected: state}))}
+                />
+                {this.state.tabSelected === surveyDetailsTabs.DWELLING_VISITS && <DwellingVisits match={match}/>}
+                {this.state.tabSelected === surveyDetailsTabs.HOUSEHOLDS_LIST &&
                 <HouseholdsList
                     match={match}
                     householdValidationState={householdValidationState}
                     validate={validate}
                     columns={householdsListColumns}
                     onSelect={onSelect}
-                />
+                />}
                 <NavigationButtons
                     onBack={() => onPrevious(dwelling)}
                     backButtonText={backButtonText}

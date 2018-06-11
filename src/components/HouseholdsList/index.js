@@ -25,6 +25,7 @@ class HouseholdsList extends Component {
         requestRemoveHousehold: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
+        showAddHousehold: PropTypes.func.isRequired,
         householdValidationState: PropTypes.func.isRequired,
         validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
@@ -100,18 +101,19 @@ class HouseholdsList extends Component {
     }
 
     renderContent() {
-        const {columns, validate} = this.props;
+        const {columns, validate, showAddHousehold} = this.props;
         const {dwelling} = this.state;
         const {id, dwellingOrder} = this.props.match.params;
         return (
             <Fragment>
+                {showAddHousehold(dwelling) &&
                 <View style={styles.buttonContainer}>
                     <Button
                         primary
                         title="Agregar Hogar"
                         onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
                     />
-                </View>
+                </View>}
                 <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
                 {validate && <ValidationsList validationResults={validate(dwelling)}/>}
             </Fragment>

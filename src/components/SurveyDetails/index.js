@@ -24,6 +24,7 @@ class SurveyDetails extends Component {
         onPrevious: PropTypes.func.isRequired,
         dwellingValidationState: PropTypes.func.isRequired,
         householdValidationState: PropTypes.func.isRequired,
+        showAddHousehold: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         validate: PropTypes.func,
         onSelect: PropTypes.func,
@@ -33,7 +34,7 @@ class SurveyDetails extends Component {
         backButtonText: PropTypes.string,
         householdsListColumns: columnPropType,
         saving: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         validate: null,
@@ -41,12 +42,12 @@ class SurveyDetails extends Component {
         householdsListColumns: null,
         backButtonText: 'Anterior',
         saving: false
-    }
+    };
 
     constructor(props) {
         super(props);
         this.state = {
-            tabSelected: surveyDetailsTabs.DWELLING_VISITS
+            selectedTab: surveyDetailsTabs.DWELLING_VISITS
         };
     }
 
@@ -81,19 +82,43 @@ class SurveyDetails extends Component {
             );
     }
 
+    handleChangeTab(selectedTab) {
+        this.setState(() => ({selectedTab}));
+    }
+
+    renderTabContent() {
+        const {selectedTab} = this.state;
+        const {
+            match, validate, onSelect, householdValidationState, householdsListColumns, showAddHousehold
+        } = this.props;
+        switch (selectedTab) {
+            case surveyDetailsTabs.DWELLING_VISITS:
+                return <DwellingVisits match={match}/>;
+            case surveyDetailsTabs.HOUSEHOLDS_LIST:
+                return (
+                    <HouseholdsList
+                        match={match}
+                        showAddHousehold={showAddHousehold}
+                        householdValidationState={householdValidationState}
+                        validate={validate}
+                        columns={householdsListColumns}
+                        onSelect={onSelect}
+                    />
+                );
+            default:
+                return null;
+        }
+    }
+
     renderContent() {
         const {
             address,
             backButtonText,
             dwelling,
             onViewDwelling,
-            onPrevious,
-            householdValidationState,
-            validate,
-            householdsListColumns,
-            onSelect,
-            match
+            onPrevious
         } = this.props;
+        const {selectedTab} = this.state;
         const {dwellingOrder} = this.props.match.params;
         return (
             <Fragment>
@@ -107,24 +132,19 @@ class SurveyDetails extends Component {
                 </View>
                 <TabNavigator
                     tabs={surveyDetailsListTabs}
-                    idSelected={this.state.tabSelected}
-                    onChange={state => this.setState(() => ({tabSelected: state}))}
+                    idSelected={selectedTab}
+                    onChange={state => this.handleChangeTab(state)}
                 />
-                {this.state.tabSelected === surveyDetailsTabs.DWELLING_VISITS && <DwellingVisits match={match}/>}
-                {this.state.tabSelected === surveyDetailsTabs.HOUSEHOLDS_LIST &&
-                <HouseholdsList
-                    match={match}
-                    householdValidationState={householdValidationState}
-                    validate={validate}
-                    columns={householdsListColumns}
-                    onSelect={onSelect}
-                />}
+                {this.renderTabContent()}
                 <NavigationButtons
                     onBack={() => onPrevious(dwelling)}
                     backButtonText={backButtonText}
                     onSubmit={() => this.closeDwelling()}
                     submitButtonText="Cerrar vivienda"
-                    iconRight={{name: 'lock', color: 'red'}}
+                    iconRight={{
+                        name: 'lock',
+                        color: 'red'
+                    }}
                     styleRightButton={{
                         primary: false,
                         danger: true,

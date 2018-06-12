@@ -29,11 +29,11 @@ const addressesListTabs = [{
 }];
 
 const surveyDetailsListTabs = [{
-    id: surveyDetailsTabs.DWELLING_VISITS,
-    label: 'Visitas vivienda'
-}, {
     id: surveyDetailsTabs.HOUSEHOLDS_LIST,
     label: 'Lista de hogares'
+}, {
+    id: surveyDetailsTabs.DWELLING_VISITS,
+    label: 'Visitas vivienda'
 }];
 
 const answers = {

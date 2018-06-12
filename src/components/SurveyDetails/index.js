@@ -47,7 +47,7 @@ class SurveyDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: surveyDetailsTabs.DWELLING_VISITS
+            selectedTab: surveyDetailsTabs.HOUSEHOLDS_LIST
         };
     }
 

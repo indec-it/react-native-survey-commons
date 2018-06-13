@@ -9,6 +9,7 @@ import {Dwelling, Survey} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
+import alertIncompleteSectionOnBack from '../../util/alertIncompleteSectionOnBack';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 
@@ -21,6 +22,7 @@ class DwellingEditor extends Component {
         validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
         survey: PropTypes.instanceOf(Survey).isRequired,
         saving: PropTypes.bool
@@ -33,7 +35,15 @@ class DwellingEditor extends Component {
 
     constructor(props) {
         super(props);
+        this.goingBack = false;
         this.state = {};
+    }
+
+    static getDerivedStateFromProps(nextProps, state) {
+        if (!state.dwelling && nextProps.dwelling) {
+            return {dwelling: new Dwelling(nextProps.dwelling)};
+        }
+        return null;
     }
 
     componentDidMount() {
@@ -41,12 +51,13 @@ class DwellingEditor extends Component {
         this.props.requestDwelling(id, dwellingOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.dwelling) {
-            this.state.dwelling = new Dwelling(nextProps.dwelling);
-        }
-        if (this.props.saving && !nextProps.saving) {
-            this.props.onSubmit(nextProps.survey);
+    componentDidUpdate(prevProps) {
+        if (!this.props.saving && prevProps.saving) {
+            if (this.goingBack) {
+                this.props.onPrevious(this.state.dwelling);
+            } else {
+                this.props.onSubmit(this.props.survey);
+            }
         }
     }
 
@@ -57,16 +68,29 @@ class DwellingEditor extends Component {
     }
 
     handlePrevious() {
-        this.props.onPrevious(this.props.dwelling);
+        const {chapter, onPrevious} = this.props;
+        const {id} = this.props.match.params;
+        const {dwelling} = this.state;
+
+        if (setSectionValidity(dwelling, chapter)) {
+            this.goingBack = true;
+            this.props.requestUpdateDwelling(id, dwelling);
+        } else {
+            alertIncompleteSectionOnBack(() => onPrevious(dwelling));
+        }
     }
 
     handleSubmit() {
         const {chapter} = this.props;
         const {id} = this.props.match.params;
         const {dwelling} = this.state;
-        return setSectionValidity(dwelling, chapter)
-            ? this.props.requestUpdateDwelling(id, dwelling)
-            : alertIncompleteSection();
+
+        if (setSectionValidity(dwelling, chapter)) {
+            this.goingBack = false;
+            this.props.requestUpdateDwelling(id, dwelling);
+        } else {
+            alertIncompleteSection();
+        }
     }
 
     renderContent() {
@@ -100,7 +124,11 @@ export default connect(
         survey: state.survey.survey
     }),
     dispatch => ({
-        requestDwelling: (id, dwellingOrder) => dispatch(requestDwelling(id, dwellingOrder)),
-        requestUpdateDwelling: (id, dwelling) => dispatch(requestUpdateDwelling(id, dwelling))
+        requestDwelling: (id, dwellingOrder) => dispatch(
+            requestDwelling(id, dwellingOrder)
+        ),
+        requestUpdateDwelling: (id, dwelling) => dispatch(
+            requestUpdateDwelling(id, dwelling)
+        )
     })
 )(DwellingEditor);

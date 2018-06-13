@@ -2,38 +2,32 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import {noop, reject} from 'lodash';
+import {find, noop, toNumber} from 'lodash';
 
-import {
-    requestHousehold,
-    requestHouseholds,
-    requestUpdateHousehold,
-    requestInterruptHousehold
-} from '../../actions/survey';
+import {requestHouseholds, requestUpdateHousehold, requestInterruptHousehold} from '../../actions/survey';
 import {Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
+import alertIncompleteSectionOnBack from '../../util/alertIncompleteSectionOnBack';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 import InterruptButton from '../InterruptButton';
 
 class HouseholdEditor extends Component {
     static propTypes = {
-        requestHousehold: PropTypes.func.isRequired,
         requestHouseholds: PropTypes.func.isRequired,
         requestInterruptHousehold: PropTypes.func.isRequired,
         requestUpdateHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        onInterrupt: PropTypes.func,
-        validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
-        household: PropTypes.instanceOf(Household).isRequired,
         households: PropTypes.arrayOf(Household).isRequired,
         saving: PropTypes.bool,
-        interrupting: PropTypes.bool
+        interrupting: PropTypes.bool,
+        onInterrupt: PropTypes.func,
+        validate: PropTypes.func
     };
 
     static defaultProps = {
@@ -45,24 +39,37 @@ class HouseholdEditor extends Component {
 
     constructor(props) {
         super(props);
+        this.goingBack = false;
         this.state = {};
     }
 
-    componentDidMount() {
-        const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestHouseholds(id, dwellingOrder);
-        this.props.requestHousehold(id, dwellingOrder, householdOrder);
+    static getDerivedStateFromProps(nextProps, state) {
+        if (!state.households && nextProps.households) {
+            return {
+                household: new Household(
+                    find(nextProps.households, ({order}) => order === toNumber(nextProps.match.params.householdOrder))
+                )
+            };
+        }
+        return null;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.household) {
-            this.state.household = new Household(nextProps.household);
-        }
-        if (!this.props.interrupting && nextProps.interrupting) {
+    componentDidMount() {
+        const {id, dwellingOrder} = this.props.match.params;
+        this.props.requestHouseholds(id, dwellingOrder);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!this.props.interrupting && prevProps.interrupting) {
             this.props.onInterrupt();
         }
-        if (this.props.saving && !nextProps.saving) {
-            this.props.onSubmit(nextProps.household);
+        if (!this.props.saving && prevProps.saving) {
+            const {household} = this.state;
+            if (this.goingBack) {
+                this.props.onPrevious(household);
+            } else {
+                this.props.onSubmit(household);
+            }
         }
     }
 
@@ -72,22 +79,35 @@ class HouseholdEditor extends Component {
         }));
     }
 
+    handlePrevious() {
+        const {chapter, onPrevious} = this.props;
+        const {id, dwellingOrder} = this.props.match.params;
+        const {household} = this.state;
+
+        if (setSectionValidity(household, chapter)) {
+            this.goingBack = true;
+            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+        } else {
+            alertIncompleteSectionOnBack(() => onPrevious(household));
+        }
+    }
+
     handleSubmit() {
         const {chapter} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {household} = this.state;
-        return setSectionValidity(household, chapter)
-            ? this.props.requestUpdateHousehold(id, dwellingOrder, household)
-            : alertIncompleteSection();
+
+        if (setSectionValidity(household, chapter)) {
+            this.goingBack = false;
+            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+        } else {
+            alertIncompleteSection();
+        }
     }
 
     handleInterrupt() {
         const {id, dwellingOrder} = this.props.match.params;
         this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
-    }
-
-    handlePrevious() {
-        this.props.onPrevious(this.props.household);
     }
 
     renderContent() {
@@ -107,7 +127,7 @@ class HouseholdEditor extends Component {
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     entity={household}
-                    otherEntity={reject(households, item => item.disabled)}
+                    otherEntity={households}
                     validationResults={validate(section)}
                 />
             </Fragment>
@@ -121,18 +141,17 @@ class HouseholdEditor extends Component {
 
 export default connect(
     state => ({
-        household: state.survey.household,
         households: state.survey.households,
         saving: state.survey.saving,
         interrupting: state.survey.interrupting
     }),
     dispatch => ({
-        requestHousehold: (id, dwellingOrder, householdOrder) =>
-            dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
-        requestHouseholds: (id, dwellingOrder) =>
-            dispatch(requestHouseholds(id, dwellingOrder)),
-        requestUpdateHousehold: (id, dwellingOrder, household) =>
-            dispatch(requestUpdateHousehold(id, dwellingOrder, household)),
+        requestHouseholds: (id, dwellingOrder) => dispatch(
+            requestHouseholds(id, dwellingOrder)
+        ),
+        requestUpdateHousehold: (id, dwellingOrder, household) => dispatch(
+            requestUpdateHousehold(id, dwellingOrder, household)
+        ),
         requestInterruptHousehold: (id, dwellingOrder, household) => dispatch(
             requestInterruptHousehold(id, dwellingOrder, household)
         )

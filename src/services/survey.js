@@ -241,6 +241,11 @@ export default class SurveysService {
         return household;
     }
 
+    static async fetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder) {
+        const {visits} = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
+        return last(visits);
+    }
+
     static async fetchHouseholdVisits(id, dwellingOrder, householdOrder) {
         const household = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
         return map(household.visits, (visit, index) => ({

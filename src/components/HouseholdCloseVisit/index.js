@@ -2,59 +2,61 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import {last, isEmpty} from 'lodash';
 
-import {requestHouseholdVisits, requestCloseHouseholdVisit} from '../../actions/survey';
-import {Household} from '../../model';
+import {requestFetchCurrentHouseholdVisit, requestCloseHouseholdVisit} from '../../actions/survey';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
+import householdVisitPropTypes from '../../util/householdVisitPropTypes';
 import Form from '../Form';
 import NavigationButtons from '../NavigationButtons';
 
 class HouseholdCloseVisit extends Component {
     static propTypes = {
         requestCloseHouseholdVisit: PropTypes.func.isRequired,
-        requestHouseholdVisits: PropTypes.func.isRequired,
+        requestFetchCurrentHouseholdVisit: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
-        household: PropTypes.instanceOf(Household).isRequired,
-        householdVisits: PropTypes.arrayOf(
-            PropTypes.shape({})
-        ),
+        // eslint-disable-next-line react/no-unused-prop-types
+        currentHouseholdVisit: householdVisitPropTypes,
         saving: PropTypes.bool
     };
 
     static defaultProps = {
         saving: false,
-        householdVisits: []
+        currentHouseholdVisit: null
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            currentVisit: null
+            currentHouseholdVisit: null
         };
     }
 
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestHouseholdVisits(id, dwellingOrder, householdOrder);
+        this.props.requestFetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {saving, household, householdVisits} = nextProps;
-        if (!isEmpty(householdVisits)) {
-            this.state.currentVisit = last(householdVisits);
+    static getDerivedStateFromProps(nextProps) {
+        if (nextProps.currentHouseholdVisit) {
+            return {
+                currentHouseholdVisit: nextProps.currentHouseholdVisit
+            };
         }
-        if (this.props.saving && !saving) {
-            this.props.onSubmit(household);
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.saving && !this.props.saving) {
+            this.props.onSubmit();
         }
     }
 
     handleChange(answer) {
-        this.setState(state => ({currentVisit: Object.assign(state.currentVisit, answer)}));
+        this.setState(state => ({currentHouseholdVisit: Object.assign(state.currentHouseholdVisit, answer)}));
     }
 
     handleSubmit() {
@@ -62,19 +64,19 @@ class HouseholdCloseVisit extends Component {
             this.props.match.params.id,
             this.props.match.params.dwellingOrder,
             this.props.match.params.householdOrder,
-            this.state.currentVisit
+            this.state.currentHouseholdVisit
         );
     }
 
     renderContent() {
         const {chapter} = this.props;
-        const {currentVisit} = this.state;
+        const {currentHouseholdVisit} = this.state;
         return (
             <Fragment>
                 <Title>{chapter.title}</Title>
                 <Form
                     rows={chapter.rows}
-                    chapter={currentVisit}
+                    chapter={currentHouseholdVisit}
                     onChange={answer => this.handleChange(answer)}
                 />
                 <NavigationButtons
@@ -93,21 +95,21 @@ class HouseholdCloseVisit extends Component {
     }
 
     render() {
-        return this.state.currentVisit ? this.renderContent() : <LoadingIndicator/>;
+        return this.state.currentHouseholdVisit ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
 export default connect(
     state => ({
         saving: state.survey.saving,
-        householdVisits: state.survey.householdVisits
+        currentHouseholdVisit: state.survey.currentHouseholdVisit
     }),
     dispatch => ({
         requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, currentVisit) => dispatch(
             requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, currentVisit)
         ),
-        requestHouseholdVisits: (id, dwellingOrder, householdOrder) => dispatch(
-            requestHouseholdVisits(id, dwellingOrder, householdOrder)
+        requestFetchCurrentHouseholdVisit: (id, dwellingOrder, householdOrder) => dispatch(
+            requestFetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder)
         )
     })
 )(HouseholdCloseVisit);

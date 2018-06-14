@@ -7,6 +7,7 @@ import {
     receiveAddress,
     receiveAddresses,
     receiveAreas,
+    receiveCurrentHouseholdVisit,
     receiveDwelling,
     receiveDwellingVisits,
     receiveDwellings,
@@ -218,6 +219,20 @@ export function* closeHouseholdVisit({
             result
         );
         yield put(notifyCloseHouseholdVisit());
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchCurrentHouseholdVisit({id, dwellingOrder, householdOrder}) {
+    try {
+        const currentHouseholdVisit = yield call(
+            SurveysService.fetchCurrentHouseholdVisit,
+            id,
+            toNumber(dwellingOrder),
+            toNumber(householdOrder)
+        );
+        yield put(receiveCurrentHouseholdVisit(currentHouseholdVisit));
     } catch (err) {
         yield put(handleError(err));
     }

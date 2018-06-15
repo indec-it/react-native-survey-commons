@@ -1,3 +1,5 @@
+import alertIncompleteSection from './alertIncompleteSection';
+import alertIncompleteSectionOnBack from './alertIncompleteSectionOnBack';
 import buttonStyleDefaultProps from './buttonStyleDefaultProps';
 import buttonStylePropTypes from './buttonStylePropTypes';
 import callFunc from './callFunc';
@@ -20,6 +22,8 @@ import renderQuestionErrors from './renderQuestionErrors';
 import {getSection, handleChangeAnswer, setSectionValidity} from './section';
 import validateQuestion from './validateQuestion';
 
+export {alertIncompleteSection};
+export {alertIncompleteSectionOnBack};
 export {buttonStyleDefaultProps};
 export {buttonStylePropTypes};
 export {callFunc};

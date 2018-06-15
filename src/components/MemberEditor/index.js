@@ -10,6 +10,7 @@ import MemberData from '../MemberData';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
+import alertIncompleteSectionOnBack from '../../util/alertIncompleteSectionOnBack';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 import {InterruptButton} from '../..';
@@ -41,7 +42,15 @@ class MemberEditor extends Component {
 
     constructor(props) {
         super(props);
+        this.goingBack = false;
         this.state = {};
+    }
+
+    static getDerivedStateFromProps(nextProps, state) {
+        if (!state.member && nextProps.member) {
+            return {member: new Member(nextProps.member)};
+        }
+        return null;
     }
 
     componentDidMount() {
@@ -51,15 +60,17 @@ class MemberEditor extends Component {
         this.props.requestMember(id, dwellingOrder, householdOrder, memberOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.member) {
-            this.state.member = new Member(nextProps.member);
-        }
-        if (!this.props.interrupting && nextProps.interrupting) {
+    componentDidUpdate(prevProps) {
+        if (!this.props.interrupting && prevProps.interrupting) {
             this.props.onInterrupt();
         }
-        if (this.props.saving && !nextProps.saving) {
-            this.props.onSubmit(nextProps.member);
+        if (!this.props.saving && prevProps.saving) {
+            const {member} = this.state;
+            if (this.goingBack) {
+                this.props.onPrevious(member);
+            } else {
+                this.props.onSubmit(member);
+            }
         }
     }
 
@@ -74,21 +85,36 @@ class MemberEditor extends Component {
         this.props.requestInterruptMember(id, dwellingOrder, householdOrder, this.state.member);
     }
 
+    handlePrevious() {
+        const {chapter, onPreSave, onPrevious} = this.props;
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        const {member} = this.state;
+
+        if (onPreSave) {
+            onPreSave(member, this.props.member);
+        }
+        if (setSectionValidity(member, chapter)) {
+            this.goingBack = true;
+            this.props.requestSaveMember(id, dwellingOrder, householdOrder, member);
+        } else {
+            alertIncompleteSectionOnBack(() => onPrevious(member));
+        }
+    }
+
     handleSubmit() {
         const {chapter, onPreSave} = this.props;
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         const {member} = this.state;
+
         if (onPreSave) {
             onPreSave(member, this.props.member);
         }
-        return setSectionValidity(member, chapter)
-            ? this.props.requestSaveMember(id, dwellingOrder, householdOrder, member)
-            : alertIncompleteSection();
-    }
-
-    handlePrevious() {
-        const {member} = this.props;
-        this.props.onPrevious(member);
+        if (setSectionValidity(member, chapter)) {
+            this.goingBack = false;
+            this.props.requestSaveMember(id, dwellingOrder, householdOrder, member);
+        } else {
+            alertIncompleteSection();
+        }
     }
 
     renderContent() {
@@ -125,11 +151,14 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestInterruptMember: (id, dwellingOrder, householdOrder, member) =>
-            dispatch(requestInterruptMember(id, dwellingOrder, householdOrder, member)),
-        requestMember: (id, dwellingOrder, householdOrder, memberOrder) =>
-            dispatch(requestMember(id, dwellingOrder, householdOrder, memberOrder)),
-        requestSaveMember: (id, dwellingOrder, householdOrder, member) =>
-            dispatch(requestSaveMember(id, dwellingOrder, householdOrder, member))
+        requestInterruptMember: (id, dwellingOrder, householdOrder, member) => dispatch(
+            requestInterruptMember(id, dwellingOrder, householdOrder, member)
+        ),
+        requestMember: (id, dwellingOrder, householdOrder, memberOrder) => dispatch(
+            requestMember(id, dwellingOrder, householdOrder, memberOrder)
+        ),
+        requestSaveMember: (id, dwellingOrder, householdOrder, member) => dispatch(
+            requestSaveMember(id, dwellingOrder, householdOrder, member)
+        )
     })
 )(MemberEditor);

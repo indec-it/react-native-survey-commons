@@ -15,6 +15,7 @@ import {InterruptButton} from '../..';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
+import alertIncompleteSectionOnBack from '../../util/alertIncompleteSectionOnBack';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 import AddressCard from '../AddressCard';
@@ -46,7 +47,15 @@ class HouseholdResponse extends Component {
 
     constructor(props) {
         super(props);
+        this.goingBack = false;
         this.state = {};
+    }
+
+    static getDerivedStateFromProps(nextProps, state) {
+        if (!state.household && nextProps.household) {
+            return {household: new Household(nextProps.household)};
+        }
+        return null;
     }
 
     componentDidMount() {
@@ -55,15 +64,17 @@ class HouseholdResponse extends Component {
         this.props.requestAddress(id);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.household) {
-            this.state.household = new Household(nextProps.household);
-        }
-        if (!this.props.interrupting && nextProps.interrupting) {
+    componentDidUpdate(prevProps) {
+        if (!this.props.interrupting && prevProps.interrupting) {
             this.props.onInterrupt();
         }
-        if (this.props.saving && !nextProps.saving) {
-            this.props.onSubmit(nextProps.household);
+        if (!this.props.saving && prevProps.saving) {
+            const {household} = this.state;
+            if (this.goingBack) {
+                this.props.onPrevious(household);
+            } else {
+                this.props.onSubmit(household);
+            }
         }
     }
 
@@ -78,13 +89,30 @@ class HouseholdResponse extends Component {
         this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
     }
 
+    handlePrevious() {
+        const {chapter, onPrevious} = this.props;
+        const {id, dwellingOrder} = this.props.match.params;
+        const {household} = this.state;
+
+        if (setSectionValidity(household, chapter)) {
+            this.goingBack = true;
+            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+        } else {
+            alertIncompleteSectionOnBack(() => onPrevious(household));
+        }
+    }
+
     handleSubmit() {
         const {chapter} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {household} = this.state;
-        return setSectionValidity(household, chapter)
-            ? this.props.requestUpdateHousehold(id, dwellingOrder, household)
-            : alertIncompleteSection();
+
+        if (setSectionValidity(household, chapter)) {
+            this.goingBack = false;
+            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+        } else {
+            alertIncompleteSection();
+        }
     }
 
     renderContent() {
@@ -102,7 +130,7 @@ class HouseholdResponse extends Component {
                     section={section}
                     chapter={chapter.rows}
                     onChange={answer => this.handleChange(answer)}
-                    onPrevious={() => this.props.onPrevious()}
+                    onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     validationResults={validate(section)}
                 />

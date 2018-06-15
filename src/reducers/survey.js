@@ -14,6 +14,8 @@ import {
     CLOSE_DWELLING_VISIT_SUCCEEDED,
     CLOSE_HOUSEHOLD_VISIT_REQUESTED,
     CLOSE_HOUSEHOLD_VISIT_SUCCEEDED,
+    CURRENT_HOUSEHOLD_VISIT_REQUESTED,
+    CURRENT_HOUSEHOLD_VISIT_SUCCEEDED,
     FETCH_DWELLING_VISITS_REQUESTED,
     FETCH_DWELLING_VISITS_SUCCEEDED,
     HOUSEHOLD_FETCH_SUCCEEDED,
@@ -54,6 +56,10 @@ export default function (state = {surveys: {}}, action) {
             return {...state, areas: []};
         case AREAS_FETCH_RECEIVED:
             return {...state, areas: action.areas};
+        case CURRENT_HOUSEHOLD_VISIT_REQUESTED:
+            return {...state, currentHouseholdVisit: null};
+        case CURRENT_HOUSEHOLD_VISIT_SUCCEEDED:
+            return {...state, currentHouseholdVisit: action.currentHouseholdVisit};
         case DWELLING_FETCH_REQUESTED:
             return {...state, households: [], members: []};
         case DWELLING_FETCH_SUCCEEDED:

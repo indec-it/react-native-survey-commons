@@ -11,6 +11,7 @@ import {
     findSurvey,
     fetchAddress,
     fetchAreas,
+    fetchCurrentHouseholdVisit,
     fetchDwellingVisits,
     fetchDwellings,
     fetchHouseholdVisits,
@@ -36,6 +37,7 @@ export {closeSurvey};
 export {createHousehold};
 export {createHouseholdVisit};
 export {fetchAddressesByState};
+export {fetchCurrentHouseholdVisit};
 export {findDwelling};
 export {findHousehold};
 export {findMember};

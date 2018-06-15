@@ -236,6 +236,21 @@ export const notifyCloseHouseholdVisit = () => ({
     type: CLOSE_HOUSEHOLD_VISIT_SUCCEEDED
 });
 
+export const FETCH_CURRENT_HOUSEHOLD_VISIT_REQUESTED = 'FETCH_CURRENT_HOUSEHOLD_VISIT_REQUESTED';
+export const CURRENT_HOUSEHOLD_VISIT_SUCCEEDED = 'CURRENT_HOUSEHOLD_VISIT_SUCCEEDED';
+
+export const requestFetchCurrentHouseholdVisit = (id, dwellingOrder, householdOrder) => ({
+    type: FETCH_CURRENT_HOUSEHOLD_VISIT_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder
+});
+
+export const receiveCurrentHouseholdVisit = currentHouseholdVisit => ({
+    type: CURRENT_HOUSEHOLD_VISIT_SUCCEEDED,
+    currentHouseholdVisit
+});
+
 export const HOUSEHOLD_VISITS_REQUESTED = 'HOUSEHOLD_VISITS_REQUESTED';
 export const HOUSEHOLD_VISITS_SUCCEEDED = 'HOUSEHOLD_VISITS_SUCCEEDED';
 

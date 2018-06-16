@@ -75,17 +75,17 @@ export const notifyCloseSucceeded = () => ({
     type: SURVEY_CLOSE_SUCCEEDED
 });
 
-export const FETCH_DWELLING_VISITS_REQUESTED = 'FETCH_DWELLING_VISITS_REQUESTED';
-export const FETCH_DWELLING_VISITS_SUCCEEDED = 'FETCH_DWELLING_VISITS_SUCCEEDED';
+export const DWELLING_VISITS_FETCH_REQUESTED = 'DWELLING_VISITS_FETCH_REQUESTED';
+export const DWELLING_VISITS_FETCH_SUCCEEDED = 'DWELLING_VISITS_FETCH_SUCCEEDED';
 
 export const requestFetchDwellingVisits = (id, dwellingOrder) => ({
-    type: FETCH_DWELLING_VISITS_REQUESTED,
+    type: DWELLING_VISITS_FETCH_REQUESTED,
     id,
     dwellingOrder
 });
 
 export const receiveDwellingVisits = dwellingVisits => ({
-    type: FETCH_DWELLING_VISITS_SUCCEEDED,
+    type: DWELLING_VISITS_FETCH_SUCCEEDED,
     dwellingVisits
 });
 
@@ -130,31 +130,31 @@ export const receiveUpdatedDwelling = survey => ({
     survey
 });
 
-export const CLOSE_DWELLING_VISIT_REQUESTED = 'CLOSE_DWELLING_VISIT_REQUESTED';
-export const CLOSE_DWELLING_VISIT_SUCCEEDED = 'CLOSE_DWELLING_VISIT_SUCCEEDED';
+export const DWELLING_VISIT_CLOSE_REQUESTED = 'DWELLING_VISIT_CLOSE_REQUESTED';
+export const DWELLING_VISIT_CLOSE_SUCCEEDED = 'DWELLING_VISIT_CLOSE_SUCCEEDED';
 
 export const requestCloseDwellingVisit = (id, dwellingOrder, result) => ({
-    type: CLOSE_DWELLING_VISIT_REQUESTED,
+    type: DWELLING_VISIT_CLOSE_REQUESTED,
     id,
     dwellingOrder,
     result
 });
 
 export const notifyCloseDwellingVisit = () => ({
-    type: CLOSE_DWELLING_VISIT_SUCCEEDED
+    type: DWELLING_VISIT_CLOSE_SUCCEEDED
 });
 
-export const FETCH_CURRENT_DWELLING_VISIT_REQUESTED = 'FETCH_CURRENT_DWELLING_VISIT_REQUESTED';
-export const FETCH_CURRENT_DWELLING_VISIT_SUCCEEDED = 'FETCH_CURRENT_DWELLING_VISIT_SUCCEEDED';
+export const CURRENT_VISIT_DWELLING_FETCH_REQUESTED = 'CURRENT_VISIT_DWELLING_FETCH_REQUESTED';
+export const CURRENT_VISIT_DWELLING_FETCH_SUCCEEDED = 'CURRENT_VISIT_DWELLING_FETCH_SUCCEEDED';
 
 export const requestFetchCurrentDwellingVisit = (id, dwellingOrder) => ({
-    type: FETCH_CURRENT_DWELLING_VISIT_REQUESTED,
+    type: CURRENT_VISIT_DWELLING_FETCH_REQUESTED,
     id,
     dwellingOrder
 });
 
-export const fetchCurrentVisitSuccess = currentDwellingVisit => ({
-    type: FETCH_CURRENT_DWELLING_VISIT_SUCCEEDED,
+export const receiveCurrentDwellingVisit = currentDwellingVisit => ({
+    type: CURRENT_VISIT_DWELLING_FETCH_SUCCEEDED,
     currentDwellingVisit
 });
 
@@ -219,18 +219,18 @@ export const requestRemoveHousehold = (id, dwellingOrder, householdOrder) => ({
     householdOrder
 });
 
-export const HOUSEHOLD_CREATE_VISIT_REQUESTED = 'HOUSEHOLD_CREATE_VISIT_REQUESTED';
+export const HOUSEHOLD_VISIT_CREATE_REQUESTED = 'HOUSEHOLD_VISIT_CREATE_REQUESTED';
 
 export const requestCreateHouseholdVisit = household => ({
-    type: HOUSEHOLD_CREATE_VISIT_REQUESTED,
+    type: HOUSEHOLD_VISIT_CREATE_REQUESTED,
     household
 });
 
-export const CLOSE_HOUSEHOLD_VISIT_REQUESTED = 'CLOSE_HOUSEHOLD_VISIT_REQUESTED';
-export const CLOSE_HOUSEHOLD_VISIT_SUCCEEDED = 'CLOSE_HOUSEHOLD_VISIT_SUCCEEDED';
+export const HOUSEHOLD_VISIT_CLOSE_REQUESTED = 'HOUSEHOLD_VISIT_CLOSE_REQUESTED';
+export const HOUSEHOLD_VISIT_CLOSE_SUCCEEDED = 'HOUSEHOLD_VISIT_CLOSE_SUCCEEDED';
 
 export const requestCloseHouseholdVisit = (id, dwellingOrder, householdOrder, result) => ({
-    type: CLOSE_HOUSEHOLD_VISIT_REQUESTED,
+    type: HOUSEHOLD_VISIT_CLOSE_REQUESTED,
     id,
     dwellingOrder,
     householdOrder,
@@ -238,36 +238,36 @@ export const requestCloseHouseholdVisit = (id, dwellingOrder, householdOrder, re
 });
 
 export const notifyCloseHouseholdVisit = () => ({
-    type: CLOSE_HOUSEHOLD_VISIT_SUCCEEDED
+    type: HOUSEHOLD_VISIT_CLOSE_SUCCEEDED
 });
 
-export const FETCH_CURRENT_HOUSEHOLD_VISIT_REQUESTED = 'FETCH_CURRENT_HOUSEHOLD_VISIT_REQUESTED';
-export const CURRENT_HOUSEHOLD_VISIT_SUCCEEDED = 'CURRENT_HOUSEHOLD_VISIT_SUCCEEDED';
+export const CURRENT_HOUSEHOLD_VISIT_FETCH_REQUESTED = 'CURRENT_HOUSEHOLD_VISIT_FETCH_REQUESTED';
+export const CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED = 'CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED';
 
 export const requestFetchCurrentHouseholdVisit = (id, dwellingOrder, householdOrder) => ({
-    type: FETCH_CURRENT_HOUSEHOLD_VISIT_REQUESTED,
+    type: CURRENT_HOUSEHOLD_VISIT_FETCH_REQUESTED,
     id,
     dwellingOrder,
     householdOrder
 });
 
 export const receiveCurrentHouseholdVisit = currentHouseholdVisit => ({
-    type: CURRENT_HOUSEHOLD_VISIT_SUCCEEDED,
+    type: CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED,
     currentHouseholdVisit
 });
 
-export const HOUSEHOLD_VISITS_REQUESTED = 'HOUSEHOLD_VISITS_REQUESTED';
-export const HOUSEHOLD_VISITS_SUCCEEDED = 'HOUSEHOLD_VISITS_SUCCEEDED';
+export const HOUSEHOLD_VISITS_FETCH_REQUESTED = 'HOUSEHOLD_VISITS_FETCH_REQUESTED';
+export const HOUSEHOLD_VISITS_FETCH_SUCCEEDED = 'HOUSEHOLD_VISITS_FETCH_SUCCEEDED';
 
-export const requestHouseholdVisits = (id, dwellingOrder, householdOrder) => ({
-    type: HOUSEHOLD_VISITS_REQUESTED,
+export const requestFetchHouseholdVisits = (id, dwellingOrder, householdOrder) => ({
+    type: HOUSEHOLD_VISITS_FETCH_REQUESTED,
     id,
     dwellingOrder,
     householdOrder
 });
 
 export const receiveHouseholdVisits = householdVisits => ({
-    type: HOUSEHOLD_VISITS_SUCCEEDED,
+    type: HOUSEHOLD_VISITS_FETCH_SUCCEEDED,
     householdVisits
 });
 

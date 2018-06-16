@@ -28,8 +28,8 @@ class VisitResultEditor extends Component {
         this.state = {};
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.saving && !nextProps.saving) {
+    componentDidUpdate(prevProps) {
+        if (prevProps.saving && !this.props.saving) {
             this.props.onSubmit();
         }
     }

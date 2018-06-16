@@ -8,12 +8,12 @@ import {
     DWELLING_FETCH_SUCCEEDED,
     DWELLING_UPDATE_REQUESTED,
     DWELLING_UPDATE_SUCCEEDED,
-    DWELLING_VISITS_REQUESTED,
-    DWELLING_VISITS_SUCCEEDED,
     CLOSE_DWELLING_VISIT_REQUESTED,
     CLOSE_DWELLING_VISIT_SUCCEEDED,
     CLOSE_HOUSEHOLD_VISIT_REQUESTED,
     CLOSE_HOUSEHOLD_VISIT_SUCCEEDED,
+    FETCH_CURRENT_DWELLING_VISIT_REQUESTED,
+    CURRENT_DWELLING_VISIT_SUCCEEDED,
     CURRENT_HOUSEHOLD_VISIT_REQUESTED,
     CURRENT_HOUSEHOLD_VISIT_SUCCEEDED,
     FETCH_DWELLING_VISITS_REQUESTED,
@@ -66,12 +66,13 @@ export default function (state = {surveys: {}}, action) {
             return {...state, dwelling: action.dwelling};
         case DWELLING_UPDATE_SUCCEEDED:
             return {...state, saving: false, survey: action.survey};
+        case FETCH_CURRENT_DWELLING_VISIT_REQUESTED:
+            return {...state, currentDwellingVisit: null};
+        case CURRENT_DWELLING_VISIT_SUCCEEDED:
+            return {...state, currentDwellingVisit: action.currentDwellingVisit};
         case FETCH_DWELLING_VISITS_REQUESTED:
             return {...state, dwellingVisits: null};
-        case DWELLING_VISITS_REQUESTED:
-            return {...state, dwellingVisits: []};
         case FETCH_DWELLING_VISITS_SUCCEEDED:
-        case DWELLING_VISITS_SUCCEEDED:
             return {...state, dwellingVisits: action.dwellingVisits};
         case HOUSEHOLD_FETCH_REQUESTED:
             return {...state, members: []};

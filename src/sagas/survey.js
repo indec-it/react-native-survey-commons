@@ -4,6 +4,7 @@ import {toNumber} from 'lodash';
 
 import {SurveysService} from '../services';
 import {
+    fetchCurrentVisitSuccess,
     receiveAddress,
     receiveAddresses,
     receiveAreas,
@@ -122,6 +123,15 @@ export function* updateDwelling({id, dwelling}) {
     try {
         const survey = yield call(SurveysService.updateDwelling, id, dwelling);
         yield put(receiveUpdatedDwelling(survey));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* fetchCurrentDwellingVisit({id, dwellingOrder}) {
+    try {
+        const currentDwellingVisit = yield call(SurveysService.fetchCurrentDwellingVisit, id, toNumber(dwellingOrder));
+        yield put(fetchCurrentVisitSuccess(currentDwellingVisit));
     } catch (err) {
         yield put(handleError(err));
     }

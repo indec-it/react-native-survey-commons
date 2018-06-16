@@ -29,6 +29,7 @@ class HouseholdsList extends Component {
         householdValidationState: PropTypes.func.isRequired,
         validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
         columns: columnPropType
     };
@@ -94,10 +95,13 @@ class HouseholdsList extends Component {
         this.props.requestDwelling(id, dwellingOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.dwelling) {
-            this.state.dwelling = new Dwelling(nextProps.dwelling);
+    static getDerivedStateFromProps(nextProps, state) {
+        if (nextProps.dwelling && !state.dwelling) {
+            return {
+                dwelling: new Dwelling(nextProps.dwelling)
+            };
         }
+        return null;
     }
 
     renderContent() {

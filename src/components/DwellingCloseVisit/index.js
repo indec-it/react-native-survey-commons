@@ -2,10 +2,8 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import {last, isEmpty} from 'lodash';
 
-import {requestDwellingVisits, requestCloseDwellingVisit} from '../../actions/survey';
-import {Dwelling} from '../../model';
+import {requestFetchCurrentDwellingVisit, requestCloseDwellingVisit} from '../../actions/survey';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import dwellingVisitPropTypes from '../../util/dwellingVisitPropTypes';
@@ -15,64 +13,67 @@ import NavigationButtons from '../NavigationButtons';
 class DwellingCloseVisit extends Component {
     static propTypes = {
         requestCloseDwellingVisit: PropTypes.func.isRequired,
-        requestDwellingVisits: PropTypes.func.isRequired,
+        requestFetchCurrentDwellingVisit: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
-        dwelling: PropTypes.instanceOf(Dwelling).isRequired,
-        dwellingVisits: PropTypes.arrayOf(dwellingVisitPropTypes),
+        // eslint-disable-next-line react/no-unused-prop-types
+        currentDwellingVisit: dwellingVisitPropTypes,
         saving: PropTypes.bool
     };
 
     static defaultProps = {
         saving: false,
-        dwellingVisits: []
+        currentDwellingVisit: null
     };
 
     constructor(props) {
         super(props);
-        this.state = {
-            currentVisit: null
-        };
+        this.state = {};
     }
 
     componentDidMount() {
         const {id, dwellingOrder} = this.props.match.params;
-        this.props.requestDwellingVisits(id, dwellingOrder);
+        this.props.requestFetchCurrentDwellingVisit(id, dwellingOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {saving, dwelling, dwellingVisits} = nextProps;
-        if (!isEmpty(dwellingVisits)) {
-            this.state.currentVisit = last(dwellingVisits);
+    static getDerivedStateFromProps(nextProps, state) {
+        if (nextProps.currentDwellingVisit && !state.currentDwellingVisit) {
+            return {
+                currentDwellingVisit: nextProps.currentDwellingVisit
+            };
         }
-        if (this.props.saving && !saving) {
-            this.props.onSubmit(dwelling);
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.saving && !this.props.saving) {
+            this.props.onSubmit();
         }
     }
 
     handleChange(answer) {
-        this.setState(state => ({currentVisit: Object.assign(state.currentVisit, answer)}));
+        this.setState(state => ({currentDwellingVisit: Object.assign(state.currentDwellingVisit, answer)}));
     }
 
     handleSubmit() {
         this.props.requestCloseDwellingVisit(
             this.props.match.params.id,
             this.props.match.params.dwellingOrder,
-            this.state.currentVisit
+            this.state.currentDwellingVisit
         );
     }
 
     renderContent() {
         const {chapter} = this.props;
-        const {currentVisit} = this.state;
+        const {currentDwellingVisit} = this.state;
         return (
             <Fragment>
                 <Title>{chapter.title}</Title>
                 <Form
                     rows={chapter.rows}
-                    chapter={currentVisit}
+                    chapter={currentDwellingVisit}
                     onChange={answer => this.handleChange(answer)}
                 />
                 <NavigationButtons
@@ -91,21 +92,21 @@ class DwellingCloseVisit extends Component {
     }
 
     render() {
-        return this.state.currentVisit ? this.renderContent() : <LoadingIndicator/>;
+        return this.state.currentDwellingVisit ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
 export default connect(
     state => ({
         saving: state.survey.saving,
-        dwellingVisits: state.survey.dwellingVisits
+        currentDwellingVisit: state.survey.currentDwellingVisit
     }),
     dispatch => ({
         requestCloseDwellingVisit: (id, dwellingOrder, currentVisit) => dispatch(
             requestCloseDwellingVisit(id, dwellingOrder, currentVisit)
         ),
-        requestDwellingVisits: (id, dwellingOrder) => dispatch(
-            requestDwellingVisits(id, dwellingOrder)
+        requestFetchCurrentDwellingVisit: (id, dwellingOrder) => dispatch(
+            requestFetchCurrentDwellingVisit(id, dwellingOrder)
         )
     })
 )(DwellingCloseVisit);

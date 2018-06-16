@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, forEach, isNil, max, noop, reject} from 'lodash';
+import {concat, every, find, forEach, isEmpty, isNil, map, max, noop, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -46,7 +46,8 @@ class MemberManager extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedMember: null
+            selectedMember: null,
+            members: []
         };
     }
 
@@ -55,11 +56,17 @@ class MemberManager extends Component {
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.members) {
-            this.state.members = nextProps.members.map(member => new Member(member));
+    static getDerivedStateFromProps(nextProps, state) {
+        if (nextProps.members && isEmpty(state.members)) {
+            return {
+                members: map(nextProps.members, member => new Member(member))
+            };
         }
-        if (this.props.saving && !nextProps.saving) {
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.saving && !this.props.saving) {
             this.props.onSubmit();
         }
     }

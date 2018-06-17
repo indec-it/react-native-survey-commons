@@ -40,8 +40,8 @@ class HouseholdCloseVisit extends Component {
         this.props.requestFetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder);
     }
 
-    static getDerivedStateFromProps(nextProps) {
-        if (nextProps.currentHouseholdVisit) {
+    static getDerivedStateFromProps(nextProps, state) {
+        if (!state.currentHouseholdVisit && nextProps.currentHouseholdVisit) {
             return {
                 currentHouseholdVisit: nextProps.currentHouseholdVisit
             };

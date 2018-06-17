@@ -44,7 +44,7 @@ class HouseholdEditor extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, state) {
-        if (!state.households && nextProps.households) {
+        if (!state.household && nextProps.households) {
             return {
                 household: new Household(
                     find(nextProps.households, ({order}) => order === toNumber(nextProps.match.params.householdOrder))

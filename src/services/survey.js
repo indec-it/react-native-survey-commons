@@ -142,11 +142,16 @@ export default class SurveysService {
     }
 
     static async fetchDwellingVisits(id, dwellingOrder) {
-        const dwelling = await SurveysService.findDwelling(id, dwellingOrder);
-        return map(dwelling.visits, (visit, index) => ({
+        const {visits} = await SurveysService.findDwelling(id, dwellingOrder);
+        return map(visits, (visit, index) => ({
             order: index + 1,
             ...visit
         }));
+    }
+
+    static async fetchCurrentDwellingVisit(id, dwellingOrder) {
+        const {visits} = await SurveysService.findDwelling(id, dwellingOrder);
+        return last(visits);
     }
 
     static async closeDwellingVisit(id, dwellingOrder, result) {

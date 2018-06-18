@@ -61,10 +61,10 @@ class MemberEditor extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!this.props.interrupting && prevProps.interrupting) {
+        if (prevProps.interrupting && !this.props.interrupting) {
             this.props.onInterrupt();
         }
-        if (!this.props.saving && prevProps.saving) {
+        if (prevProps.saving && !this.props.saving) {
             const {member} = this.state;
             if (this.goingBack) {
                 this.props.onPrevious(member);

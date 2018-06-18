@@ -52,7 +52,7 @@ class DwellingEditor extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!this.props.saving && prevProps.saving) {
+        if (prevProps.saving && !this.props.saving) {
             if (this.goingBack) {
                 this.props.onPrevious(this.state.dwelling);
             } else {

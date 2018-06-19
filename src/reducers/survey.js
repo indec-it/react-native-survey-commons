@@ -8,23 +8,23 @@ import {
     DWELLING_FETCH_SUCCEEDED,
     DWELLING_UPDATE_REQUESTED,
     DWELLING_UPDATE_SUCCEEDED,
-    CLOSE_DWELLING_VISIT_REQUESTED,
-    CLOSE_DWELLING_VISIT_SUCCEEDED,
-    CLOSE_HOUSEHOLD_VISIT_REQUESTED,
-    CLOSE_HOUSEHOLD_VISIT_SUCCEEDED,
-    FETCH_CURRENT_DWELLING_VISIT_REQUESTED,
-    CURRENT_DWELLING_VISIT_SUCCEEDED,
-    CURRENT_HOUSEHOLD_VISIT_REQUESTED,
-    CURRENT_HOUSEHOLD_VISIT_SUCCEEDED,
-    FETCH_DWELLING_VISITS_REQUESTED,
-    FETCH_DWELLING_VISITS_SUCCEEDED,
+    DWELLING_VISIT_CLOSE_REQUESTED,
+    DWELLING_VISIT_CLOSE_SUCCEEDED,
+    HOUSEHOLD_VISIT_CLOSE_REQUESTED,
+    HOUSEHOLD_VISIT_CLOSE_SUCCEEDED,
+    CURRENT_VISIT_DWELLING_FETCH_REQUESTED,
+    CURRENT_VISIT_DWELLING_FETCH_SUCCEEDED,
+    CURRENT_HOUSEHOLD_VISIT_FETCH_REQUESTED,
+    CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED,
+    DWELLING_VISITS_FETCH_REQUESTED,
+    DWELLING_VISITS_FETCH_SUCCEEDED,
     HOUSEHOLD_FETCH_SUCCEEDED,
     HOUSEHOLD_INTERRUPT_REQUESTED,
     HOUSEHOLD_INTERRUPT_SUCCEEDED,
     HOUSEHOLD_UPDATE_REQUESTED,
     HOUSEHOLD_UPDATE_SUCCEEDED,
-    HOUSEHOLD_VISITS_REQUESTED,
-    HOUSEHOLD_VISITS_SUCCEEDED,
+    HOUSEHOLD_VISITS_FETCH_REQUESTED,
+    HOUSEHOLD_VISITS_FETCH_SUCCEEDED,
     HOUSEHOLDS_FETCH_SUCCEEDED,
     MEMBER_FETCH_SUCCEEDED,
     MEMBERS_FETCH_SUCCEEDED,
@@ -56,9 +56,9 @@ export default function (state = {surveys: {}}, action) {
             return {...state, areas: []};
         case AREAS_FETCH_RECEIVED:
             return {...state, areas: action.areas};
-        case CURRENT_HOUSEHOLD_VISIT_REQUESTED:
+        case CURRENT_HOUSEHOLD_VISIT_FETCH_REQUESTED:
             return {...state, currentHouseholdVisit: null};
-        case CURRENT_HOUSEHOLD_VISIT_SUCCEEDED:
+        case CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED:
             return {...state, currentHouseholdVisit: action.currentHouseholdVisit};
         case DWELLING_FETCH_REQUESTED:
             return {...state, households: [], members: []};
@@ -66,13 +66,13 @@ export default function (state = {surveys: {}}, action) {
             return {...state, dwelling: action.dwelling};
         case DWELLING_UPDATE_SUCCEEDED:
             return {...state, saving: false, survey: action.survey};
-        case FETCH_CURRENT_DWELLING_VISIT_REQUESTED:
+        case CURRENT_VISIT_DWELLING_FETCH_REQUESTED:
             return {...state, currentDwellingVisit: null};
-        case CURRENT_DWELLING_VISIT_SUCCEEDED:
+        case CURRENT_VISIT_DWELLING_FETCH_SUCCEEDED:
             return {...state, currentDwellingVisit: action.currentDwellingVisit};
-        case FETCH_DWELLING_VISITS_REQUESTED:
+        case DWELLING_VISITS_FETCH_REQUESTED:
             return {...state, dwellingVisits: null};
-        case FETCH_DWELLING_VISITS_SUCCEEDED:
+        case DWELLING_VISITS_FETCH_SUCCEEDED:
             return {...state, dwellingVisits: action.dwellingVisits};
         case HOUSEHOLD_FETCH_REQUESTED:
             return {...state, members: []};
@@ -86,9 +86,9 @@ export default function (state = {surveys: {}}, action) {
             return {...state, household: action.household};
         case HOUSEHOLD_UPDATE_SUCCEEDED:
             return {...state, saving: false, household: action.household};
-        case HOUSEHOLD_VISITS_REQUESTED:
+        case HOUSEHOLD_VISITS_FETCH_REQUESTED:
             return {...state, householdVisits: []};
-        case HOUSEHOLD_VISITS_SUCCEEDED:
+        case HOUSEHOLD_VISITS_FETCH_SUCCEEDED:
             return {...state, householdVisits: action.householdVisits};
         case HOUSEHOLDS_FETCH_SUCCEEDED:
             return {...state, households: action.households};
@@ -102,16 +102,16 @@ export default function (state = {surveys: {}}, action) {
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:
             return {...state, survey: action.survey};
-        case CLOSE_DWELLING_VISIT_SUCCEEDED:
-        case CLOSE_HOUSEHOLD_VISIT_SUCCEEDED:
+        case DWELLING_VISIT_CLOSE_SUCCEEDED:
+        case HOUSEHOLD_VISIT_CLOSE_SUCCEEDED:
         case MEMBERS_SAVE_SUCCEEDED:
         case SURVEY_CLOSE_SUCCEEDED:
         case SURVEY_SAVE_SUCCEEDED:
             return {...state, saving: false};
-        case CLOSE_DWELLING_VISIT_REQUESTED:
+        case DWELLING_VISIT_CLOSE_REQUESTED:
         case DWELLING_UPDATE_REQUESTED:
         case MEMBERS_SAVE_REQUESTED:
-        case CLOSE_HOUSEHOLD_VISIT_REQUESTED:
+        case HOUSEHOLD_VISIT_CLOSE_REQUESTED:
         case HOUSEHOLD_UPDATE_REQUESTED:
         case MEMBER_SAVE_REQUESTED:
         case SURVEY_CLOSE_REQUESTED:

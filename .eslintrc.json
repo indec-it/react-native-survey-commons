@@ -33,6 +33,7 @@
     "import/no-extraneous-dependencies": [
       "off"
     ],
+    "import/named": "error",
     "comma-dangle": [
       "error",
       "never"

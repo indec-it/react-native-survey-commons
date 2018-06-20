@@ -125,9 +125,9 @@ export const requestUpdateDwelling = (id, dwelling) => ({
     dwelling
 });
 
-export const receiveUpdatedDwelling = survey => ({
+export const receiveUpdatedDwelling = dwelling => ({
     type: DWELLING_UPDATE_SUCCEEDED,
-    survey
+    dwelling
 });
 
 export const DWELLING_VISIT_CLOSE_REQUESTED = 'DWELLING_VISIT_CLOSE_REQUESTED';

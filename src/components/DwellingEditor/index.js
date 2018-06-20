@@ -5,7 +5,7 @@ import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import {noop} from 'lodash';
 
 import {requestDwelling, requestUpdateDwelling} from '../../actions/survey';
-import {Dwelling, Survey} from '../../model';
+import {Dwelling} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
@@ -24,7 +24,6 @@ class DwellingEditor extends Component {
         chapter: chapterPropTypes.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
-        survey: PropTypes.instanceOf(Survey).isRequired,
         saving: PropTypes.bool
     };
 
@@ -56,7 +55,7 @@ class DwellingEditor extends Component {
             if (this.goingBack) {
                 this.props.onPrevious(this.state.dwelling);
             } else {
-                this.props.onSubmit(this.props.survey);
+                this.props.onSubmit(this.state.dwelling);
             }
         }
     }
@@ -120,8 +119,7 @@ class DwellingEditor extends Component {
 export default connect(
     state => ({
         dwelling: state.survey.dwelling,
-        saving: state.survey.saving,
-        survey: state.survey.survey
+        saving: state.survey.saving
     }),
     dispatch => ({
         requestDwelling: (id, dwellingOrder) => dispatch(

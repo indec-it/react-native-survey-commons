@@ -121,8 +121,8 @@ export function* findDwelling({id, dwellingOrder}) {
 
 export function* updateDwelling({id, dwelling}) {
     try {
-        const survey = yield call(SurveysService.updateDwelling, id, dwelling);
-        yield put(receiveUpdatedDwelling(survey));
+        const updatedDwelling = yield call(SurveysService.updateDwelling, id, dwelling);
+        yield put(receiveUpdatedDwelling(updatedDwelling));
     } catch (err) {
         yield put(handleError(err));
     }

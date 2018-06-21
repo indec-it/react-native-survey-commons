@@ -17,7 +17,6 @@ import {InterruptButton} from '../..';
 
 class MemberEditor extends Component {
     static propTypes = {
-        requestInterruptMember: PropTypes.func.isRequired,
         requestMember: PropTypes.func.isRequired,
         requestSaveMember: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
@@ -80,11 +79,6 @@ class MemberEditor extends Component {
         }));
     }
 
-    handleInterrupt() {
-        const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestInterruptMember(id, dwellingOrder, householdOrder, this.state.member);
-    }
-
     handlePrevious() {
         const {chapter, onPreSave, onPrevious} = this.props;
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
@@ -124,7 +118,7 @@ class MemberEditor extends Component {
         return (
             <Fragment>
                 <MemberData member={member}/>
-                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
+                <InterruptButton show={!!onInterrupt} onInterrupt={onInterrupt}/>
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}

@@ -14,8 +14,6 @@ export default class Dwelling {
         Object.assign(this, obj);
         if (obj && !isEmpty(obj.households)) {
             this.households = map(obj.households, household => new Household(household));
-        } else {
-            this.households = [new Household()];
         }
     }
 

@@ -22,7 +22,6 @@ class DwellingEditor extends Component {
         validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
-        // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
         saving: PropTypes.bool
     };
@@ -38,9 +37,9 @@ class DwellingEditor extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
-        if (!state.dwelling && nextProps.dwelling) {
-            return {dwelling: new Dwelling(nextProps.dwelling)};
+    static getDerivedStateFromProps(props, state) {
+        if (props.dwelling && (!state.dwelling || props.dwelling.id !== state.dwelling.id)) {
+            return {dwelling: props.dwelling};
         }
         return null;
     }
@@ -52,10 +51,11 @@ class DwellingEditor extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.saving && !this.props.saving) {
+            const {dwelling} = this.state;
             if (this.goingBack) {
-                this.props.onPrevious(this.state.dwelling);
+                this.props.onPrevious(dwelling);
             } else {
-                this.props.onSubmit(this.state.dwelling);
+                this.props.onSubmit(dwelling);
             }
         }
     }

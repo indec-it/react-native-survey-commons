@@ -127,6 +127,7 @@ export default class SurveysService {
         if (dwelling.response === answers.NO) {
             survey.surveyAddressState = surveyState.RESOLVED;
             dwelling.visits.push({
+                id: Date.now(),
                 date: new Date(),
                 response: dwelling.response,
                 notResponseCause: dwelling.notResponseCause,
@@ -229,6 +230,7 @@ export default class SurveysService {
 
     static createHouseholdVisit(household) {
         household.visits.push({
+            id: Date.now(),
             start: new Date(),
             response: household.response
         });

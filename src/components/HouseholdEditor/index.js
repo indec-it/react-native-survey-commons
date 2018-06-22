@@ -2,9 +2,14 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import {find, noop, toNumber} from 'lodash';
+import {noop} from 'lodash';
 
-import {requestHouseholds, requestUpdateHousehold, requestInterruptHousehold} from '../../actions/survey';
+import {
+    requestHouseholds,
+    requestUpdateHousehold,
+    requestInterruptHousehold,
+    requestHousehold
+} from '../../actions/survey';
 import {Household} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -16,6 +21,7 @@ import InterruptButton from '../InterruptButton';
 
 class HouseholdEditor extends Component {
     static propTypes = {
+        requestHousehold: PropTypes.func.isRequired,
         requestHouseholds: PropTypes.func.isRequired,
         requestInterruptHousehold: PropTypes.func.isRequired,
         requestUpdateHousehold: PropTypes.func.isRequired,
@@ -43,20 +49,17 @@ class HouseholdEditor extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
-        if (!state.household && nextProps.households) {
-            return {
-                household: new Household(
-                    find(nextProps.households, ({order}) => order === toNumber(nextProps.match.params.householdOrder))
-                )
-            };
+    static getDerivedStateFromProps(props, state) {
+        if (props.household && (!state.household || props.household.id !== state.household.id)) {
+            return {household: props.household};
         }
         return null;
     }
 
     componentDidMount() {
-        const {id, dwellingOrder} = this.props.match.params;
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestHouseholds(id, dwellingOrder);
+        this.props.requestHousehold(id, dwellingOrder, householdOrder);
     }
 
     componentDidUpdate(prevProps) {
@@ -142,6 +145,7 @@ class HouseholdEditor extends Component {
 export default connect(
     state => ({
         households: state.survey.households,
+        household: state.survey.household,
         saving: state.survey.saving,
         interrupting: state.survey.interrupting
     }),
@@ -154,6 +158,9 @@ export default connect(
         ),
         requestInterruptHousehold: (id, dwellingOrder, household) => dispatch(
             requestInterruptHousehold(id, dwellingOrder, household)
+        ),
+        requestHousehold: (id, dwellingOrder, householdOrder) => dispatch(
+            requestHousehold(id, dwellingOrder, householdOrder)
         )
     })
 )(HouseholdEditor);

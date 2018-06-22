@@ -45,9 +45,9 @@ class MemberEditor extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
-        if (!state.member && nextProps.member) {
-            return {member: new Member(nextProps.member)};
+    static getDerivedStateFromProps(props, state) {
+        if (props.member && (!state.member || props.member.id !== state.member.id)) {
+            return {member: props.member};
         }
         return null;
     }

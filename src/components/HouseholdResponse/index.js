@@ -51,9 +51,9 @@ class HouseholdResponse extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
-        if (!state.household && nextProps.household) {
-            return {household: new Household(nextProps.household)};
+    static getDerivedStateFromProps(props, state) {
+        if (props.household && (!state.household || props.household.id !== state.household.id)) {
+            return {household: props.household};
         }
         return null;
     }

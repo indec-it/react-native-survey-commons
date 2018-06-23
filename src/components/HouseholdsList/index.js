@@ -95,8 +95,8 @@ class HouseholdsList extends Component {
         this.props.requestDwelling(id, dwellingOrder);
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
-        if (nextProps.dwelling && !state.dwelling) {
+    static getDerivedStateFromProps(nextProps) {
+        if (nextProps.dwelling) {
             return {
                 dwelling: new Dwelling(nextProps.dwelling)
             };

@@ -21,7 +21,7 @@ const surveyDetailsTabs = {
 };
 
 const addressesListTabs = [{
-    id: surveyAddressState.OPENED,
+    id: surveyAddressState.OPEN,
     label: 'Pendientes'
 }, {
     id: surveyAddressState.CLOSED,

@@ -14,20 +14,23 @@ import styles from './styles';
 class AddressesList extends Component {
     static propTypes = {
         requestAddressesBySurveyState: PropTypes.func.isRequired,
-        onSelect: PropTypes.func.isRequired,
-        addresses: PropTypes.arrayOf(PropTypes.instanceOf(Address)),
+        onSelect: PropTypes.func,
+        addresses: PropTypes.arrayOf(
+            PropTypes.instanceOf(Address)
+        ),
         match: PropTypes.shape({
             params: PropTypes.shape({
                 area: PropTypes.string.isRequired,
                 ups: PropTypes.string.isRequired
             })
         }).isRequired,
-        columns: columnPropType
+        columns: PropTypes.arrayOf(columnPropType)
     };
 
     static defaultProps = {
-        addresses: [],
-        columns: null
+        onSelect: null,
+        columns: null,
+        addresses: []
     };
 
     constructor(props) {
@@ -76,12 +79,12 @@ class AddressesList extends Component {
             onPress: address => this.props.onSelect(address)
         }];
         this.state = {
-            surveyAddressState: surveyAddressStateEnum.OPENED
+            surveyAddressState: surveyAddressStateEnum.OPEN
         };
     }
 
     componentDidMount() {
-        this.handleChangeSurveyAddressState(surveyAddressStateEnum.OPENED);
+        this.handleChangeSurveyAddressState(surveyAddressStateEnum.OPEN);
     }
 
     handleChangeSurveyAddressState(state) {

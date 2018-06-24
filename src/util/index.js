@@ -18,8 +18,8 @@ import isMemberSelected from './isMemberSelected';
 import isSectionValid from './isSectionValid';
 import isQuestionAnswered from './isQuestionAnswered';
 import matchParamsIdPropTypes from './matchParamsIdPropTypes';
-import renderQuestionErrors from './renderQuestionErrors';
 import {getSection, handleChangeAnswer, setSectionValidity} from './section';
+import questionAnswerPropTypes from './questionAnswerPropTypes';
 import validateQuestion from './validateQuestion';
 
 export {alertIncompleteSection};
@@ -44,6 +44,6 @@ export {isMemberSelected};
 export {isQuestionAnswered};
 export {isSectionValid};
 export {matchParamsIdPropTypes};
+export {questionAnswerPropTypes};
 export {setSectionValidity};
-export {renderQuestionErrors};
 export {validateQuestion};

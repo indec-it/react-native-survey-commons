@@ -60,7 +60,7 @@ const NetworkStatus = ({isConnected, isPinging, pong}) => (
 NetworkStatus.propTypes = {
     isConnected: PropTypes.bool.isRequired,
     isPinging: PropTypes.bool.isRequired,
-    pong: PropTypes.shape({}).isRequired
+    pong: PropTypes.bool.isRequired
 };
 
 export default NetworkStatus;

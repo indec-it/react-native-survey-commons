@@ -31,7 +31,7 @@ class HouseholdsList extends Component {
         match: matchParamsIdPropTypes.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
-        columns: columnPropType
+        columns: PropTypes.arrayOf(columnPropType)
     };
 
     static defaultProps = {

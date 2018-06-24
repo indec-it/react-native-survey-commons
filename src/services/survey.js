@@ -16,7 +16,7 @@ import {
 } from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
-import {Dwelling, Household, Member, Survey} from '../model';
+import {Address, Dwelling, Household, Member, Survey} from '../model';
 
 const storage = new StorageService('survey');
 
@@ -60,6 +60,7 @@ export default class SurveysService {
             map(
                 surveys,
                 survey => ({
+                    _id: survey.address._id,
                     area: survey.address.area,
                     ups: survey.address.ups,
                     localityName: survey.address.localityName
@@ -79,7 +80,7 @@ export default class SurveysService {
                 ),
                 survey => survey.address.order
             ),
-            survey => ({
+            survey => new Address({
                 ...survey.address,
                 surveyAddressState: survey.surveyAddressState,
                 surveyId: survey._id,
@@ -90,7 +91,7 @@ export default class SurveysService {
 
     static async fetchAddressesBySurveyState(ups, area, surveyAddressState) {
         const addresses = await SurveysService.fetchAddresses(ups, area);
-        if (!surveyAddressState) {
+        if (!surveyAddressState || surveyAddressState === surveyState.OPEN) {
             return reject(addresses, address => address.surveyAddressState === surveyState.RESOLVED);
         }
         return filter(addresses, address => address.surveyAddressState === surveyState.RESOLVED);

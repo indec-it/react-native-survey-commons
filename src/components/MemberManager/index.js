@@ -5,7 +5,7 @@ import {List} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {concat, every, find, forEach, isEmpty, isNil, map, max, noop, reject} from 'lodash';
+import {concat, every, find, forEach, isEmpty, isNil, max, noop, reject} from 'lodash';
 
 import MemberCharacteristics from '../MemberCharacteristics';
 import NavigationButtons from '../NavigationButtons';
@@ -56,11 +56,9 @@ class MemberManager extends Component {
         this.props.requestMembers(id, dwellingOrder, householdOrder);
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
-        if (nextProps.members && isEmpty(state.members)) {
-            return {
-                members: map(nextProps.members, member => new Member(member))
-            };
+    static getDerivedStateFromProps(props, state) {
+        if (props.members && isEmpty(state.members)) {
+            return {members: props.members};
         }
         return null;
     }

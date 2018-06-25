@@ -116,17 +116,17 @@ export const receiveDwelling = dwelling => ({
     dwelling
 });
 
-export const DWELLING_UPDATE_REQUESTED = 'DWELLING_UPDATE_REQUESTED';
-export const DWELLING_UPDATE_SUCCEEDED = 'DWELLING_UPDATE_SUCCEEDED';
+export const DWELLING_SAVE_REQUESTED = 'DWELLING_SAVE_REQUESTED';
+export const DWELLING_SAVE_SUCCEEDED = 'DWELLING_SAVE_SUCCEEDED';
 
-export const requestUpdateDwelling = (id, dwelling) => ({
-    type: DWELLING_UPDATE_REQUESTED,
+export const requestSaveDwelling = (id, dwelling) => ({
+    type: DWELLING_SAVE_REQUESTED,
     id,
     dwelling
 });
 
-export const receiveUpdatedDwelling = dwelling => ({
-    type: DWELLING_UPDATE_SUCCEEDED,
+export const receiveSavedDwelling = dwelling => ({
+    type: DWELLING_SAVE_SUCCEEDED,
     dwelling
 });
 
@@ -195,18 +195,18 @@ export const requestCreateHousehold = (id, dwellingOrder) => ({
     dwellingOrder
 });
 
-export const HOUSEHOLD_UPDATE_REQUESTED = 'HOUSEHOLD_UPDATE_REQUESTED';
-export const HOUSEHOLD_UPDATE_SUCCEEDED = 'HOUSEHOLD_UPDATE_SUCCEEDED';
+export const HOUSEHOLD_SAVE_REQUESTED = 'HOUSEHOLD_SAVE_REQUESTED';
+export const HOUSEHOLD_SAVE_SUCCEEDED = 'HOUSEHOLD_SAVE_SUCCEEDED';
 
-export const requestUpdateHousehold = (id, dwellingOrder, household) => ({
-    type: HOUSEHOLD_UPDATE_REQUESTED,
+export const requestSaveHousehold = (id, dwellingOrder, household) => ({
+    type: HOUSEHOLD_SAVE_REQUESTED,
     id,
     dwellingOrder,
     household
 });
 
-export const receiveHouseholdUpdated = household => ({
-    type: HOUSEHOLD_UPDATE_SUCCEEDED,
+export const receiveSavedHousehold = household => ({
+    type: HOUSEHOLD_SAVE_SUCCEEDED,
     household
 });
 
@@ -283,6 +283,22 @@ export const requestInterruptHousehold = (id, dwellingOrder, household) => ({
 
 export const notifyInterruptHouseholdSucceeded = () => ({
     type: HOUSEHOLD_INTERRUPT_SUCCEEDED
+});
+
+export const HOUSEHOLD_VISIT_SAVE_REQUESTED = 'HOUSEHOLD_VISIT_SAVE_REQUESTED';
+export const HOUSEHOLD_VISIT_SAVE_SUCCEEDED = 'HOUSEHOLD_VISIT_SAVE_SUCCEEDED';
+
+export const requestSaveHouseholdVisit = (id, dwellingOrder, householdOrder, visit) => ({
+    type: HOUSEHOLD_VISIT_SAVE_REQUESTED,
+    id,
+    dwellingOrder,
+    householdOrder,
+    visit
+});
+
+export const receiveSavedHouseholdVisit = household => ({
+    type: HOUSEHOLD_VISIT_SAVE_SUCCEEDED,
+    household
 });
 
 export const MEMBERS_FETCH_REQUESTED = 'MEMBERS_FETCH_REQUESTED';

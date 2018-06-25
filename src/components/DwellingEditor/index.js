@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import {noop} from 'lodash';
 
-import {requestDwelling, requestUpdateDwelling} from '../../actions/survey';
+import {requestDwelling, requestSaveDwelling} from '../../actions/survey';
 import {Dwelling} from '../../model';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
@@ -16,7 +16,7 @@ import Section from '../Section';
 class DwellingEditor extends Component {
     static propTypes = {
         requestDwelling: PropTypes.func.isRequired,
-        requestUpdateDwelling: PropTypes.func.isRequired,
+        requestSaveDwelling: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         validate: PropTypes.func,
@@ -73,7 +73,7 @@ class DwellingEditor extends Component {
 
         if (setSectionValidity(dwelling, chapter)) {
             this.goingBack = true;
-            this.props.requestUpdateDwelling(id, dwelling);
+            this.props.requestSaveDwelling(id, dwelling);
         } else {
             alertIncompleteSectionOnBack(() => onPrevious(dwelling));
         }
@@ -86,7 +86,7 @@ class DwellingEditor extends Component {
 
         if (setSectionValidity(dwelling, chapter)) {
             this.goingBack = false;
-            this.props.requestUpdateDwelling(id, dwelling);
+            this.props.requestSaveDwelling(id, dwelling);
         } else {
             alertIncompleteSection();
         }
@@ -125,8 +125,8 @@ export default connect(
         requestDwelling: (id, dwellingOrder) => dispatch(
             requestDwelling(id, dwellingOrder)
         ),
-        requestUpdateDwelling: (id, dwelling) => dispatch(
-            requestUpdateDwelling(id, dwelling)
+        requestSaveDwelling: (id, dwelling) => dispatch(
+            requestSaveDwelling(id, dwelling)
         )
     })
 )(DwellingEditor);

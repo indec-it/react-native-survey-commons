@@ -6,7 +6,7 @@ import {noop} from 'lodash';
 
 import {
     requestHouseholds,
-    requestUpdateHousehold,
+    requestSaveHousehold,
     requestInterruptHousehold,
     requestHousehold
 } from '../../actions/survey';
@@ -23,8 +23,7 @@ class HouseholdEditor extends Component {
     static propTypes = {
         requestHousehold: PropTypes.func.isRequired,
         requestHouseholds: PropTypes.func.isRequired,
-        requestInterruptHousehold: PropTypes.func.isRequired,
-        requestUpdateHousehold: PropTypes.func.isRequired,
+        requestSaveHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -89,7 +88,7 @@ class HouseholdEditor extends Component {
 
         if (setSectionValidity(household, chapter)) {
             this.goingBack = true;
-            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+            this.props.requestSaveHousehold(id, dwellingOrder, household);
         } else {
             alertIncompleteSectionOnBack(() => onPrevious(household));
         }
@@ -102,15 +101,10 @@ class HouseholdEditor extends Component {
 
         if (setSectionValidity(household, chapter)) {
             this.goingBack = false;
-            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+            this.props.requestSaveHousehold(id, dwellingOrder, household);
         } else {
             alertIncompleteSection();
         }
-    }
-
-    handleInterrupt() {
-        const {id, dwellingOrder} = this.props.match.params;
-        this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
     }
 
     renderContent() {
@@ -121,7 +115,7 @@ class HouseholdEditor extends Component {
         const section = getSection(household, chapter);
         return (
             <Fragment>
-                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
+                <InterruptButton show={!!onInterrupt} onInterrupt={onInterrupt}/>
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}
@@ -153,8 +147,8 @@ export default connect(
         requestHouseholds: (id, dwellingOrder) => dispatch(
             requestHouseholds(id, dwellingOrder)
         ),
-        requestUpdateHousehold: (id, dwellingOrder, household) => dispatch(
-            requestUpdateHousehold(id, dwellingOrder, household)
+        requestSaveHousehold: (id, dwellingOrder, household) => dispatch(
+            requestSaveHousehold(id, dwellingOrder, household)
         ),
         requestInterruptHousehold: (id, dwellingOrder, household) => dispatch(
             requestInterruptHousehold(id, dwellingOrder, household)

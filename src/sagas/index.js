@@ -23,11 +23,12 @@ import {
     removeAllSurveys,
     removeHousehold,
     removeMember,
+    saveDwelling,
+    saveHousehold,
+    saveHouseholdVisit,
     saveMember,
     saveMembers,
-    saveSurvey,
-    updateDwelling,
-    updateHousehold
+    saveSurvey
 } from './survey';
 import {isConnected, ping} from './network';
 import {sync} from './sync';
@@ -58,9 +59,10 @@ export {ping};
 export {removeAllSurveys};
 export {removeHousehold};
 export {removeMember};
+export {saveDwelling};
+export {saveHousehold};
+export {saveHouseholdVisit};
 export {saveMember};
 export {saveMembers};
 export {saveSurvey};
 export {sync};
-export {updateDwelling};
-export {updateHousehold};

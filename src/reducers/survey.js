@@ -6,8 +6,8 @@ import {
     AREAS_FETCH_REQUESTED,
     DWELLING_FETCH_REQUESTED,
     DWELLING_FETCH_SUCCEEDED,
-    DWELLING_UPDATE_REQUESTED,
-    DWELLING_UPDATE_SUCCEEDED,
+    DWELLING_SAVE_REQUESTED,
+    DWELLING_SAVE_SUCCEEDED,
     DWELLING_VISIT_CLOSE_REQUESTED,
     DWELLING_VISIT_CLOSE_SUCCEEDED,
     HOUSEHOLD_VISIT_CLOSE_REQUESTED,
@@ -18,11 +18,14 @@ import {
     CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED,
     DWELLING_VISITS_FETCH_REQUESTED,
     DWELLING_VISITS_FETCH_SUCCEEDED,
+    HOUSEHOLD_FETCH_REQUESTED,
     HOUSEHOLD_FETCH_SUCCEEDED,
     HOUSEHOLD_INTERRUPT_REQUESTED,
     HOUSEHOLD_INTERRUPT_SUCCEEDED,
-    HOUSEHOLD_UPDATE_REQUESTED,
-    HOUSEHOLD_UPDATE_SUCCEEDED,
+    HOUSEHOLD_SAVE_REQUESTED,
+    HOUSEHOLD_SAVE_SUCCEEDED,
+    HOUSEHOLD_VISIT_SAVE_REQUESTED,
+    HOUSEHOLD_VISIT_SAVE_SUCCEEDED,
     HOUSEHOLD_VISITS_FETCH_REQUESTED,
     HOUSEHOLD_VISITS_FETCH_SUCCEEDED,
     HOUSEHOLDS_FETCH_SUCCEEDED,
@@ -38,8 +41,7 @@ import {
     SURVEY_FETCH_RECEIVED,
     SURVEY_FETCH_REQUESTED,
     SURVEY_SAVE_REQUESTED,
-    SURVEY_SAVE_SUCCEEDED,
-    HOUSEHOLD_FETCH_REQUESTED
+    SURVEY_SAVE_SUCCEEDED
 } from '../actions/survey';
 
 export default function (state = {surveys: {}}, action) {
@@ -64,7 +66,7 @@ export default function (state = {surveys: {}}, action) {
             return {...state, households: [], members: []};
         case DWELLING_FETCH_SUCCEEDED:
             return {...state, dwelling: action.dwelling};
-        case DWELLING_UPDATE_SUCCEEDED:
+        case DWELLING_SAVE_SUCCEEDED:
             return {...state, saving: false, dwelling: action.dwelling};
         case CURRENT_VISIT_DWELLING_FETCH_REQUESTED:
             return {...state, currentDwellingVisit: null};
@@ -84,7 +86,8 @@ export default function (state = {surveys: {}}, action) {
             return {...state, members: action.members};
         case HOUSEHOLD_FETCH_SUCCEEDED:
             return {...state, household: action.household};
-        case HOUSEHOLD_UPDATE_SUCCEEDED:
+        case HOUSEHOLD_VISIT_SAVE_SUCCEEDED:
+        case HOUSEHOLD_SAVE_SUCCEEDED:
             return {...state, saving: false, household: action.household};
         case HOUSEHOLD_VISITS_FETCH_REQUESTED:
             return {...state, householdVisits: []};
@@ -109,10 +112,11 @@ export default function (state = {surveys: {}}, action) {
         case SURVEY_SAVE_SUCCEEDED:
             return {...state, saving: false};
         case DWELLING_VISIT_CLOSE_REQUESTED:
-        case DWELLING_UPDATE_REQUESTED:
+        case DWELLING_SAVE_REQUESTED:
         case MEMBERS_SAVE_REQUESTED:
         case HOUSEHOLD_VISIT_CLOSE_REQUESTED:
-        case HOUSEHOLD_UPDATE_REQUESTED:
+        case HOUSEHOLD_VISIT_SAVE_REQUESTED:
+        case HOUSEHOLD_SAVE_REQUESTED:
         case MEMBER_SAVE_REQUESTED:
         case SURVEY_CLOSE_REQUESTED:
         case SURVEY_SAVE_REQUESTED:

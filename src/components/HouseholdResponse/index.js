@@ -93,7 +93,7 @@ class HouseholdResponse extends Component {
         const {chapter, household, onPrevious} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {currentHouseholdVisit} = this.state;
-        if (setSectionValidity(household, chapter)) {
+        if (setSectionValidity(currentHouseholdVisit, chapter)) {
             this.goingBack = true;
             this.props.requestSaveHouseholdVisit(id, dwellingOrder, household.order, currentHouseholdVisit);
         } else {

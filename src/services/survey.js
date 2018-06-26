@@ -112,7 +112,17 @@ export default class SurveysService {
         return find(survey.dwellings, dwelling => dwelling.order === order);
     }
 
-    static async updateDwelling(id, dwelling) {
+    static createDwellingVisit(dwelling) {
+        return dwelling.visits.push({
+            id: Date.now(),
+            date: new Date(),
+            response: dwelling.response,
+            notResponseCause: dwelling.notResponseCause,
+            comment: dwelling.comment
+        });
+    }
+
+    static async saveDwelling(id, dwelling) {
         const survey = await SurveysService.findById(id);
         const dwellingIndex = findIndex(survey.dwellings, d => d.order === dwelling.order);
         const currentResponse = survey.dwellings[dwellingIndex].response;
@@ -127,13 +137,7 @@ export default class SurveysService {
         }
         if (dwelling.response === answers.NO) {
             survey.surveyAddressState = surveyState.RESOLVED;
-            dwelling.visits.push({
-                id: Date.now(),
-                date: new Date(),
-                response: dwelling.response,
-                notResponseCause: dwelling.notResponseCause,
-                comment: dwelling.comment
-            });
+            SurveysService.createDwellingVisit(dwelling);
             if (!isEmpty(dwelling.households)) {
                 disableHouseholds(dwelling.households);
             }
@@ -204,10 +208,6 @@ export default class SurveysService {
         const survey = await SurveysService.findById(id);
         const dwelling = find(survey.dwellings, d => d.order === dwellingOrder);
         const householdIndex = findIndex(dwelling.households, h => !h.disabled && h.order === household.order);
-        const currentResponse = dwelling.households[householdIndex].response;
-        if (!currentResponse || household.response !== currentResponse || last(household.visits).end) {
-            SurveysService.createHouseholdVisit(household);
-        }
         dwelling.households[householdIndex] = household;
         await SurveysService.save(survey);
         return household;
@@ -227,15 +227,6 @@ export default class SurveysService {
 
         await SurveysService.save(survey);
         return dwelling;
-    }
-
-    static createHouseholdVisit(household) {
-        household.visits.push({
-            id: Date.now(),
-            start: new Date(),
-            response: household.response
-        });
-        return household;
     }
 
     static async closeHouseholdVisit(id, dwellingOrder, householdOrder, result) {
@@ -260,6 +251,20 @@ export default class SurveysService {
             order: index + 1,
             ...visit
         }));
+    }
+
+    static async saveHouseholdVisit(id, dwellingOrder, householdOrder, visit) {
+        const survey = await SurveysService.findById(id);
+        const dwelling = getDwelling(survey, dwellingOrder);
+        const household = getHousehold(dwelling, householdOrder);
+        const lastVisit = last(household.visits);
+        if (isEmpty(household.visits)
+            || visit.response !== lastVisit.response
+            || lastVisit.end) {
+            household.visits.push(visit);
+        }
+        await SurveysService.save(survey);
+        return household;
     }
 
     static async fetchMembers(id, dwellingOrder, householdOrder) {

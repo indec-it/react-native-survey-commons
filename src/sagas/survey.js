@@ -4,6 +4,13 @@ import {toNumber} from 'lodash';
 
 import {SurveysService} from '../services';
 import {
+    notifyCloseDwellingVisit,
+    notifyCloseHouseholdVisit,
+    notifyCloseSucceeded,
+    notifyInterruptHouseholdSucceeded,
+    notifyInterruptMemberSucceeded,
+    notifySaveMembersSucceeded,
+    notifySaveSucceeded,
     receiveCurrentDwellingVisit,
     receiveAddress,
     receiveAddresses,
@@ -13,20 +20,14 @@ import {
     receiveDwellingVisits,
     receiveDwellings,
     receiveHousehold,
-    receiveHouseholdUpdated,
     receiveHouseholdVisits,
     receiveHouseholds,
     receiveMember,
     receiveMembers,
     receiveSurvey,
-    receiveUpdatedDwelling,
-    notifyCloseDwellingVisit,
-    notifyCloseHouseholdVisit,
-    notifyCloseSucceeded,
-    notifyInterruptHouseholdSucceeded,
-    notifyInterruptMemberSucceeded,
-    notifySaveMembersSucceeded,
-    notifySaveSucceeded
+    receiveSavedDwelling,
+    receiveSavedHousehold,
+    receiveSavedHouseholdVisit
 } from '../actions/survey';
 
 export function* fetchAreas() {
@@ -119,10 +120,10 @@ export function* findDwelling({id, dwellingOrder}) {
     }
 }
 
-export function* updateDwelling({id, dwelling}) {
+export function* saveDwelling({id, dwelling}) {
     try {
-        const updatedDwelling = yield call(SurveysService.updateDwelling, id, dwelling);
-        yield put(receiveUpdatedDwelling(updatedDwelling));
+        const newDwelling = yield call(SurveysService.saveDwelling, id, dwelling);
+        yield put(receiveSavedDwelling(newDwelling));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -185,10 +186,23 @@ export function* createHousehold({id, dwellingOrder}) {
     }
 }
 
-export function* updateHousehold({id, dwellingOrder, household}) {
+export function* saveHousehold({id, dwellingOrder, household}) {
     try {
         const savedHousehold = yield call(SurveysService.saveHousehold, id, toNumber(dwellingOrder), household);
-        yield put(receiveHouseholdUpdated(savedHousehold));
+        yield put(receiveSavedHousehold(savedHousehold));
+    } catch (err) {
+        yield put(handleError(err));
+    }
+}
+
+export function* saveHouseholdVisit({
+    id, dwellingOrder, householdOrder, visit
+}) {
+    try {
+        const household = yield call(
+            SurveysService.saveHouseholdVisit, id, toNumber(dwellingOrder), toNumber(householdOrder), visit
+        );
+        yield put(receiveSavedHouseholdVisit(household));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -210,8 +224,8 @@ export function* removeHousehold({id, dwellingOrder, householdOrder}) {
 
 export function* createHouseholdVisit({household}) {
     try {
-        const updatedHousehold = yield call(SurveysService.createHouseholdVisit, household);
-        yield put(receiveHousehold(updatedHousehold));
+        const newHousehold = yield call(SurveysService.createHouseholdVisit, household);
+        yield put(receiveHousehold(newHousehold));
     } catch (err) {
         yield put(handleError(err));
     }

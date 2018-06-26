@@ -6,9 +6,9 @@ import {noop} from 'lodash';
 
 import {
     requestHousehold,
-    requestUpdateHousehold,
     requestAddress,
-    requestInterruptHousehold
+    requestFetchCurrentHouseholdVisit,
+    requestSaveHouseholdVisit
 } from '../../actions/survey';
 import {Address, Household} from '../../model';
 import {InterruptButton} from '../..';
@@ -16,6 +16,7 @@ import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
 import alertIncompleteSectionOnBack from '../../util/alertIncompleteSectionOnBack';
+import householdVisitPropTypes from '../../util/householdVisitPropTypes';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
 import AddressCard from '../AddressCard';
@@ -23,9 +24,9 @@ import AddressCard from '../AddressCard';
 class HouseholdResponse extends Component {
     static propTypes = {
         requestAddress: PropTypes.func.isRequired,
-        requestInterruptHousehold: PropTypes.func.isRequired,
+        requestFetchCurrentHouseholdVisit: PropTypes.func.isRequired,
         requestHousehold: PropTypes.func.isRequired,
-        requestUpdateHousehold: PropTypes.func.isRequired,
+        requestSaveHouseholdVisit: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
@@ -34,15 +35,16 @@ class HouseholdResponse extends Component {
         chapter: chapterPropTypes.isRequired,
         household: PropTypes.instanceOf(Household).isRequired,
         address: PropTypes.instanceOf(Address).isRequired,
-        saving: PropTypes.bool,
-        interrupting: PropTypes.bool
+        // eslint-disable-next-line react/no-unused-prop-types
+        currentHouseholdVisit: householdVisitPropTypes,
+        saving: PropTypes.bool
     };
 
     static defaultProps = {
         saving: false,
-        interrupting: false,
+        validate: noop,
         onInterrupt: null,
-        validate: noop
+        currentHouseholdVisit: {}
     };
 
     constructor(props) {
@@ -52,8 +54,13 @@ class HouseholdResponse extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.household && (!state.household || props.household.id !== state.household.id)) {
-            return {household: props.household};
+        if (props.household && props.currentHouseholdVisit && (
+            !state.currentHouseholdVisit || props.household.id !== state.householdId
+        )) {
+            return {
+                currentHouseholdVisit: props.currentHouseholdVisit,
+                householdId: props.household.id
+            };
         }
         return null;
     }
@@ -61,15 +68,13 @@ class HouseholdResponse extends Component {
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestHousehold(id, dwellingOrder, householdOrder);
+        this.props.requestFetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder);
         this.props.requestAddress(id);
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.interrupting && !this.props.interrupting) {
-            this.props.onInterrupt();
-        }
         if (prevProps.saving && !this.props.saving) {
-            const {household} = this.state;
+            const {household} = this.props;
             if (this.goingBack) {
                 this.props.onPrevious(household);
             } else {
@@ -80,36 +85,29 @@ class HouseholdResponse extends Component {
 
     handleChange(answer) {
         this.setState(state => ({
-            household: handleChangeAnswer(state.household, this.props.chapter, answer)
+            currentHouseholdVisit: handleChangeAnswer(state.currentHouseholdVisit, this.props.chapter, answer)
         }));
     }
 
-    handleInterrupt() {
-        const {id, dwellingOrder} = this.props.match.params;
-        this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
-    }
-
     handlePrevious() {
-        const {chapter, onPrevious} = this.props;
+        const {chapter, household, onPrevious} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
-        const {household} = this.state;
-
+        const {currentHouseholdVisit} = this.state;
         if (setSectionValidity(household, chapter)) {
             this.goingBack = true;
-            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+            this.props.requestSaveHouseholdVisit(id, dwellingOrder, household.order, currentHouseholdVisit);
         } else {
             alertIncompleteSectionOnBack(() => onPrevious(household));
         }
     }
 
     handleSubmit() {
-        const {chapter} = this.props;
+        const {chapter, household} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
-        const {household} = this.state;
-
+        const {currentHouseholdVisit} = this.state;
         if (setSectionValidity(household, chapter)) {
             this.goingBack = false;
-            this.props.requestUpdateHousehold(id, dwellingOrder, household);
+            this.props.requestSaveHouseholdVisit(id, dwellingOrder, household.order, currentHouseholdVisit);
         } else {
             alertIncompleteSection();
         }
@@ -117,17 +115,17 @@ class HouseholdResponse extends Component {
 
     renderContent() {
         const {
-            address, chapter, onInterrupt, validate
+            address, chapter, household, onInterrupt, validate
         } = this.props;
-        const {household} = this.state;
+        const {currentHouseholdVisit} = this.state;
         const section = getSection(household, chapter);
         return (
             <Fragment>
-                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
+                <InterruptButton show={!!onInterrupt} onInterrupt={onInterrupt}/>
                 <AddressCard address={address}/>
                 <Title>{chapter.title}</Title>
                 <Section
-                    section={section}
+                    section={currentHouseholdVisit}
                     rows={chapter.rows}
                     onChange={answer => this.handleChange(answer)}
                     onPrevious={() => this.handlePrevious()}
@@ -139,7 +137,7 @@ class HouseholdResponse extends Component {
     }
 
     render() {
-        return this.state.household && this.props.address ? this.renderContent() : <LoadingIndicator/>;
+        return this.props.household && this.state.currentHouseholdVisit ? this.renderContent() : <LoadingIndicator/>;
     }
 }
 
@@ -147,17 +145,19 @@ export default connect(
     state => ({
         household: state.survey.household,
         address: state.survey.address,
-        saving: state.survey.saving,
-        interrupting: state.survey.interrupting
+        currentHouseholdVisit: state.survey.currentHouseholdVisit,
+        saving: state.survey.saving
     }),
     dispatch => ({
-        requestHousehold: (id, dwellingOrder, householdOrder) =>
-            dispatch(requestHousehold(id, dwellingOrder, householdOrder)),
-        requestUpdateHousehold: (id, dwellingOrder, household) =>
-            dispatch(requestUpdateHousehold(id, dwellingOrder, household)),
+        requestHousehold: (id, dwellingOrder, householdOrder) => dispatch(
+            requestHousehold(id, dwellingOrder, householdOrder)
+        ),
+        requestSaveHouseholdVisit: (id, dwellingOrder, householdOrder, visit) => dispatch(
+            requestSaveHouseholdVisit(id, dwellingOrder, householdOrder, visit)
+        ),
         requestAddress: id => dispatch(requestAddress(id)),
-        requestInterruptHousehold: (id, dwellingOrder, household) => dispatch(
-            requestInterruptHousehold(id, dwellingOrder, household)
+        requestFetchCurrentHouseholdVisit: (id, dwellingOrder, householdOrder) => dispatch(
+            requestFetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder)
         )
     })
 )(HouseholdResponse);

@@ -6,7 +6,9 @@ import Table, {TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
 import {columnPropType} from '@indec/react-native-table/util';
-import {isEmpty, map, noop, reject} from 'lodash';
+import {
+    isEmpty, map, noop, reject
+} from 'lodash';
 
 import NavigationButtons from '../NavigationButtons';
 import ValidationsList from '../ValidationsList';
@@ -139,13 +141,15 @@ class MembersList extends Component {
                     primary
                     title={membersManagerLabel}
                 />
-                {showCharacteristicsButton(members) && <Button
-                    onPress={
-                        () => this.props.onViewDetails(dwellingOrder, householdOrder)
-                    }
-                    primary
-                    title={householdCharacteristicsLabel}
-                />}
+                {showCharacteristicsButton(members) && (
+                    <Button
+                        onPress={
+                            () => this.props.onViewDetails(dwellingOrder, householdOrder)
+                        }
+                        primary
+                        title={householdCharacteristicsLabel}
+                    />
+                )}
             </View>
         );
     }
@@ -157,13 +161,20 @@ class MembersList extends Component {
         return (
             <Fragment>
                 {this.renderButtons()}
-                <Title>Listado de Personas del Hogar</Title>
-                {isEmpty(members) && <Text style={styles.informationText}>&nbsp; El hogar no posee personas</Text>}
-                {!isEmpty(members) &&
-                <Table
-                    columns={columns || this.columns}
-                    data={getMembersCharacteristics(members, getRelationLabel)}
-                />}
+                <Title>
+                    Listado de Personas del Hogar
+                </Title>
+                {isEmpty(members) && (
+                    <Text style={styles.informationText}>
+                        &nbsp; El hogar no posee personas
+                    </Text>
+                )}
+                {!isEmpty(members) && (
+                    <Table
+                        columns={columns || this.columns}
+                        data={getMembersCharacteristics(members, getRelationLabel)}
+                    />
+                )}
                 {validate && <ValidationsList validationResults={validate(members)}/>}
                 <NavigationButtons
                     onSubmit={() => this.props.onSubmit()}

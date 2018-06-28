@@ -57,7 +57,9 @@ class AreasList extends Component {
         const {areas, columns} = this.props;
         return (
             <Fragment>
-                <Title>Listado de áreas</Title>
+                <Title>
+                    Listado de áreas
+                </Title>
                 <Table columns={columns || this.columns} data={areas}/>
             </Fragment>
         );

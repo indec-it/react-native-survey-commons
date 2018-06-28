@@ -1,4 +1,6 @@
-import {PING_REQUESTED, PING_SUCCEEDED, PING_FAILED, NETWORK_STATUS_SUCCEEDED} from '../actions/network';
+import {
+    PING_REQUESTED, PING_SUCCEEDED, PING_FAILED, NETWORK_STATUS_SUCCEEDED
+} from '../actions/network';
 
 export default function ping(state = {isConnected: false, isPinging: false}, action) {
     switch (action.type) {

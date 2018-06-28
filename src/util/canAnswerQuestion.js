@@ -1,6 +1,8 @@
 import {operators} from '@indec/react-native-form-builder';
 import lang from 'lodash/lang';
-import {every, isArray, isNil, some} from 'lodash';
+import {
+    every, isArray, isNil, some
+} from 'lodash';
 
 const canShowQuestion = (parent, chapter) => {
     switch (parent.type) {

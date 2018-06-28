@@ -9,22 +9,39 @@ const AddressCard = ({address}) => (
     <View style={styles.cardContainer}>
         <Row>
             <Col size={2}>
-                <Text>Manzana: {address.block}</Text>
-                <Text>Lado de manzana: {address.side}</Text>
-                {address.description &&
                 <Text>
-                    Descripción: {address.description}
-                </Text>}
+                    {`Manzana: ${address.block}`}
+                </Text>
+                <Text>
+                    {`Lado de manzana: ${address.side}`}
+                </Text>
+                {address.description && (
+                    <Text>
+                        {`Descripción: ${address.description}`}
+                    </Text>
+                )}
             </Col>
             <Col size={2}>
-                <Text>Calle: {address.street}</Text>
-                <Text>Número: {address.streetNumber}</Text>
-                <Text>Nº en listado: {address.listNumber}</Text>
+                <Text>
+                    {`Calle: ${address.street}`}
+                </Text>
+                <Text>
+                    {`Número: ${address.streetNumber}`}
+                </Text>
+                <Text>
+                    {`Nº en listado: ${address.listNumber}`}
+                </Text>
             </Col>
             <Col>
-                <Text>Piso: {address.floor}</Text>
-                <Text>Depto: {address.department}</Text>
-                <Text>Habitación: {address.room}</Text>
+                <Text>
+                    {`Piso: ${address.floor}`}
+                </Text>
+                <Text>
+                    {`Depto: ${address.department}`}
+                </Text>
+                <Text>
+                    {`Habitación: ${address.room}`}
+                </Text>
             </Col>
         </Row>
     </View>

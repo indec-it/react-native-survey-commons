@@ -1,7 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import {call, put} from 'redux-saga/effects';
 
-import {handleErrorSync, handleSessionExpired, receiveSyncData, sendSyncData, completeSync} from '../actions/sync';
+import {
+    handleErrorSync, handleSessionExpired, receiveSyncData, sendSyncData, completeSync
+} from '../actions/sync';
 import {SyncService, SurveysService} from '../services';
 
 export function* sync({endpoint}) {

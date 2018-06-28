@@ -9,7 +9,7 @@ import styles from './styles';
 
 const getConnectionIcon = isConnected => {
     const icon = isConnected ? getFontAwesome('check', '#276e0f') : getFontAwesome('times', '#e00000');
-    return (<Icon {...icon} size={24}/>);
+    return <Icon {...icon} size={24}/>;
 };
 
 const getServerStatusIcon = (isPinging, pong) => {
@@ -21,7 +21,7 @@ const getServerStatusIcon = (isPinging, pong) => {
     } else {
         icon = getFontAwesome('times', '#e00000');
     }
-    return (<Icon {...icon} size={24}/>);
+    return <Icon {...icon} size={24}/>;
 };
 
 const NetworkStatus = ({isConnected, isPinging, pong}) => (
@@ -38,22 +38,26 @@ const NetworkStatus = ({isConnected, isPinging, pong}) => (
             </Text>
             {getServerStatusIcon(isPinging, pong)}
         </View>
-        {!isConnected &&
-        <Alert danger>
-            El dispositivo no está conectado a Internet.
-        </Alert>}
-        {isConnected && isPinging &&
-        <Alert>
-            El dispositivo está verificando la conexion con el Servidor.
-        </Alert>}
-        {isConnected && !isPinging && !pong &&
-        <Alert danger>
-            El servidor no esta disponible momentáneamente.
-        </Alert>}
-        {isConnected && !isPinging && pong &&
-        <Alert success>
-            El Servidor está disponible, haga click en el botón Sincronizar para recibir y/o enviar encuestas.
-        </Alert>}
+        {!isConnected && (
+            <Alert danger>
+                El dispositivo no está conectado a Internet.
+            </Alert>
+        )}
+        {isConnected && isPinging && (
+            <Alert>
+                El dispositivo está verificando la conexion con el Servidor.
+            </Alert>
+        )}
+        {isConnected && !isPinging && !pong && (
+            <Alert danger>
+                El servidor no esta disponible momentáneamente.
+            </Alert>
+        )}
+        {isConnected && !isPinging && pong && (
+            <Alert success>
+                El Servidor está disponible, haga click en el botón Sincronizar para recibir y/o enviar encuestas.
+            </Alert>
+        )}
     </View>
 );
 

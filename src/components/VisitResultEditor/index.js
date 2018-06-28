@@ -54,7 +54,9 @@ class VisitResultEditor extends Component {
         const {result} = this.state;
         return (
             <Fragment>
-                <Title>{chapter.title}</Title>
+                <Title>
+                    {chapter.title}
+                </Title>
                 <Form
                     rows={chapter.rows}
                     chapter={result}
@@ -85,7 +87,8 @@ export default connect(
         saving: state.survey.saving
     }),
     dispatch => ({
-        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, result) =>
-            dispatch(requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, result))
+        requestCloseHouseholdVisit: (id, dwellingOrder, householdOrder, result) => dispatch(
+            requestCloseHouseholdVisit(id, dwellingOrder, householdOrder, result)
+        )
     })
 )(VisitResultEditor);

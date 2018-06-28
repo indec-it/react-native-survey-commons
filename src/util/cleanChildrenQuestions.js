@@ -1,7 +1,9 @@
 import {types} from '@indec/react-native-form-builder';
 import {forEach} from 'lodash';
 
-import {canAnswerQuestion, getQuestionsWithParents} from '.';
+import canAnswerQuestion from './canAnswerQuestion';
+import getQuestionsWithParents from './getQuestionsWithParents';
+
 
 /**
  * Clean children questions when the parent condition is false

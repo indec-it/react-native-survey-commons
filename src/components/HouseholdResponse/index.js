@@ -11,7 +11,7 @@ import {
     requestSaveHouseholdVisit
 } from '../../actions/survey';
 import {Address, Household} from '../../model';
-import {InterruptButton} from '../..';
+import InterruptButton from '../InterruptButton';
 import chapterPropTypes from '../../util/chapterPropTypes';
 import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import alertIncompleteSection from '../../util/alertIncompleteSection';
@@ -53,18 +53,6 @@ class HouseholdResponse extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.household && props.currentHouseholdVisit && (
-            !state.currentHouseholdVisit || props.household.id !== state.householdId
-        )) {
-            return {
-                currentHouseholdVisit: props.currentHouseholdVisit,
-                householdId: props.household.id
-            };
-        }
-        return null;
-    }
-
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestHousehold(id, dwellingOrder, householdOrder);
@@ -81,6 +69,18 @@ class HouseholdResponse extends Component {
                 this.props.onSubmit(household);
             }
         }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.household && props.currentHouseholdVisit && (
+            !state.currentHouseholdVisit || props.household.id !== state.householdId
+        )) {
+            return {
+                currentHouseholdVisit: props.currentHouseholdVisit,
+                householdId: props.household.id
+            };
+        }
+        return null;
     }
 
     handleChange(answer) {
@@ -123,7 +123,9 @@ class HouseholdResponse extends Component {
             <Fragment>
                 <InterruptButton show={!!onInterrupt} onInterrupt={onInterrupt}/>
                 <AddressCard address={address}/>
-                <Title>{chapter.title}</Title>
+                <Title>
+                    {chapter.title}
+                </Title>
                 <Section
                     section={currentHouseholdVisit}
                     rows={chapter.rows}

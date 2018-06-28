@@ -5,14 +5,9 @@ import {Button} from '@indec/react-native-commons';
 
 import styles from './styles';
 
-const InterruptButton = ({show, onInterrupt, buttonLabel}) => (
-    show &&
+const InterruptButton = ({show, onInterrupt, buttonLabel}) => show && (
     <View style={styles.actionButtons}>
-        <Button
-            primary
-            title={buttonLabel}
-            onPress={onInterrupt}
-        />
+        <Button onPress={onInterrupt} title={buttonLabel} primary/>
     </View>
 );
 

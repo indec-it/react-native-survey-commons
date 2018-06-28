@@ -79,9 +79,9 @@ export default function (state = {surveys: {}}, action) {
         case HOUSEHOLD_FETCH_REQUESTED:
             return {...state, members: []};
         case HOUSEHOLD_INTERRUPT_REQUESTED:
-            return {...state, household: action.household, interrupting: false};
+            return {...state, household: action.household, interrupting: true};
         case HOUSEHOLD_INTERRUPT_SUCCEEDED:
-            return {...state, interrupting: true};
+            return {...state, interrupting: false};
         case MEMBERS_FETCH_SUCCEEDED:
             return {...state, members: action.members};
         case HOUSEHOLD_FETCH_SUCCEEDED:
@@ -98,9 +98,9 @@ export default function (state = {surveys: {}}, action) {
         case MEMBER_FETCH_SUCCEEDED:
             return {...state, member: action.member, saving: false};
         case MEMBER_INTERRUPT_REQUESTED:
-            return {...state, member: action.member, interrupting: false};
+            return {...state, member: action.member, interrupting: true};
         case MEMBER_INTERRUPT_SUCCEEDED:
-            return {...state, interrupting: true};
+            return {...state, interrupting: false};
         case SURVEY_FETCH_REQUESTED:
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:

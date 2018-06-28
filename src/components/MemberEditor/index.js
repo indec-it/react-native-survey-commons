@@ -19,6 +19,7 @@ class MemberEditor extends Component {
     static propTypes = {
         requestMember: PropTypes.func.isRequired,
         requestSaveMember: PropTypes.func.isRequired,
+        requestInterruptMember: PropTypes.func.isRequired,
         onInterrupt: PropTypes.func,
         onPreSave: PropTypes.func,
         onPrevious: PropTypes.func.isRequired,
@@ -73,6 +74,11 @@ class MemberEditor extends Component {
         }
     }
 
+    handleInterrupt() {
+        const {id, dwellingOrder, householdOrder} = this.props.match.params;
+        this.props.requestInterruptMember(id, dwellingOrder, householdOrder, this.state.member);
+    }
+
     handleChange(answer) {
         this.setState(state => ({
             member: handleChangeAnswer(state.member, this.props.chapter, answer)
@@ -118,7 +124,7 @@ class MemberEditor extends Component {
         return (
             <Fragment>
                 <MemberData member={member}/>
-                <InterruptButton show={!!onInterrupt} onInterrupt={onInterrupt}/>
+                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}

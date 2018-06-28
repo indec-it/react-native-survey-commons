@@ -244,7 +244,8 @@ export default class SurveysService {
 
     static async fetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder) {
         const {visits} = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
-        return last(visits);
+        const lastVisit = last(visits);
+        return lastVisit && !lastVisit.end ? lastVisit : {start: new Date()};
     }
 
     static async fetchHouseholdVisits(id, dwellingOrder, householdOrder) {

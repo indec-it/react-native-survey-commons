@@ -105,8 +105,9 @@ export default function (state = {surveys: {}}, action) {
             return {...state, survey: null};
         case SURVEY_FETCH_RECEIVED:
             return {...state, survey: action.survey};
-        case DWELLING_VISIT_CLOSE_SUCCEEDED:
         case HOUSEHOLD_VISIT_CLOSE_SUCCEEDED:
+            return {...state, saving: false, currentHouseholdVisit: null};
+        case DWELLING_VISIT_CLOSE_SUCCEEDED:
         case MEMBERS_SAVE_SUCCEEDED:
         case SURVEY_CLOSE_SUCCEEDED:
         case SURVEY_SAVE_SUCCEEDED:

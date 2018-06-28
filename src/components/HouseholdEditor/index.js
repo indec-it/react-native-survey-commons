@@ -24,6 +24,7 @@ class HouseholdEditor extends Component {
         requestHousehold: PropTypes.func.isRequired,
         requestHouseholds: PropTypes.func.isRequired,
         requestSaveHousehold: PropTypes.func.isRequired,
+        requestInterruptHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
@@ -75,6 +76,11 @@ class HouseholdEditor extends Component {
         }
     }
 
+    handleInterrupt() {
+        const {id, dwellingOrder} = this.props.match.params;
+        this.props.requestInterruptHousehold(id, dwellingOrder, this.state.household);
+    }
+
     handleChange(answer) {
         this.setState(state => ({
             household: handleChangeAnswer(state.household, this.props.chapter, answer)
@@ -115,7 +121,7 @@ class HouseholdEditor extends Component {
         const section = getSection(household, chapter);
         return (
             <Fragment>
-                <InterruptButton show={!!onInterrupt} onInterrupt={onInterrupt}/>
+                <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
                 <Title>{chapter.title}</Title>
                 <Section
                     section={section}

@@ -13,7 +13,7 @@ import alertIncompleteSection from '../../util/alertIncompleteSection';
 import alertIncompleteSectionOnBack from '../../util/alertIncompleteSectionOnBack';
 import {getSection, handleChangeAnswer, setSectionValidity} from '../../util/section';
 import Section from '../Section';
-import {InterruptButton} from '../..';
+import InterruptButton from '../InterruptButton';
 
 class MemberEditor extends Component {
     static propTypes = {
@@ -46,13 +46,6 @@ class MemberEditor extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.member && (!state.member || props.member.id !== state.member.id)) {
-            return {member: props.member};
-        }
-        return null;
-    }
-
     componentDidMount() {
         const {
             id, dwellingOrder, householdOrder, memberOrder
@@ -72,6 +65,13 @@ class MemberEditor extends Component {
                 this.props.onSubmit(member);
             }
         }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.member && (!state.member || props.member.id !== state.member.id)) {
+            return {member: props.member};
+        }
+        return null;
     }
 
     handleInterrupt() {
@@ -125,7 +125,9 @@ class MemberEditor extends Component {
             <Fragment>
                 <MemberData member={member}/>
                 <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
-                <Title>{chapter.title}</Title>
+                <Title>
+                    {chapter.title}
+                </Title>
                 <Section
                     section={section}
                     rows={chapter.rows}

@@ -70,7 +70,9 @@ class Sync extends Component {
                     </View>
                     <View style={styles.syncRow}>
                         <Text style={styles.surveyCount}>
-                            {surveys} encuesta(s) para enviar.
+                            {surveys}
+                            {' '}
+                            encuesta(s) para enviar.
                         </Text>
                     </View>
                     <View style={styles.syncRow}>

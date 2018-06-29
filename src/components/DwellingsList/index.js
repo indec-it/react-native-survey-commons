@@ -51,7 +51,9 @@ class DwellingsList extends Component {
         const {columns, dwellings} = this.props;
         return (
             <Fragment>
-                <Title>Listado de viviendas</Title>
+                <Title>
+                    Listado de viviendas
+                </Title>
                 <Table columns={columns || this.columns} data={dwellings}/>
             </Fragment>
         );

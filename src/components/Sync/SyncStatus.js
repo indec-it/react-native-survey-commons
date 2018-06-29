@@ -13,28 +13,36 @@ const getSyncStatus = syncStatus => {
         case syncStatusEnum.LOADING_DATA:
             return (
                 <Fragment>
-                    <Text style={styles.syncStatusText}>Cargando datos.... </Text>
+                    <Text style={styles.syncStatusText}>
+                        {'Cargando datos... '}
+                    </Text>
                     <Icon {...getFontAwesome('refresh')} size={24}/>
                 </Fragment>
             );
         case syncStatusEnum.SENDING_DATA:
             return (
                 <Fragment>
-                    <Text>Enviando datos.... </Text>
+                    <Text>
+                        {'Enviando datos... '}
+                    </Text>
                     <Icon {...getFontAwesome('refresh')} size={24}/>
                 </Fragment>
             );
         case syncStatusEnum.SAVING_DATA:
             return (
                 <Fragment>
-                    <Text>Guardando datos... </Text>
+                    <Text>
+                        {'Guardando datos... '}
+                    </Text>
                     <Icon {...getFontAwesome('refresh')} size={24}/>
                 </Fragment>
             );
         case syncStatusEnum.COMPLETED:
             return (
                 <Fragment>
-                    <Text>Sincronizado </Text>
+                    <Text>
+                        {'Sincronizado '}
+                    </Text>
                     <Icon {...getFontAwesome('check', 'green')} size={24}/>
                 </Fragment>
             );
@@ -47,7 +55,9 @@ const getSyncStatus = syncStatus => {
         case syncStatusEnum.HAS_ERROR:
             return (
                 <Fragment>
-                    <Text>No sincronizado </Text>
+                    <Text>
+                        {'No sincronizado '}
+                    </Text>
                     <Icon {...getFontAwesome('times')} size={24}/>
                 </Fragment>
             );

@@ -20,17 +20,18 @@ const MemberCharacteristics = ({
             rightIcon={member.isHomeBoss() ? getFontAwesome('user') : getFontAwesome('trash', 'red')}
             leftIcon={isSelected ? getFontAwesome('chevron-down') : getFontAwesome('chevron-right')}
         />
-        {isSelected &&
-        <Fragment>
-            <Form
-                rows={chapter.rows}
-                chapter={member.characteristics}
-                onChange={answer => onChange(answer, chapter.rows)}
-                entity={member}
-                otherEntity={members}
-            />
-            <Divider style={styles.divider}/>
-        </Fragment>}
+        {isSelected && (
+            <Fragment>
+                <Form
+                    rows={chapter.rows}
+                    chapter={member.characteristics}
+                    onChange={answer => onChange(answer, chapter.rows)}
+                    entity={member}
+                    otherEntity={members}
+                />
+                <Divider style={styles.divider}/>
+            </Fragment>
+        )}
     </Fragment>
 );
 

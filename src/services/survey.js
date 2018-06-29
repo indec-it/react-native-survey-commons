@@ -16,7 +16,9 @@ import {
 } from 'lodash';
 
 import {answers, surveyAddressState as surveyState} from '../constants';
-import {Address, Dwelling, Household, Member, Survey} from '../model';
+import {
+    Address, Dwelling, Household, Member, Survey
+} from '../model';
 
 const storage = new StorageService('survey');
 

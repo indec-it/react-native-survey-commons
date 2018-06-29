@@ -1,6 +1,7 @@
 import {map, isEmpty} from 'lodash';
 
-import {Dwelling, Address} from '.';
+import Address from './address';
+import Dwelling from './dwelling';
 
 export default class Survey {
     constructor(obj) {

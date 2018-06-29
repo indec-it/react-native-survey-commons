@@ -38,6 +38,12 @@ class DwellingCloseVisit extends Component {
         this.props.requestFetchCurrentDwellingVisit(id, dwellingOrder);
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.saving && !this.props.saving) {
+            this.props.onSubmit();
+        }
+    }
+
     static getDerivedStateFromProps(props, state) {
         if (props.currentDwellingVisit && (
             !state.currentDwellingVisit || props.currentDwellingVisit.id !== state.currentDwellingVisit.id
@@ -45,12 +51,6 @@ class DwellingCloseVisit extends Component {
             return {currentDwellingVisit: props.currentDwellingVisit};
         }
         return null;
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.saving && !this.props.saving) {
-            this.props.onSubmit();
-        }
     }
 
     handleChange(answer) {
@@ -70,7 +70,9 @@ class DwellingCloseVisit extends Component {
         const {currentDwellingVisit} = this.state;
         return (
             <Fragment>
-                <Title>{chapter.title}</Title>
+                <Title>
+                    {chapter.title}
+                </Title>
                 <Form
                     rows={chapter.rows}
                     chapter={currentDwellingVisit}

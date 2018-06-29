@@ -1,5 +1,5 @@
 import {filter, size} from 'lodash';
-import {getQuestions} from '.';
+import getQuestions from './getQuestions';
 
 export default rows => (filter(
     getQuestions(rows),

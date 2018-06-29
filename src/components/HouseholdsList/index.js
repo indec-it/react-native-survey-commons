@@ -108,14 +108,15 @@ class HouseholdsList extends Component {
         const {id, dwellingOrder} = this.props.match.params;
         return (
             <Fragment>
-                {showAddHousehold(dwelling) &&
-                <View style={styles.buttonContainer}>
-                    <Button
-                        primary
-                        title="Agregar Hogar"
-                        onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
-                    />
-                </View>}
+                {showAddHousehold(dwelling) && (
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            primary
+                            title="Agregar Hogar"
+                            onPress={() => this.props.requestCreateHousehold(id, dwellingOrder)}
+                        />
+                    </View>
+                )}
                 <Table columns={columns || this.columns} data={dwelling.getHouseholds()}/>
                 {validate && <ValidationsList validationResults={validate(dwelling)}/>}
             </Fragment>

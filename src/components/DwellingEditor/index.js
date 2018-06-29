@@ -37,13 +37,6 @@ class DwellingEditor extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.dwelling && (!state.dwelling || props.dwelling.id !== state.dwelling.id)) {
-            return {dwelling: props.dwelling};
-        }
-        return null;
-    }
-
     componentDidMount() {
         const {id, dwellingOrder} = this.props.match.params;
         this.props.requestDwelling(id, dwellingOrder);
@@ -58,6 +51,13 @@ class DwellingEditor extends Component {
                 this.props.onSubmit(dwelling);
             }
         }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.dwelling && (!state.dwelling || props.dwelling.id !== state.dwelling.id)) {
+            return {dwelling: props.dwelling};
+        }
+        return null;
     }
 
     handleChange(answer) {
@@ -98,7 +98,9 @@ class DwellingEditor extends Component {
         const section = getSection(dwelling, chapter);
         return (
             <Fragment>
-                <Title>{chapter.title}</Title>
+                <Title>
+                    {chapter.title}
+                </Title>
                 <Section
                     section={section}
                     rows={chapter.rows}

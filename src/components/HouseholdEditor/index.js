@@ -49,13 +49,6 @@ class HouseholdEditor extends Component {
         this.state = {};
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.household && (!state.household || props.household.id !== state.household.id)) {
-            return {household: props.household};
-        }
-        return null;
-    }
-
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
         this.props.requestHouseholds(id, dwellingOrder);
@@ -74,6 +67,13 @@ class HouseholdEditor extends Component {
                 this.props.onSubmit(household);
             }
         }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.household && (!state.household || props.household.id !== state.household.id)) {
+            return {household: props.household};
+        }
+        return null;
     }
 
     handleInterrupt() {
@@ -122,7 +122,9 @@ class HouseholdEditor extends Component {
         return (
             <Fragment>
                 <InterruptButton show={!!onInterrupt} onInterrupt={() => this.handleInterrupt()}/>
-                <Title>{chapter.title}</Title>
+                <Title>
+                    {chapter.title}
+                </Title>
                 <Section
                     section={section}
                     rows={chapter.rows}

@@ -14,24 +14,26 @@ const NavigatorButtons = ({
 }) => (
     <View style={styles.container}>
         <Row>
-            {onBack &&
-            <Col>
-                <Button
-                    {...styleLeftButton}
-                    icon={getFontAwesome(iconLeft.name, iconLeft.color)}
-                    title={backButtonText}
-                    onPress={onBack}
-                />
-            </Col>}
-            {onSubmit &&
-            <Col>
-                <Button
-                    {...styleRightButton}
-                    iconRight={getFontAwesome(iconRight.name, iconRight.color)}
-                    title={submitButtonText}
-                    onPress={onSubmit}
-                />
-            </Col>}
+            {onBack && (
+                <Col>
+                    <Button
+                        {...styleLeftButton}
+                        icon={getFontAwesome(iconLeft.name, iconLeft.color)}
+                        title={backButtonText}
+                        onPress={onBack}
+                    />
+                </Col>
+            )}
+            {onSubmit && (
+                <Col>
+                    <Button
+                        {...styleRightButton}
+                        iconRight={getFontAwesome(iconRight.name, iconRight.color)}
+                        title={submitButtonText}
+                        onPress={onSubmit}
+                    />
+                </Col>
+            )}
         </Row>
     </View>
 );

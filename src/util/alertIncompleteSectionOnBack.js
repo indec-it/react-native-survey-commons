@@ -7,8 +7,8 @@ import {Alert} from '@indec/react-native-commons/src/util';
  */
 const alertIncompleteSectionOnBack = onAccept => Alert.alert(
     'Atención',
-    'El módulo está incompleto, si continúa perderá todos los datos. Para retroceder y que esto' +
-    ' no suceda, complete el módulo',
+    'El módulo está incompleto, si continúa perderá todos los datos. Para retroceder y que esto'
+    + ' no suceda, complete el módulo',
     [{
         text: 'Cancelar'
     }, {

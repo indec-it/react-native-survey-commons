@@ -9,7 +9,7 @@ import styles from './styles';
 const MemberData = ({member, style}) => (
     <View style={[styles.nameContainer, style.nameContainer]}>
         <Text style={[styles.nameText, style.nameText]}>
-            {member.order} - {getMemberName(member)} ({getMemberAge(member)} años)
+            {`${member.order} - ${getMemberName(member)} (${getMemberAge(member)} años)`}
         </Text>
     </View>
 );

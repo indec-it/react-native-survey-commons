@@ -9,16 +9,14 @@ import QuestionValidation from '../QuestionValidation';
 import {callFunc, canAnswerQuestion} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
 
-const registry = new ComponentsRegistry();
-
 const Form = ({
-    chapter, onChange, rows, style, questionStyles, entity, otherEntity
+    chapter, onChange, rows, style, questionStyles, entity, otherEntity, componentsRegistry
 }) => (
     <ScrollView style={style.container}>
         {rows.map(row => (
             <Row key={row.id} style={style.row}>
                 {row.questions.map(question => {
-                    const QuestionComponent = registry.get(question.type);
+                    const QuestionComponent = componentsRegistry.get(question.type);
                     const questionStyle = questionStyles[question.type] || {};
                     const questionAnswer = chapter[question.name];
                     return (
@@ -51,8 +49,9 @@ const Form = ({
 
 Form.propTypes = {
     rows: rowsPropTypes.isRequired,
-    chapter: PropTypes.shape({}),
     onChange: PropTypes.func.isRequired,
+    componentsRegistry: PropTypes.instanceOf(ComponentsRegistry),
+    chapter: PropTypes.shape({}),
     questionStyles: PropTypes.shape({}),
     style: stylePropType,
     entity: PropTypes.shape({}),
@@ -62,6 +61,7 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
+    componentsRegistry: new ComponentsRegistry(),
     chapter: {},
     style: {},
     questionStyles: {},

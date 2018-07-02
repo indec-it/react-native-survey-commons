@@ -10,6 +10,7 @@ import {
     last,
     map,
     max,
+    omit,
     reject,
     sortBy,
     uniqBy
@@ -244,8 +245,11 @@ export default class SurveysService {
 
     static async fetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder) {
         const {visits} = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
-        const lastVisit = last(visits);
-        return lastVisit && !lastVisit.end ? lastVisit : {start: new Date()};
+        const latestVisit = last(visits);
+        return latestVisit && !latestVisit.end
+            ? latestVisit
+            // I need keep the response data of the latest visit.
+            : Object.assign(omit(latestVisit, 'end'), {start: new Date()});
     }
 
     static async fetchHouseholdVisits(id, dwellingOrder, householdOrder) {

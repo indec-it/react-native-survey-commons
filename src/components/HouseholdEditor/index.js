@@ -5,7 +5,6 @@ import {LoadingIndicator, Title} from '@indec/react-native-commons';
 import {noop} from 'lodash';
 
 import {
-    requestHouseholds,
     requestSaveHousehold,
     requestInterruptHousehold,
     requestHousehold
@@ -22,7 +21,6 @@ import InterruptButton from '../InterruptButton';
 class HouseholdEditor extends Component {
     static propTypes = {
         requestHousehold: PropTypes.func.isRequired,
-        requestHouseholds: PropTypes.func.isRequired,
         requestSaveHousehold: PropTypes.func.isRequired,
         requestInterruptHousehold: PropTypes.func.isRequired,
         onPrevious: PropTypes.func.isRequired,
@@ -30,6 +28,7 @@ class HouseholdEditor extends Component {
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         households: PropTypes.arrayOf(Household).isRequired,
+        household: PropTypes.instanceOf(Household).isRequired,
         saving: PropTypes.bool,
         interrupting: PropTypes.bool,
         onInterrupt: PropTypes.func,
@@ -51,7 +50,6 @@ class HouseholdEditor extends Component {
 
     componentDidMount() {
         const {id, dwellingOrder, householdOrder} = this.props.match.params;
-        this.props.requestHouseholds(id, dwellingOrder);
         this.props.requestHousehold(id, dwellingOrder, householdOrder);
     }
 
@@ -152,9 +150,6 @@ export default connect(
         interrupting: state.survey.interrupting
     }),
     dispatch => ({
-        requestHouseholds: (id, dwellingOrder) => dispatch(
-            requestHouseholds(id, dwellingOrder)
-        ),
         requestSaveHousehold: (id, dwellingOrder, household) => dispatch(
             requestSaveHousehold(id, dwellingOrder, household)
         ),

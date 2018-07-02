@@ -3,7 +3,6 @@ import {
     closeHouseholdVisit,
     closeSurvey,
     createHousehold,
-    createHouseholdVisit,
     fetchAddressesByState,
     findDwelling,
     findHousehold,
@@ -37,7 +36,6 @@ export {closeDwellingVisit};
 export {closeHouseholdVisit};
 export {closeSurvey};
 export {createHousehold};
-export {createHouseholdVisit};
 export {fetchAddressesByState};
 export {fetchCurrentHouseholdVisit};
 export {findDwelling};

@@ -146,7 +146,7 @@ export default class SurveysService {
         }
         survey.dwellingResponse = dwelling.response;
         await SurveysService.save(survey);
-        return dwelling;
+        return new Dwelling(dwelling);
     }
 
     static async fetchDwellingVisits(id, dwellingOrder) {

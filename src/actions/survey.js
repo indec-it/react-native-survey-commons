@@ -219,13 +219,6 @@ export const requestRemoveHousehold = (id, dwellingOrder, householdOrder) => ({
     householdOrder
 });
 
-export const HOUSEHOLD_VISIT_CREATE_REQUESTED = 'HOUSEHOLD_VISIT_CREATE_REQUESTED';
-
-export const requestCreateHouseholdVisit = household => ({
-    type: HOUSEHOLD_VISIT_CREATE_REQUESTED,
-    household
-});
-
 export const HOUSEHOLD_VISIT_CLOSE_REQUESTED = 'HOUSEHOLD_VISIT_CLOSE_REQUESTED';
 export const HOUSEHOLD_VISIT_CLOSE_SUCCEEDED = 'HOUSEHOLD_VISIT_CLOSE_SUCCEEDED';
 

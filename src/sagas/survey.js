@@ -1,6 +1,6 @@
 import {call, put} from 'redux-saga/effects';
 import {notifyDataCleared, handleError} from '@indec/react-native-commons/actions';
-import {toNumber} from 'lodash';
+import {find, toNumber} from 'lodash';
 
 import {SurveysService} from '../services';
 import {
@@ -165,12 +165,12 @@ export function* fetchHouseholds({id, dwellingOrder}) {
 
 export function* findHousehold({id, dwellingOrder, householdOrder}) {
     try {
-        const household = yield call(
-            SurveysService.findHousehold,
-            id,
-            toNumber(dwellingOrder),
-            toNumber(householdOrder)
-        );
+        // keep households list up to date for cross validations.
+        const households = yield call(SurveysService.fetchHouseholds, id, toNumber(dwellingOrder));
+        yield put(receiveHouseholds(households));
+
+        const order = toNumber(householdOrder);
+        const household = find(households, h => h.order === order);
         yield put(receiveHousehold(household));
     } catch (err) {
         yield put(handleError(err));
@@ -217,15 +217,6 @@ export function* removeHousehold({id, dwellingOrder, householdOrder}) {
             toNumber(householdOrder)
         );
         yield put(receiveDwelling(dwelling));
-    } catch (err) {
-        yield put(handleError(err));
-    }
-}
-
-export function* createHouseholdVisit({household}) {
-    try {
-        const newHousehold = yield call(SurveysService.createHouseholdVisit, household);
-        yield put(receiveHousehold(newHousehold));
     } catch (err) {
         yield put(handleError(err));
     }
@@ -300,8 +291,13 @@ export function* saveMembers({
     id, dwellingOrder, householdOrder, members
 }) {
     try {
-        yield call(SurveysService.saveMembers, id, toNumber(dwellingOrder), toNumber(householdOrder), members);
+        const household = yield call(
+            SurveysService.saveMembers, id, toNumber(dwellingOrder), toNumber(householdOrder), members
+        );
         yield put(notifySaveMembersSucceeded());
+
+        // keep household members data up to date.
+        yield put(receiveHousehold(household));
     } catch (err) {
         yield put(handleError(err));
     }

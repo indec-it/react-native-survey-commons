@@ -44,7 +44,7 @@ import {
     SURVEY_SAVE_SUCCEEDED
 } from '../actions/survey';
 
-export default function (state = {surveys: {}}, action) {
+export default function (state = {}, action) {
     switch (action.type) {
         case ADDRESSES_FETCH_BY_STATE_REQUESTED:
             return {
@@ -80,8 +80,6 @@ export default function (state = {surveys: {}}, action) {
             return {...state, members: []};
         case HOUSEHOLD_INTERRUPT_REQUESTED:
             return {...state, household: action.household, interrupting: true};
-        case HOUSEHOLD_INTERRUPT_SUCCEEDED:
-            return {...state, interrupting: false};
         case MEMBERS_FETCH_SUCCEEDED:
             return {...state, members: action.members};
         case HOUSEHOLD_FETCH_SUCCEEDED:
@@ -99,6 +97,7 @@ export default function (state = {surveys: {}}, action) {
             return {...state, member: action.member, saving: false};
         case MEMBER_INTERRUPT_REQUESTED:
             return {...state, member: action.member, interrupting: true};
+        case HOUSEHOLD_INTERRUPT_SUCCEEDED:
         case MEMBER_INTERRUPT_SUCCEEDED:
             return {...state, interrupting: false};
         case SURVEY_FETCH_REQUESTED:

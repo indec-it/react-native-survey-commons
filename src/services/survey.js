@@ -285,7 +285,7 @@ export default class SurveysService {
         const household = getHousehold(dwelling, householdOrder);
         household.members = members;
         await SurveysService.save(survey);
-        return survey;
+        return household;
     }
 
     static async findMember(id, dwellingOrder, householdOrder, memberOrder) {

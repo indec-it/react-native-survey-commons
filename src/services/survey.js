@@ -300,7 +300,7 @@ export default class SurveysService {
         const memberIndex = findIndex(household.members, m => m.order === member.order && !m.disabled);
         household.members[memberIndex] = new Member(member);
         await SurveysService.save(survey);
-        return member;
+        return {household, member};
     }
 
     static async removeMember(id, dwellingOrder, householdOrder, memberOrder) {

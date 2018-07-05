@@ -115,14 +115,16 @@ export default class SurveysService {
         return find(survey.dwellings, dwelling => dwelling.order === order);
     }
 
-    static createDwellingVisit(dwelling) {
-        return dwelling.visits.push({
+    static addDwellingVisit(dwelling) {
+        const visit = {
             id: Date.now(),
             date: new Date(),
             response: dwelling.response,
             notResponseCause: dwelling.notResponseCause,
             comment: dwelling.comment
-        });
+        };
+        dwelling.visits.push(visit);
+        return visit;
     }
 
     static async saveDwelling(id, dwelling) {
@@ -140,7 +142,7 @@ export default class SurveysService {
         }
         if (dwelling.response === answers.NO) {
             survey.surveyAddressState = surveyState.RESOLVED;
-            SurveysService.createDwellingVisit(dwelling);
+            SurveysService.addDwellingVisit(dwelling);
             if (!isEmpty(dwelling.households)) {
                 disableHouseholds(dwelling.households);
             }
@@ -243,20 +245,31 @@ export default class SurveysService {
         return household;
     }
 
+    static createNextHouseholdVisit(latestVisit) {
+        // I need keep the response data of the latest visit.
+        return Object.assign(
+            latestVisit.response === answers.YES ? {response: latestVisit.response} : omit(latestVisit, 'end'),
+            {start: new Date()}
+        );
+    }
+
     static async fetchCurrentHouseholdVisit(id, dwellingOrder, householdOrder) {
         const {visits} = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
         const latestVisit = last(visits);
-        return latestVisit && !latestVisit.end
-            ? latestVisit
-            // I need keep the response data of the latest visit.
-            : Object.assign(omit(latestVisit, 'end'), {start: new Date()});
+        if (!latestVisit) {
+            return {start: new Date()};
+        }
+        if (!latestVisit.end) {
+            return latestVisit;
+        }
+        return SurveysService.createNextHouseholdVisit(latestVisit);
     }
 
     static async fetchHouseholdVisits(id, dwellingOrder, householdOrder) {
         const household = await SurveysService.findHousehold(id, dwellingOrder, householdOrder);
         return map(household.visits, (visit, index) => ({
-            order: index + 1,
-            ...visit
+            ...visit,
+            order: index + 1
         }));
     }
 

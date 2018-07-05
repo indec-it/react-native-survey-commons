@@ -335,7 +335,7 @@ export function* saveMember({
     id, dwellingOrder, householdOrder, member
 }) {
     try {
-        const savedMember = yield call(
+        const {household, member: savedMember} = yield call(
             SurveysService.saveMember,
             id,
             toNumber(dwellingOrder),
@@ -343,6 +343,7 @@ export function* saveMember({
             member
         );
         yield put(receiveMember(savedMember));
+        yield put(receiveHousehold(household));
     } catch (err) {
         yield put(handleError(err));
     }

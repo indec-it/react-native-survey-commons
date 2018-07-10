@@ -10,37 +10,35 @@ const AddressCard = ({address}) => (
         <Row>
             <Col size={2}>
                 <Text>
-                    {`Manzana: ${address.block}`}
+                    {`Manzana: ${address.block || 'S/D'}`}
                 </Text>
                 <Text>
-                    {`Lado de manzana: ${address.side}`}
+                    {`Lado de manzana: ${address.side || 'S/D'}`}
                 </Text>
-                {address.description && (
-                    <Text>
-                        {`Descripción: ${address.description}`}
-                    </Text>
-                )}
+                <Text>
+                    {`Descripción: ${address.description || 'S/D'}`}
+                </Text>
             </Col>
             <Col size={2}>
                 <Text>
-                    {`Calle: ${address.street}`}
+                    {`Calle: ${address.street || 'S/D'}`}
                 </Text>
                 <Text>
-                    {`Número: ${address.streetNumber}`}
+                    {`Número: ${address.streetNumber || 'S/D'}`}
                 </Text>
                 <Text>
-                    {`Nº en listado: ${address.listNumber}`}
+                    {`Nº en listado: ${address.listNumber || 'S/D'}`}
                 </Text>
             </Col>
             <Col>
                 <Text>
-                    {`Piso: ${address.floor}`}
+                    {`Piso: ${address.floor || 'S/D'}`}
                 </Text>
                 <Text>
-                    {`Depto: ${address.department}`}
+                    {`Depto: ${address.department || 'S/D'}`}
                 </Text>
                 <Text>
-                    {`Habitación: ${address.room}`}
+                    {`Habitación: ${address.room || 'S/D'}`}
                 </Text>
             </Col>
         </Row>

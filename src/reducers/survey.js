@@ -63,7 +63,9 @@ export default function (state = {}, action) {
         case CURRENT_HOUSEHOLD_VISIT_FETCH_SUCCEEDED:
             return {...state, currentHouseholdVisit: action.currentHouseholdVisit};
         case DWELLING_FETCH_REQUESTED:
-            return {...state, households: [], members: []};
+            return {
+                ...state, households: [], members: [], household: null, member: null
+            };
         case DWELLING_FETCH_SUCCEEDED:
             return {...state, dwelling: action.dwelling};
         case DWELLING_SAVE_SUCCEEDED:
@@ -77,7 +79,7 @@ export default function (state = {}, action) {
         case DWELLING_VISITS_FETCH_SUCCEEDED:
             return {...state, dwellingVisits: action.dwellingVisits};
         case HOUSEHOLD_FETCH_REQUESTED:
-            return {...state, members: []};
+            return {...state, members: [], member: null};
         case HOUSEHOLD_INTERRUPT_REQUESTED:
             return {...state, household: action.household, interrupting: true};
         case MEMBERS_FETCH_SUCCEEDED:

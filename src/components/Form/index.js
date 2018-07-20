@@ -6,7 +6,7 @@ import {ComponentsRegistry} from '@indec/react-native-form-builder';
 import {stylePropType} from '@indec/react-native-commons/util';
 
 import QuestionValidation from '../QuestionValidation';
-import {callFunc, canAnswerQuestion} from '../../util';
+import {callFunc, canAnswerQuestion, getQuestionAnswer} from '../../util';
 import rowsPropTypes from '../../util/rowsPropTypes';
 
 const Form = ({
@@ -18,7 +18,7 @@ const Form = ({
                 {row.questions.map(question => {
                     const QuestionComponent = componentsRegistry.get(question.type);
                     const questionStyle = questionStyles[question.type] || {};
-                    const questionAnswer = chapter[question.name];
+                    const questionAnswer = getQuestionAnswer(chapter, question.name);
                     return (
                         <Col key={question.id}>
                             <QuestionComponent

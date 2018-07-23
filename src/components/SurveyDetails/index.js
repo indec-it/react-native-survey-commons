@@ -66,8 +66,8 @@ class SurveyDetails extends Component {
 
     closeDwelling() {
         const {id} = this.props.match.params;
-        return this.props.dwellingValidationState(this.props.dwelling)
-            ? Alert.alert(
+        if (this.props.dwellingValidationState(this.props.dwelling)) {
+            Alert.alert(
                 'Atención',
                 'Usted está por cerrar la vivienda, ¿Desea continuar?. Recuerde que esta operación es irreversible.',
                 [{
@@ -76,12 +76,14 @@ class SurveyDetails extends Component {
                     text: 'Confirmar',
                     onPress: () => this.props.requestCloseSurvey(id)
                 }]
-            )
-            : Alert.alert(
+            );
+        } else {
+            Alert.alert(
                 'Atención',
                 'La vivienda no se puede cerrar porque no es válida.',
                 [{text: 'Aceptar'}]
             );
+        }
     }
 
     handleChangeTab(selectedTab) {

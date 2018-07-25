@@ -248,8 +248,9 @@ export default class SurveysService {
     static createNextHouseholdVisit(latestVisit) {
         // I need keep the response data of the latest visit.
         return Object.assign(
-            latestVisit.response === answers.YES ? {response: latestVisit.response} : omit(latestVisit, 'end'),
-            {start: new Date()}
+            latestVisit.response === answers.YES
+                ? {response: latestVisit.response}
+                : omit(latestVisit, 'end'), {start: new Date()}
         );
     }
 
@@ -277,11 +278,11 @@ export default class SurveysService {
         const survey = await SurveysService.findById(id);
         const dwelling = getDwelling(survey, dwellingOrder);
         const household = getHousehold(dwelling, householdOrder);
-        const lastVisit = last(household.visits);
-        if (isEmpty(household.visits)
-            || visit.response !== lastVisit.response
-            || lastVisit.end) {
+        let lastVisit = last(household.visits);
+        if (isEmpty(household.visits) || visit.response !== lastVisit.response || lastVisit.end) {
             household.visits.push(visit);
+        } else {
+            lastVisit = visit;
         }
         await SurveysService.save(survey);
         return household;

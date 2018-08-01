@@ -32,13 +32,15 @@ class SurveyDetails extends Component {
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
         match: matchParamsIdPropTypes.isRequired,
         backButtonText: PropTypes.string,
-        householdsListColumns: columnPropType,
+        dwellingVisitsColumns: PropTypes.arrayOf(columnPropType),
+        householdsListColumns: PropTypes.arrayOf(columnPropType),
         saving: PropTypes.bool
     };
 
     static defaultProps = {
         validate: null,
         onSelect: null,
+        dwellingVisitsColumns: null,
         householdsListColumns: null,
         backButtonText: 'Anterior',
         saving: false
@@ -89,11 +91,12 @@ class SurveyDetails extends Component {
     renderTabContent() {
         const {selectedTab} = this.state;
         const {
-            match, validate, onSelect, householdValidationState, householdsListColumns, showAddHousehold
+            match, validate, householdValidationState, showAddHousehold,
+            dwellingVisitsColumns, householdsListColumns, onSelect
         } = this.props;
         switch (selectedTab) {
             case surveyDetailsTabs.DWELLING_VISITS:
-                return <DwellingVisits match={match}/>;
+                return <DwellingVisits match={match} columns={dwellingVisitsColumns}/>;
             case surveyDetailsTabs.HOUSEHOLDS_LIST:
                 return (
                     <HouseholdsList
@@ -112,11 +115,7 @@ class SurveyDetails extends Component {
 
     renderContent() {
         const {
-            address,
-            backButtonText,
-            dwelling,
-            onViewDwelling,
-            onPrevious
+            address, backButtonText, dwelling, onViewDwelling, onPrevious
         } = this.props;
         const {selectedTab} = this.state;
         const {dwellingOrder} = this.props.match.params;

@@ -20,12 +20,14 @@ class DwellingCloseVisit extends Component {
         chapter: chapterPropTypes.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         currentDwellingVisit: dwellingVisitPropTypes,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        lastUserLogged: PropTypes.string
     };
 
     static defaultProps = {
         saving: false,
-        currentDwellingVisit: null
+        currentDwellingVisit: null,
+        lastUserLogged: null
     };
 
     constructor(props) {
@@ -58,9 +60,13 @@ class DwellingCloseVisit extends Component {
     }
 
     handleSubmit() {
+        const {lastUserLogged} = this.props;
+        const {id, dwellingOrder} = this.props.match.params;
+        const {currentDwellingVisit} = this.state;
+        currentDwellingVisit.user = lastUserLogged;
         this.props.requestCloseDwellingVisit(
-            this.props.match.params.id,
-            this.props.match.params.dwellingOrder,
+            id,
+            dwellingOrder,
             this.state.currentDwellingVisit
         );
     }
@@ -101,7 +107,8 @@ class DwellingCloseVisit extends Component {
 export default connect(
     state => ({
         saving: state.survey.saving,
-        currentDwellingVisit: state.survey.currentDwellingVisit
+        currentDwellingVisit: state.survey.currentDwellingVisit,
+        lastUserLogged: state.session.lastUserLogged
     }),
     dispatch => ({
         requestCloseDwellingVisit: (id, dwellingOrder, currentVisit) => dispatch(

@@ -45,7 +45,8 @@ class MembersList extends Component {
         columns: columnPropType,
         detectionButtonLabel: PropTypes.string,
         householdCharacteristicsLabel: PropTypes.string,
-        membersManagerLabel: PropTypes.string
+        membersManagerLabel: PropTypes.string,
+        title: PropTypes.string
     };
 
     static defaultProps = {
@@ -54,6 +55,7 @@ class MembersList extends Component {
         detectionButtonLabel: 'Detección de viviendas y hogares',
         householdCharacteristicsLabel: 'Características del hogar',
         membersManagerLabel: 'Componentes del hogar',
+        title: 'Listado de Personas del Hogar',
         columns: null,
         validate: noop
     };
@@ -156,13 +158,13 @@ class MembersList extends Component {
 
     renderContent() {
         const {
-            columns, getRelationLabel, members, validate
+            columns, getRelationLabel, members, title, validate
         } = this.props;
         return (
             <Fragment>
                 {this.renderButtons()}
                 <Title>
-                    Listado de Personas del Hogar
+                    {title}
                 </Title>
                 {isEmpty(members) && (
                     <Text style={styles.informationText}>

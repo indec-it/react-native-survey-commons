@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
+import {alertIncompleteSection, setSectionValidity} from '../../util';
 
 import {requestFetchCurrentHouseholdVisit, requestCloseHouseholdVisit} from '../../actions/survey';
 import chapterPropTypes from '../../util/chapterPropTypes';
@@ -60,12 +61,16 @@ class HouseholdCloseVisit extends Component {
     }
 
     handleSubmit() {
-        this.props.requestCloseHouseholdVisit(
-            this.props.match.params.id,
-            this.props.match.params.dwellingOrder,
-            this.props.match.params.householdOrder,
-            this.state.currentHouseholdVisit
-        );
+        if (setSectionValidity(this.state, this.props.chapter)) {
+            this.props.requestCloseHouseholdVisit(
+                this.props.match.params.id,
+                this.props.match.params.dwellingOrder,
+                this.props.match.params.householdOrder,
+                this.state.currentHouseholdVisit
+            );
+        } else {
+            alertIncompleteSection();
+        }
     }
 
     renderContent() {

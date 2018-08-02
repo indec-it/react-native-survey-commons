@@ -34,6 +34,7 @@ class MemberManager extends Component {
         chapter: chapterPropTypes.isRequired,
         homeBossChapter: chapterPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+        title: PropTypes.string,
         saving: PropTypes.bool
     };
 
@@ -42,6 +43,7 @@ class MemberManager extends Component {
         saving: false,
         onPreSave: null,
         confirmRemoveText: null,
+        title: 'Listado de personas del hogar',
         validate: noop
     };
 
@@ -159,7 +161,7 @@ class MemberManager extends Component {
     }
 
     renderContent() {
-        const {validate} = this.props;
+        const {title, validate} = this.props;
         const {members, selectedMember} = this.state;
         return (
             <Fragment>
@@ -170,7 +172,7 @@ class MemberManager extends Component {
                     primary
                 />
                 <Title>
-                    Listado de Personas del Hogar
+                    {title}
                 </Title>
                 <ScrollView>
                     <List>

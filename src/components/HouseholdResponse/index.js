@@ -37,13 +37,15 @@ class HouseholdResponse extends Component {
         address: PropTypes.instanceOf(Address).isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         currentHouseholdVisit: householdVisitPropTypes,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        lastUserLogged: PropTypes.string
     };
 
     static defaultProps = {
         saving: false,
         validate: noop,
         onInterrupt: null,
+        lastUserLogged: null,
         currentHouseholdVisit: {}
     };
 
@@ -102,11 +104,12 @@ class HouseholdResponse extends Component {
     }
 
     handleSubmit() {
-        const {chapter, household} = this.props;
+        const {chapter, household, lastUserLogged} = this.props;
         const {id, dwellingOrder} = this.props.match.params;
         const {currentHouseholdVisit} = this.state;
         if (setSectionValidity(currentHouseholdVisit, chapter)) {
             this.goingBack = false;
+            currentHouseholdVisit.user = lastUserLogged;
             this.props.requestSaveHouseholdVisit(id, dwellingOrder, household.order, currentHouseholdVisit);
         } else {
             alertIncompleteSection();
@@ -148,7 +151,8 @@ export default connect(
         household: state.survey.household,
         address: state.survey.address,
         currentHouseholdVisit: state.survey.currentHouseholdVisit,
-        saving: state.survey.saving
+        saving: state.survey.saving,
+        lastUserLogged: state.session.lastUserLogged
     }),
     dispatch => ({
         requestHousehold: (id, dwellingOrder, householdOrder) => dispatch(

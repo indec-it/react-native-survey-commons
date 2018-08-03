@@ -81,7 +81,7 @@ export default class SurveysService {
                     surveys,
                     survey => survey.address.ups === ups && survey.address.area === area
                 ),
-                survey => survey.address.order
+                survey => survey.address.listNumber
             ),
             survey => new Address({
                 ...survey.address,

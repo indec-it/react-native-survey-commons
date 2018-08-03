@@ -5,7 +5,7 @@ import {getFontAwesome} from '@indec/react-native-commons/util';
 
 import Form from '../Form';
 import {Member} from '../../model';
-import {chapterPropTypes} from '../../util';
+import {chapterPropTypes, formatMemberCharacteristics} from '../../util';
 import styles from './styles';
 
 const MemberCharacteristics = ({
@@ -16,7 +16,7 @@ const MemberCharacteristics = ({
             key={member.order}
             onPress={() => onSelect(member)}
             onPressRightIcon={!member.isHomeBoss() ? () => onRemove(member) : undefined}
-            title={member.characteristics.name}
+            title={formatMemberCharacteristics(member)}
             rightIcon={member.isHomeBoss() ? getFontAwesome('user') : getFontAwesome('trash', 'red')}
             leftIcon={isSelected ? getFontAwesome('chevron-down') : getFontAwesome('chevron-right')}
         />

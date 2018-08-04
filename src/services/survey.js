@@ -289,7 +289,7 @@ export default class SurveysService {
 
     static async fetchMembers(id, dwellingOrder, householdOrder) {
         const households = await SurveysService.fetchHouseholds(id, dwellingOrder);
-        return find(households, h => h.order === householdOrder).members;
+        return find(households, h => h.order === householdOrder).getMembers();
     }
 
     static async saveMembers(id, dwellingOrder, householdOrder, members) {

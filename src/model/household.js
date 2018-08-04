@@ -1,4 +1,4 @@
-import {isEmpty, map} from 'lodash';
+import {isEmpty, map, reject} from 'lodash';
 
 import Member from './member';
 
@@ -16,5 +16,9 @@ export default class Household {
         if (obj && !isEmpty(obj.members)) {
             this.members = map(obj.members, member => new Member(member));
         }
+    }
+
+    getMembers() {
+        return reject(this.members, member => member.disabled);
     }
 }

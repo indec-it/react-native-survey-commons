@@ -5,7 +5,7 @@ import {Alert} from '@indec/react-native-commons/src/util';
  */
 const alertIncompleteSection = () => Alert.alert(
     'Atención',
-    'El módulo está incompleto, verifique que haya respondido todas las preguntas.',
+    'El módulo está incompleto o contiene errores, verifique que haya respondido todas las preguntas.',
     [{text: 'Aceptar'}]
 );
 

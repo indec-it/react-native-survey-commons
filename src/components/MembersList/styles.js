@@ -3,13 +3,12 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
     actionButtons: {
         marginTop: 20,
-        flex: 0.17,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
+        flex: 0.25,
+        flexDirection: 'column'
     },
     marginTopButton: {
-        marginTop: 5
+        marginTop: 5,
+        width: '50%'
     },
     title: {
         borderBottomWidth: 1,

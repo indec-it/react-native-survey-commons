@@ -136,6 +136,7 @@ class HouseholdResponse extends Component {
                     onPrevious={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     validationResults={validate(section)}
+                    entity={currentHouseholdVisit}
                 />
             </Fragment>
         );

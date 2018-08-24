@@ -28,8 +28,8 @@ class SurveyDetails extends Component {
         onSubmit: PropTypes.func.isRequired,
         validate: PropTypes.func,
         onSelect: PropTypes.func,
-        address: PropTypes.instanceOf(Address).isRequired,
-        dwelling: PropTypes.instanceOf(Dwelling).isRequired,
+        address: PropTypes.instanceOf(Address),
+        dwelling: PropTypes.instanceOf(Dwelling),
         match: matchParamsIdPropTypes.isRequired,
         backButtonText: PropTypes.string,
         dwellingVisitsColumns: PropTypes.arrayOf(columnPropType),
@@ -42,6 +42,8 @@ class SurveyDetails extends Component {
         onSelect: null,
         dwellingVisitsColumns: null,
         householdsListColumns: null,
+        address: new Address(),
+        dwelling: new Dwelling(),
         backButtonText: 'Anterior',
         saving: false
     };

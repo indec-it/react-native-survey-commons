@@ -42,7 +42,7 @@ class MembersList extends Component {
         getRelationLabel: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
-        columns: columnPropType,
+        columns: PropTypes.arrayOf(columnPropType),
         detectionButtonLabel: PropTypes.string,
         householdCharacteristicsLabel: PropTypes.string,
         membersManagerLabel: PropTypes.string,

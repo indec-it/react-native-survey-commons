@@ -132,22 +132,20 @@ class MembersList extends Component {
             <View style={styles.actionButtons}>
                 <Button
                     buttonStyle={styles.marginTopButton}
-                    onPress={
-                        () => this.props.onViewDetection(dwellingOrder, householdOrder)
-                    }
+                    onPress={() => this.props.onViewDetection(dwellingOrder, householdOrder)}
                     primary
                     title={detectionButtonLabel}
                 />
                 <Button
+                    buttonStyle={styles.marginTopButton}
                     onPress={() => this.props.onAddMember()}
                     primary
                     title={membersManagerLabel}
                 />
                 {showCharacteristicsButton(members) && (
                     <Button
-                        onPress={
-                            () => this.props.onViewDetails(dwellingOrder, householdOrder)
-                        }
+                        buttonStyle={styles.marginTopButton}
+                        onPress={() => this.props.onViewDetails(dwellingOrder, householdOrder)}
                         primary
                         title={householdCharacteristicsLabel}
                     />

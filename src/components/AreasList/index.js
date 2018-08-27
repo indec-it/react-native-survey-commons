@@ -18,7 +18,7 @@ class AreasList extends Component {
                 localityName: PropTypes.string
             })
         ),
-        columns: columnPropType
+        columns: PropTypes.arrayOf(columnPropType)
     };
 
     static defaultProps = {

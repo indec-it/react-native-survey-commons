@@ -24,20 +24,21 @@ class HouseholdsList extends Component {
         requestCreateHousehold: PropTypes.func.isRequired,
         requestRemoveHousehold: PropTypes.func.isRequired,
         requestDwelling: PropTypes.func.isRequired,
-        onSelect: PropTypes.func.isRequired,
+        onSelect: PropTypes.func,
         showAddHousehold: PropTypes.func.isRequired,
         householdValidationState: PropTypes.func.isRequired,
         validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
-        dwelling: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
+        dwelling: PropTypes.instanceOf(Dwelling),
         columns: PropTypes.arrayOf(columnPropType)
     };
 
     static defaultProps = {
         dwelling: null,
         columns: null,
-        validate: noop
+        validate: noop,
+        onSelect: noop
     };
 
     constructor(props) {

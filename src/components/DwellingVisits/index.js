@@ -13,12 +13,13 @@ class DwellingVisits extends Component {
     static propTypes = {
         requestFetchDwellingVisits: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
-        dwellingVisits: PropTypes.arrayOf(dwellingVisitPropTypes).isRequired,
+        dwellingVisits: PropTypes.arrayOf(dwellingVisitPropTypes),
         columns: PropTypes.arrayOf(columnPropTypes)
     };
 
     static defaultProps = {
-        columns: null
+        columns: null,
+        dwellingVisits: null
     };
 
     constructor(props) {

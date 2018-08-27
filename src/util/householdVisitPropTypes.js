@@ -4,16 +4,16 @@ export default PropTypes.shape({
     id: PropTypes.number.isRequired,
     order: PropTypes.number.isRequired,
     start: PropTypes.oneOfType([
-        PropTypes.date,
+        PropTypes.instaceOf(Date),
         PropTypes.string
     ]),
     response: PropTypes.number,
     end: PropTypes.oneOfType([
-        PropTypes.date,
+        PropTypes.instaceOf(Date),
         PropTypes.string
     ]),
     nextVisit: PropTypes.oneOfType([
-        PropTypes.date,
+        PropTypes.instaceOf(Date),
         PropTypes.string
     ])
 });

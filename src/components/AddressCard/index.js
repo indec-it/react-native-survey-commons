@@ -53,7 +53,7 @@ AddressCard.propTypes = {
         streetNumber: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         listNumber: PropTypes.number,
         floor: PropTypes.string,
-        department: PropTypes.string,
+        department: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         room: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         side: PropTypes.number,
         block: PropTypes.number,

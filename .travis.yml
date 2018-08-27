@@ -1,20 +1,16 @@
 sudo: false
-dist: xenial
+dist: bionic
 language: node_js
 git:
   depth: 3
 node_js:
-  - "6"
   - "8"
   - "10"
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"`git log --format=%B --no-merges -n 1`\""
-install:
-  - yarn install
 script:
   - npm test
   - commitlint-travis
 cache:
-  yarn: true
   directories:
     - node_modules

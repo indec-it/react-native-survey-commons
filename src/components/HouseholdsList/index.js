@@ -2,10 +2,10 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
-import Table, {TableIcon} from '@indec/react-native-table';
+import {Table, TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {columnPropType} from '@indec/react-native-table/util';
+import {columnPropTypes} from '@indec/react-native-table/util';
 import {noop} from 'lodash';
 
 import {
@@ -31,7 +31,7 @@ class HouseholdsList extends Component {
         match: matchParamsIdPropTypes.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.instanceOf(Dwelling),
-        columns: PropTypes.arrayOf(columnPropType)
+        columns: PropTypes.arrayOf(columnPropTypes)
     };
 
     static defaultProps = {

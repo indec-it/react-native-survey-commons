@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Table, {TableIcon} from '@indec/react-native-table';
-import {columnPropType} from '@indec/react-native-table/util';
+import {Table, TableIcon} from '@indec/react-native-table';
+import {columnPropTypes} from '@indec/react-native-table/util';
 import {Title} from '@indec/react-native-commons';
 
 import {requestAreas} from '../../actions/survey';
@@ -18,7 +18,7 @@ class AreasList extends Component {
                 localityName: PropTypes.string
             })
         ),
-        columns: PropTypes.arrayOf(columnPropType)
+        columns: PropTypes.arrayOf(columnPropTypes)
     };
 
     static defaultProps = {

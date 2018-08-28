@@ -2,10 +2,10 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Text, View} from 'react-native';
-import Table, {TableIcon} from '@indec/react-native-table';
+import {Table, TableIcon} from '@indec/react-native-table';
 import {Button, LoadingIndicator, Title} from '@indec/react-native-commons';
 import {Alert} from '@indec/react-native-commons/util';
-import {columnPropType} from '@indec/react-native-table/util';
+import {columnPropTypes} from '@indec/react-native-table/util';
 import {
     isEmpty, map, noop, reject
 } from 'lodash';
@@ -42,7 +42,7 @@ class MembersList extends Component {
         getRelationLabel: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
-        columns: PropTypes.arrayOf(columnPropType),
+        columns: PropTypes.arrayOf(columnPropTypes),
         detectionButtonLabel: PropTypes.string,
         householdCharacteristicsLabel: PropTypes.string,
         membersManagerLabel: PropTypes.string,

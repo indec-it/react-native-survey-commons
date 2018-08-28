@@ -2,8 +2,8 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoadingIndicator, Title} from '@indec/react-native-commons';
-import Table, {TableIcon} from '@indec/react-native-table';
-import {columnPropType} from '@indec/react-native-table/util';
+import {Table, TableIcon} from '@indec/react-native-table';
+import {columnPropTypes} from '@indec/react-native-table/util';
 
 import {requestDwellings} from '../../actions/survey';
 import {Dwelling} from '../../model';
@@ -15,7 +15,7 @@ class DwellingsList extends Component {
         onSelect: PropTypes.func.isRequired,
         match: matchParamsIdPropTypes.isRequired,
         dwellings: PropTypes.arrayOf(PropTypes.instanceOf(Dwelling)),
-        columns: columnPropType
+        columns: PropTypes.arrayOf(columnPropTypes)
     };
 
     static defaultProps = {

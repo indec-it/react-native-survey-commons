@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import Table, {TableIcon} from '@indec/react-native-table';
+import {Table, TableIcon} from '@indec/react-native-table';
 import {TabNavigator} from '@indec/react-native-commons';
-import {columnPropType} from '@indec/react-native-table/util';
+import {columnPropTypes} from '@indec/react-native-table/util';
 
 import {requestAddressesBySurveyState} from '../../actions/survey';
 import {Address} from '../../model';
@@ -24,7 +24,7 @@ class AddressesList extends Component {
                 ups: PropTypes.string.isRequired
             })
         }).isRequired,
-        columns: PropTypes.arrayOf(columnPropType)
+        columns: PropTypes.arrayOf(columnPropTypes)
     };
 
     static defaultProps = {

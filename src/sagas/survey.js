@@ -226,13 +226,14 @@ export function* closeHouseholdVisit({
     id, dwellingOrder, householdOrder, result
 }) {
     try {
-        yield call(
+        const household = yield call(
             SurveysService.closeHouseholdVisit,
             id,
             toNumber(dwellingOrder),
             toNumber(householdOrder),
             result
         );
+        yield put(receiveHousehold(household));
         yield put(notifyCloseHouseholdVisit());
     } catch (err) {
         yield put(handleError(err));

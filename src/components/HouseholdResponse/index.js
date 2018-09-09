@@ -76,6 +76,7 @@ class HouseholdResponse extends Component {
     static getDerivedStateFromProps(props, state) {
         if (props.household && props.currentHouseholdVisit && (
             !state.currentHouseholdVisit || props.household.id !== state.householdId
+            || props.currentHouseholdVisit.id !== state.currentHouseholdVisit.id
         )) {
             return {
                 currentHouseholdVisit: props.currentHouseholdVisit,

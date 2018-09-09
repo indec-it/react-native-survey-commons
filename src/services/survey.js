@@ -281,7 +281,7 @@ export default class SurveysService {
         if (isEmpty(household.visits)
             || visit.response !== lastVisit.response
             || lastVisit.end) {
-            household.visits.push({...visit, date: new Date()});
+            household.visits.push({...visit, date: new Date(), id: !lastVisit ? 1 : lastVisit.id + 1});
         }
         await SurveysService.save(survey);
         return household;

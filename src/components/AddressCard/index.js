@@ -37,10 +37,10 @@ const AddressCard = ({address}) => (
                     {`Piso: ${address.floor}`}
                 </Text>
                 <Text>
-                    {`Depto: ${address.department}`}
+                    {`Dpto/Hab: ${address.department}`}
                 </Text>
                 <Text>
-                    {`Habitación: ${address.room}`}
+                    {`Casa/Lote: ${address.lot}`}
                 </Text>
             </Col>
         </Row>

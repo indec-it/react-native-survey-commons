@@ -133,7 +133,7 @@ class HouseholdResponse extends Component {
                     section={currentHouseholdVisit}
                     rows={chapter.rows}
                     onChange={answer => this.handleChange(answer)}
-                    onPrevious={() => this.handlePrevious()}
+                    onBack={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     validationResults={validate(section)}
                     entity={currentHouseholdVisit}

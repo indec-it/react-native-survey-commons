@@ -132,7 +132,7 @@ class MemberEditor extends Component {
                     section={section}
                     rows={chapter.rows}
                     onChange={answer => this.handleChange(answer)}
-                    onPrevious={() => this.handlePrevious()}
+                    onBack={() => this.handlePrevious()}
                     onSubmit={() => this.handleSubmit()}
                     entity={member}
                     validationResults={validate(section)}

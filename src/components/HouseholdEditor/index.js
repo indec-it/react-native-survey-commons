@@ -28,6 +28,7 @@ class HouseholdEditor extends Component {
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
         households: PropTypes.arrayOf(Household).isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
         household: PropTypes.instanceOf(Household).isRequired,
         saving: PropTypes.bool,
         interrupting: PropTypes.bool,

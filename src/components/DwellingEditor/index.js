@@ -22,6 +22,7 @@ class DwellingEditor extends Component {
         validate: PropTypes.func,
         match: matchParamsIdPropTypes.isRequired,
         chapter: chapterPropTypes.isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
         dwelling: PropTypes.instanceOf(Dwelling).isRequired,
         saving: PropTypes.bool
     };

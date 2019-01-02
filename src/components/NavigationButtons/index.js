@@ -10,7 +10,17 @@ import iconPropTypes from '../../util/iconPropTypes';
 import styles from './styles';
 
 const NavigatorButtons = ({
-    onBack, backButtonText, submitButtonText, onSubmit, iconLeft, iconRight, styleRightButton, styleLeftButton
+    onBack,
+    onInterrupt,
+    backButtonText,
+    interruptButtonText,
+    submitButtonText,
+    onSubmit,
+    iconLeft,
+    iconRight,
+    styleRightButton,
+    styleCenterButton,
+    styleLeftButton
 }) => (
     <View style={styles.container}>
         <Row>
@@ -21,6 +31,15 @@ const NavigatorButtons = ({
                         icon={getFontAwesome(iconLeft.name, iconLeft.color)}
                         title={backButtonText}
                         onPress={onBack}
+                    />
+                </Col>
+            )}
+            {onInterrupt && (
+                <Col>
+                    <Button
+                        {...styleCenterButton}
+                        title={interruptButtonText}
+                        onPress={onInterrupt}
                     />
                 </Col>
             )}
@@ -40,19 +59,24 @@ const NavigatorButtons = ({
 
 NavigatorButtons.propTypes = {
     onBack: PropTypes.func,
+    onInterrupt: PropTypes.func,
     onSubmit: PropTypes.func,
     submitButtonText: PropTypes.string,
+    interruptButtonText: PropTypes.string,
     backButtonText: PropTypes.string,
     iconLeft: iconPropTypes,
     iconRight: iconPropTypes,
     styleRightButton: buttonStylePropTypes,
+    styleCenterButton: buttonStylePropTypes,
     styleLeftButton: buttonStylePropTypes
 };
 
 NavigatorButtons.defaultProps = {
     submitButtonText: 'Siguiente',
+    interruptButtonText: 'Interrumpir encuesta',
     backButtonText: 'Anterior',
     onBack: null,
+    onInterrupt: null,
     onSubmit: null,
     iconLeft: {
         name: 'chevron-left',
@@ -63,6 +87,7 @@ NavigatorButtons.defaultProps = {
         color: '#333'
     },
     styleRightButton: buttonStyleDefaultProps,
+    styleCenterButton: buttonStyleDefaultProps,
     styleLeftButton: buttonStyleDefaultProps
 };
 

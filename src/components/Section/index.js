@@ -10,22 +10,25 @@ import validationResultsPropTypes from '../../util/validationResultsPropTypes';
 import styles from './styles';
 
 const Section = ({
-    rows, onChange, onPrevious, onSubmit, section, entity, otherEntity, validationResults, componentsRegistry
+    rows,
+    onChange,
+    section,
+    entity,
+    otherEntity,
+    validationResults,
+    componentsRegistry,
+    ...props
 }) => (
     <View style={styles.container}>
         <Form
-            rows={rows}
-            componentsRegistry={componentsRegistry}
+            {...{
+                rows, componentsRegistry, entity, otherEntity
+            }}
             chapter={section}
             onChange={answer => onChange(answer)}
-            entity={entity}
-            otherEntity={otherEntity}
         />
         <ValidationsList validationResults={validationResults}/>
-        <NavigationButtons
-            onBack={() => onPrevious()}
-            onSubmit={() => onSubmit()}
-        />
+        <NavigationButtons {...props}/>
     </View>
 );
 
@@ -35,8 +38,6 @@ Section.propTypes = {
     ).isRequired,
     section: PropTypes.shape({}).isRequired,
     onChange: PropTypes.func.isRequired,
-    onPrevious: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     componentsRegistry: PropTypes.instanceOf(ComponentsRegistry),
     entity: PropTypes.shape({}),
     otherEntity: PropTypes.arrayOf(

@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
 import {Button, LoadingIndicator, TabNavigator} from '@indec/react-native-commons';
-import {columnPropType} from '@indec/react-native-table/util';
+import {columnPropTypes} from '@indec/react-native-table/util';
 import {Alert} from '@indec/react-native-commons/util';
 
 import AddressCard from '../AddressCard';
@@ -16,7 +16,7 @@ import matchParamsIdPropTypes from '../../util/matchParamsIdPropTypes';
 import styles from './styles';
 import {surveyDetailsListTabs, surveyDetailsTabs} from '../../constants';
 
-class SurveyDetails extends Component {
+class SurveyDetails extends PureComponent {
     static propTypes = {
         requestAddress: PropTypes.func.isRequired,
         requestCloseSurvey: PropTypes.func.isRequired,
@@ -32,8 +32,8 @@ class SurveyDetails extends Component {
         dwelling: PropTypes.instanceOf(Dwelling),
         match: matchParamsIdPropTypes.isRequired,
         backButtonText: PropTypes.string,
-        dwellingVisitsColumns: PropTypes.arrayOf(columnPropType),
-        householdsListColumns: PropTypes.arrayOf(columnPropType),
+        dwellingVisitsColumns: PropTypes.arrayOf(columnPropTypes),
+        householdsListColumns: PropTypes.arrayOf(columnPropTypes),
         saving: PropTypes.bool
     };
 
@@ -66,7 +66,7 @@ class SurveyDetails extends Component {
         }
     }
 
-    closeDwelling() {
+    handleCloseDwelling() {
         const {id} = this.props.match.params;
         if (this.props.dwellingValidationState(this.props.dwelling)) {
             Alert.alert(
@@ -142,7 +142,7 @@ class SurveyDetails extends Component {
                 <NavigationButtons
                     onBack={() => onPrevious(dwelling)}
                     backButtonText={backButtonText}
-                    onSubmit={() => this.closeDwelling()}
+                    onSubmit={() => this.handleCloseDwelling()}
                     submitButtonText="Cerrar vivienda"
                     iconRight={{
                         name: 'lock',

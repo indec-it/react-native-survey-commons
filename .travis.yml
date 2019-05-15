@@ -1,5 +1,4 @@
 sudo: false
-dist: bionic
 language: node_js
 git:
   depth: 3
@@ -8,11 +7,12 @@ node_js:
   - "10"
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"`git log --format=%B --no-merges -n 1`\""
+  - if [[ `npm -v` == 3* ]]; then npm i -g npm; fi
+install:
+  - npm install
 script:
+  - npm run eslint
   - npm test
   - commitlint-travis
-cache:
-  directories:
-    - node_modules
 notifications:
   slack: indec-sistemas:U34T7wkSbzuMWCcXIw9DOY05

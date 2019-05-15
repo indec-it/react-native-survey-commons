@@ -5,6 +5,7 @@
   "private": false,
   "main": "src/index.js",
   "scripts": {
+    "eslint": "eslint ./",
     "test": "eslint ./"
   },
   "dependencies": {},

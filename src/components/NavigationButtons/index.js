@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View} from 'react-native';
-import {Button, Col, Row} from '@indec/react-native-commons';
+import {Button} from 'react-native-elements';
+import {Col, Row} from '@indec/react-native-commons';
 import {getFontAwesome} from '@indec/react-native-commons/util';
 
 import buttonStyleDefaultProps from '../../util/buttonStyleDefaultProps';
@@ -79,12 +80,10 @@ NavigatorButtons.defaultProps = {
     onInterrupt: null,
     onSubmit: null,
     iconLeft: {
-        name: 'chevron-left',
-        color: '#333'
+        name: 'chevron-left'
     },
     iconRight: {
-        name: 'chevron-right',
-        color: '#333'
+        name: 'chevron-right'
     },
     styleRightButton: buttonStyleDefaultProps,
     styleCenterButton: buttonStyleDefaultProps,
